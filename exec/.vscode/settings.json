@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "history.h": "c",
+        "readline.h": "c",
+        "libft.h": "c",
+        "minishell.h": "c"
+    }
+}

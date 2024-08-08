@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/03 08:52:09 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:06:11 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+#include "../exec/minishell_exec.h"
 char	*get_env_variable(t_env *env, char *variable)
 {
 	t_env	*tmp;
@@ -19,44 +19,53 @@ char	*get_env_variable(t_env *env, char *variable)
 	tmp = env;
 	while (tmp)
 	{
-		if (tmp->key == variable)
+		if (ex_strcmp(tmp->key, variable) == 0)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
 	return (NULL);
 }
 
-t_env	*new_variable(char	*var)
+char *get_str(char *var, char *type) // allocate memory and returns key or value string
 {
-	t_env	*node;
-	int		i;
-	int		j;
-
+	char *str;
+	int	i;
+	int j;
+	
 	i = 0;
 	j = 0;
+	str = (char *)malloc(sizeof(char) * ft_strlen(var)); 
+	if (!str)
+		return (NULL);
+	if (ex_strcmp(type, "key") == 0)
+		while (var[i] != '=')
+		{
+			str[i] = var[i];
+			i++;
+		}
+	else if (ex_strcmp(type, "value") == 0)
+	{
+		while (var[j] != '=')
+			j++;
+		j++;
+		while (var[j])
+			str[i++] = var[j++]; 
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+
+t_env	*new_variable(char *env_key, char *env_value)
+{
+	t_env	*node;
+
 	node = (t_env *)malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	node->key = (char *)malloc(sizeof(char *) * ft_strlen(var));
-	if (!node->key)
-		return (NULL);
-	node->value = (char *) malloc(sizeof(char) * ft_strlen(var));
-	if (!node->value)
-		return (NULL);
-	while (var[i] != '=')
-	{
-		node->key[i] = var[i];
-		i++;
-	}
-	node->key[i] = '\0';
-	i++;
-	while (var[i])
-	{
-		node->value[j] = var[i];
-		i++;
-		j++;
-	}
-	node->value[j] = '\0';
+	node->key = env_key;
+	node->value = env_value;
+	
 	node->next = NULL;
 	return (node);
 }
@@ -76,6 +85,34 @@ void	add_env_back(t_env **envs, t_env *new)
 		p->next = new;
 	}
 }
+void delete_env(t_env **env, char *env_key)
+{
+	t_env *temp;
+	t_env *del;
+	t_env *prev;
+	temp = *env;
+	if (!env || !env_key)
+        return ;
+	prev = NULL;
+	while (temp)
+	{
+		if (ex_strcmp(temp->key, env_key) == 0)
+		{
+			del = temp;
+			if (prev)
+				prev->next = temp->next;
+			else
+				*env = temp->next;
+			free(del->key);
+			free(del->value);
+			free(del);
+			return ;
+		}
+		prev = temp;
+		temp = temp->next;
+	}
+	return ;
+}
 
 t_env   *expanding(char **env)
 {
@@ -87,7 +124,7 @@ t_env   *expanding(char **env)
 	i = 0;
 	while (env[i])
 	{
-		node = new_variable(env[i]);
+		node = new_variable(get_str(env[i], "key"), get_str(env[i], "value")); // get key and value and send to node
 		add_env_back(&env_vars, node);
 		i++;
 	}

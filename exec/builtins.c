@@ -76,15 +76,45 @@ void env(t_env *env_vars)
 void export(t_command *cmds, t_env **env_vars)
 {
     int i;
+
+    i = 1;
+    if (cmds->cmd[i])
+    {
+        while (cmds->cmd[i])
+        {
+            add_env_back(env_vars, new_variable(get_str(cmds->cmd[i], "key"), get_str(cmds->cmd[i], "value")));
+            i++;
+        }
+    }
+    // else
+    // {
+            // make the copy of vars
+            // sort it
+            // display it 
+            // free it
+    // }
+   
+}
+t_env *env_vars_copy(t_env **env_vars)
+{
+    t_env *vars_copy;
+    t_env *temp;
+    temp = *env_vars;
+    vars_copy = NULL;
+    while (temp)
+    {
+        add_env_back(&env_vars, new_variable(get_str(temp->key, "key"), get_str(temp->value, "value")));
+        temp = temp->next;
+    }
+    return (vars_copy);
+}
+void unset(t_command *cmds, t_env **env_vars)
+{
+    int i;
     i = 1;
     while (cmds->cmd[i])
     {
-        add_env_back(env_vars, new_variable(cmds->cmd[i]));
+        delete_env(env_vars, cmds->cmd[i]);
         i++;
-    }
-     t_env *temp = *env_vars;
-    while (temp) {
-        printf("%s=%s\n", temp->key, temp->value);
-        temp = temp->next;
     }
 }

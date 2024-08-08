@@ -36,6 +36,7 @@ int     cd(t_command *command);
 int     echo(t_command *command);
 void    env(t_env *env_vars);
 void    export(t_command *cmds, t_env **env_vars);
+void    unset(t_command *cmds, t_env **env_vars);
 // redirections 
 int handle_redirection(t_command *command, t_exec *file_d);
 

@@ -6,32 +6,28 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:05 by ybouyzem          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/04 13:12:29 by alamini          ###   ########.fr       */
-=======
-/*   Updated: 2024/08/03 13:56:24 by ybouyzem         ###   ########.fr       */
->>>>>>> 2d7fb986fad5d9bfa6da38043eea70b1c9ab5838
+/*   Updated: 2024/08/08 10:37:56 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-void leaks()
-{
-	system("leaks minishell");
-}
+// void leaks() // TEMporary comment
+// {
+// 	system("leaks minishell");
+// }
 
 
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp) // added envp argument
 {
 	(void)argc;
 	(void)argv;
 	char	*input;
 	char	prompt[100];
 	t_command *cmds;
-	//t_env	*env_vars;
+	t_env	*env_vars;
 	
 	char 	*tmp;
 	char	**args;
@@ -50,21 +46,16 @@ int	main(int argc, char **argv)
 		input = add_spaces(input);
 		args = split_args(input, ' ');
 		cmds = split_cmds(args);
-<<<<<<< HEAD
-		execute(cmds); // added this line only
 		env_vars = expanding(envp);
-		args = ft_myfree(args, ft_strslen(args));
-=======
-		//env_vars = expanding(envp);
 		// print_list(cmds);
+		execute(cmds, &env_vars); // I added this line
 		free_cmds(&cmds);
-		printf("hna\n");
+		// printf("hna\n");
 		//free_strs(args);
 		if (tmp)
 			free(tmp);
->>>>>>> 2d7fb986fad5d9bfa6da38043eea70b1c9ab5838
 		free(input);
-		leaks();
+		// leaks();
 	}
 	return 0;
 }

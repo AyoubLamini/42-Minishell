@@ -6,11 +6,7 @@
 #    By: alamini <alamini@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 22:26:51 by ybouyzem          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2024/08/04 09:36:22 by alamini          ###   ########.fr        #
-=======
-#    Updated: 2024/08/03 13:02:27 by ybouyzem         ###   ########.fr        #
->>>>>>> 2d7fb986fad5d9bfa6da38043eea70b1c9ab5838
+#    Updated: 2024/08/07 08:37:47 by alamini          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +27,9 @@ LIB_FILES	:= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_i
 
 
 FILE = src/main.c src/check_syntax.c src/parssing_utils.c src/split_args.c src/split_cmds.c src/list_utils.c src/expanding.c\
-<<<<<<< HEAD
 	exec/commands.c exec/builtins.c exec/ft_split.c exec/ft_strjoin.c exec/redrection.c exec/utils.c exec/main_exec.c\
-	$(LIB_FILES)
-=======
-	src/free_memory.c $(LIB_FILES) 
->>>>>>> 2d7fb986fad5d9bfa6da38043eea70b1c9ab5838
+	src/free_memory.c $(LIB_FILES)
+	
 
 CFLAGS = -I/usr/local/opt/readline/include
 

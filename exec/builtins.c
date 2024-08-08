@@ -63,9 +63,28 @@ int cd(t_command *command)
     printf("succes\n");
     return (0);
 }
-int env(t_command *command)
+void env(t_env *env_vars)
 {
-    (void)command;
-    printf("%s", getenv(NULL));
-    exit(0);
+    while (env_vars)
+    {
+        printf("%s=", env_vars->key);
+        printf("%s\n", env_vars->value);
+        env_vars = env_vars->next;
+    }
+    // printf("_=/usr/bin/env\n");
+}
+void export(t_command *cmds, t_env **env_vars)
+{
+    int i;
+    i = 1;
+    while (cmds->cmd[i])
+    {
+        add_env_back(env_vars, new_variable(cmds->cmd[i]));
+        i++;
+    }
+     t_env *temp = *env_vars;
+    while (temp) {
+        printf("%s=%s\n", temp->key, temp->value);
+        temp = temp->next;
+    }
 }

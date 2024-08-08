@@ -22,14 +22,16 @@ void commands(t_command *command)
     }
 }
 
-void check_command(t_command *command)
+void check_command(t_command *command, t_env **env_vars)
 {
     if (ex_strcmp("cd", command->cmd[0]) == 0)
         cd(command);
     else if (ex_strcmp("echo" ,command->cmd[0]) == 0)
         echo(command);
+    else if (ex_strcmp("export" ,command->cmd[0]) == 0)
+        export(command, env_vars);
     else if (ex_strcmp("env" ,command->cmd[0]) == 0)
-        env(command);
+        env(*env_vars);
     else
        commands(command);
 }
@@ -41,14 +43,15 @@ static void restore_original_fd(t_exec *file_d)
         dup2(file_d->in, STDIN_FILENO);
 }
 
-void execute(t_command *command)
+void execute(t_command *command, t_env **env_vars)
 {
     t_exec file_d; 
+
     file_d.in = 0;
     file_d.out = 1; 
     if (command->redirection[0])
         handle_redirection(command, &file_d);
-    check_command(command);
+    check_command(command, env_vars);
     restore_original_fd(&file_d);
 }
            

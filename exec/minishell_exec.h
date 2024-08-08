@@ -16,6 +16,8 @@ typedef struct s_exec
     int in;
     int out;
 } t_exec;
+
+
 // utils
 char	**ex_split(char const *s, char c);
 int     ex_strcmp(char *s1, char *s2);
@@ -32,7 +34,8 @@ int execute_command(t_command *command, char *path);
 // builtins
 int     cd(t_command *command);
 int     echo(t_command *command);
-int     env(t_command *command);
+void    env(t_env *env_vars);
+void    export(t_command *cmds, t_env **env_vars);
 // redirections 
 int handle_redirection(t_command *command, t_exec *file_d);
 

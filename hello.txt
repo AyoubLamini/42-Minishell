@@ -1,3 +1,0 @@
-hello.txt
->
-[1;32mminishell $> [0m

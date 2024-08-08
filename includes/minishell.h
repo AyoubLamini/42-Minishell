@@ -6,11 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/04 12:55:55 by alamini          ###   ########.fr       */
-=======
-/*   Updated: 2024/08/03 13:11:24 by ybouyzem         ###   ########.fr       */
->>>>>>> 2d7fb986fad5d9bfa6da38043eea70b1c9ab5838
+/*   Updated: 2024/08/08 10:38:14 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +70,10 @@ void	free_strs(char **strs);
 t_env   *expanding(char **env);
 t_env	*new_variable(char	*var);
 char	*get_env_variable(t_env *env, char *variable);
+void	add_env_back(t_env **envs, t_env *new);
 
 void	printstrs(char **map);
 
 // execution 
-void execute(t_command *command);
+void execute(t_command *command, t_env **env_vars);
 #endif

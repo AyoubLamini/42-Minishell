@@ -52,7 +52,10 @@ void execute(t_command *command, t_env **env_vars)
     t_exec file_d; 
 
     file_d.in = 0;
-    file_d.out = 1; 
+    file_d.out = 1;
+    
+    if (!command)
+        return ;
     if (command->redirection[0])
         handle_redirection(command, &file_d);
     check_command(command, env_vars);

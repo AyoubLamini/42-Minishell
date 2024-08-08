@@ -103,7 +103,7 @@ t_env *env_vars_copy(t_env **env_vars)
     vars_copy = NULL;
     while (temp)
     {
-        add_env_back(&env_vars, new_variable(get_str(temp->key, "key"), get_str(temp->value, "value")));
+        add_env_back(env_vars, new_variable(get_str(temp->key, "key"), get_str(temp->value, "value")));
         temp = temp->next;
     }
     return (vars_copy);

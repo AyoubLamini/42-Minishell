@@ -26,8 +26,11 @@ size_t	ex_strlen(const char *s);
 char	*ex_strdup(const char *s1);
 void    print_double_pointer(char **double_ptr);
 void	ex_putstr_fd(char *s, int fd);
-
-
+// list utils
+t_env   *env_vars_copy(t_env **env_vars);
+int	    list_size(t_env *lst);
+void    sort_vars(t_env **env_vars);
+void	update_var(t_env *env, char *env_key, char *new_value);
 // comannds 
 int execute_command(t_command *command, char *path);
 

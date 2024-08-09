@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/08 18:04:13 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/09 14:52:50 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	free_strs(char **strs);
 //expanding
 t_env   *expanding(char **env);
 t_env	*new_variable(char *env_key, char *env_value);
-char	*get_env_variable(t_env *env, char *variable);
+char	*get_env_variable(t_env *env, char *env_key);
 void	add_env_back(t_env **envs, t_env *new);
 void 	delete_env(t_env **env, char *env_key);
 char *get_str(char *var, char *type);

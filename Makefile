@@ -6,7 +6,7 @@
 #    By: alamini <alamini@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 22:26:51 by ybouyzem          #+#    #+#              #
-#    Updated: 2024/08/07 08:37:47 by alamini          ###   ########.fr        #
+#    Updated: 2024/08/09 12:02:05 by alamini          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIB_FILES	:= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_i
 
 
 FILE = src/main.c src/check_syntax.c src/parssing_utils.c src/split_args.c src/split_cmds.c src/list_utils.c src/expanding.c\
-	exec/commands.c exec/builtins.c exec/ft_split.c exec/ft_strjoin.c exec/redrection.c exec/utils.c exec/main_exec.c\
+	exec/commands.c exec/builtins.c exec/builtins_utils.c exec/ft_split.c exec/ft_strjoin.c exec/redrection.c exec/utils.c exec/main_exec.c\
 	src/free_memory.c $(LIB_FILES)
 	
 
@@ -38,7 +38,7 @@ LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
 FLAG = cc
 
 # GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS)
-GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS)
+GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS) 
 
 OBJECTFILES = $(FILE:.c=.o)
 

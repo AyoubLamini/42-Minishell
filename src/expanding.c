@@ -6,20 +6,20 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/08 18:06:11 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/09 14:53:23 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../exec/minishell_exec.h"
-char	*get_env_variable(t_env *env, char *variable)
+char	*get_env_variable(t_env *env, char *env_key)
 {
 	t_env	*tmp;
 	
 	tmp = env;
 	while (tmp)
 	{
-		if (ex_strcmp(tmp->key, variable) == 0)
+		if (ex_strcmp(tmp->key, env_key) == 0)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
@@ -65,7 +65,6 @@ t_env	*new_variable(char *env_key, char *env_value)
 		return (NULL);
 	node->key = env_key;
 	node->value = env_value;
-	
 	node->next = NULL;
 	return (node);
 }

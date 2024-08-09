@@ -29,13 +29,13 @@ void check_command(t_command *command, t_env **env_vars)
     else if (ex_strcmp("echo" ,command->cmd[0]) == 0)
         echo(command);
     else if (ex_strcmp("export" ,command->cmd[0]) == 0)
-    {
         export(command, env_vars);
-    }
     else if (ex_strcmp("env" ,command->cmd[0]) == 0)
         env(*env_vars);
     else if (ex_strcmp("unset" ,command->cmd[0]) == 0)
         unset(command, env_vars);
+    // else if (ex_strcmp("exit" ,command->cmd[0]) == 0)
+    //     exit(command);
     else
        commands(command);
 }

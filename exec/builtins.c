@@ -56,11 +56,9 @@ int echo(t_command *command)
 
 int cd(t_command *command)
 {
-    if (chdir(command->cmd[1]) != 0)
-    {
-        return (perror("chdir"), 1);
-    }
-    printf("succes\n");
+    int i = 0;
+    while (command->cmd[i])
+        printf("%s\n", command->cmd[i++]);
     return (0);
 }
 void env(t_env *env_vars)
@@ -76,38 +74,32 @@ void env(t_env *env_vars)
 void export(t_command *cmds, t_env **env_vars)
 {
     int i;
-
+    t_env *env_copy;
     i = 1;
     if (cmds->cmd[i])
     {
         while (cmds->cmd[i])
         {
-            add_env_back(env_vars, new_variable(get_str(cmds->cmd[i], "key"), get_str(cmds->cmd[i], "value")));
+            if (get_env_variable(*env_vars, get_str(cmds->cmd[i], "key")))
+                update_var(*env_vars, get_str(cmds->cmd[i], "key"), get_str(cmds->cmd[i], "value"));
+            else
+                add_env_back(env_vars, new_variable(get_str(cmds->cmd[i],
+                    "key"), get_str(cmds->cmd[i], "value")));
             i++;
         }
     }
-    // else
-    // {
-            // make the copy of vars
-            // sort it
-            // display it 
-            // free it
-    // }
-   
-}
-t_env *env_vars_copy(t_env **env_vars)
-{
-    t_env *vars_copy;
-    t_env *temp;
-    temp = *env_vars;
-    vars_copy = NULL;
-    while (temp)
+    else
     {
-        add_env_back(env_vars, new_variable(get_str(temp->key, "key"), get_str(temp->value, "value")));
-        temp = temp->next;
+        env_copy = env_vars_copy(env_vars); // made a copy
+        sort_vars(&env_copy); // sorted the copy
+        while (env_copy) // printing the sorted copy
+        {
+            printf("declare -x %s=%s\n", env_copy->key, env_copy->value);
+            env_copy = env_copy->next;
+        }
     }
-    return (vars_copy);
 }
+
 void unset(t_command *cmds, t_env **env_vars)
 {
     int i;
@@ -118,3 +110,7 @@ void unset(t_command *cmds, t_env **env_vars)
         i++;
     }
 }
+// void exit(t_command *command)
+// {
+    
+// }

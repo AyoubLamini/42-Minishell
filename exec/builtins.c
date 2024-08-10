@@ -56,9 +56,15 @@ int echo(t_command *command)
 
 int cd(t_command *command)
 {
-    int i = 0;
-    while (command->cmd[i])
-        printf("%s\n", command->cmd[i++]);
+    int i;
+
+    i = 0;
+    if (!command->cmd[1])
+    {
+        if (!chdir(getenv("HOME")))
+            perror("chdir");
+    }
+   
     return (0);
 }
 void env(t_env *env_vars)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:05 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/09 14:12:01 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/10 11:30:56 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	char 	*tmp;
 	char	**args;
 	snprintf(prompt, sizeof(prompt), ANSI_COLOR_BOLD_GREEN "minishell $> " ANSI_COLOR_CYAN);
-	//env_vars = expanding(envp);
+	// env_vars = expanding(envp);
 	while ((input = readline(prompt)) != NULL)
 	{
 		tmp = input;
@@ -52,9 +52,10 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		cmds = split_cmds(args);
 		// print_list(cmds);
 		// execute(cmds, &env_vars); // I added this line
-		free_cmds(&cmds);
+		printstrs(args);
+		free_cmds(cmds);
 		// printf("hna\n");
-		free_strs(args);
+		free_args(args);
 		if (tmp)
 			free(tmp);
 		free(input);

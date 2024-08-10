@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/03 07:39:21 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/10 11:30:37 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,14 @@ t_command	*get_command(char **args, int start, int end)
 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
 	{
-		node->cmd[ci] = args[start];
+		node->cmd[ci] = ft_strdup(args[start]);
 		start++;
 		ci++;
 	}
 	node->cmd[ci] = NULL;
 	while (start < end)
 	{
-		node->redirection[ri] = args[start];
+		node->redirection[ri] = ft_strdup(args[start]);
 		start++;
 		ri++;
 	}

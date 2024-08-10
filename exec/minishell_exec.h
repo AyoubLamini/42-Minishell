@@ -9,6 +9,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../includes/minishell.h"
+#include <errno.h>
+#include <string.h>
 
 typedef struct s_exec
 {
@@ -35,7 +37,7 @@ void	update_var(t_env *env, char *env_key, char *new_value);
 int execute_command(t_command *command, char *path);
 
 // builtins
-int     cd(t_command *command);
+int     cd(t_command *command, t_env *env_vars);
 int     echo(t_command *command);
 void    env(t_env *env_vars);
 void    export(t_command *cmds, t_env **env_vars);

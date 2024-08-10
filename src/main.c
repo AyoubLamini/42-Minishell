@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:05 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 11:56:08 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/10 11:58:39 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		args = split_args(input, ' ');
 		cmds = split_cmds(args);
 		// print_list(cmds);
-		// execute(cmds, &env_vars); // I added this line
-		printstrs(args);
+		execute(cmds, &env_vars); // I added this line
 		free_cmds(cmds);
 		free_strs(args);
 		if (tmp)

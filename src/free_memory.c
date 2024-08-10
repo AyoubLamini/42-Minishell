@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 12:46:59 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 11:28:51 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/10 11:52:01 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,20 @@ void	free_strs(char **strs)
 	}
 	free(strs);
 }
-void	free_args(char **strs)
+void	free_envs(t_env *envs)
 {
-	int	i;
+	t_env	*current;
+	t_env	*tmp;
 
-	i = 0;
-	if (!strs)
-		return ;
-	while (strs[i])
+	current = envs;
+	while (current)
 	{
-		free(strs[i]);
-		i++;
+		tmp = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = tmp;
 	}
-	free(strs);
 }
 
 void	free_cmds(t_command *cmds)

@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:05 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 11:55:02 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/10 11:56:08 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,20 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 				free(input);
 			continue;
 		}
-		//printf("input : |%s|\n", input);
 		input = add_spaces(input);
 		args = split_args(input, ' ');
 		cmds = split_cmds(args);
 		// print_list(cmds);
-		execute(cmds, &env_vars); // I added this line
+		// execute(cmds, &env_vars); // I added this line
 		printstrs(args);
 		free_cmds(cmds);
-		// printf("hna\n");
-		free_args(args);
+		free_strs(args);
 		if (tmp)
 			free(tmp);
 		free(input);
-		leaks();
+		// leaks();
 	}
+	free_envs(env_vars);
+	// atexit(leaks);
 	return 0;
 }

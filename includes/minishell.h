@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 11:21:39 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/10 11:52:23 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	print_list(t_command *lst);
 //free memory
 void	free_cmds(t_command *cmds);
 void	free_strs(char **strs);
-void	free_args(char **strs);
+void	free_envs(t_env *envs);
+
 //expanding
 t_env   *expanding(char **env);
 t_env	*new_variable(char *env_key, char *env_value);

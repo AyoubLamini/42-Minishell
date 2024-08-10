@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:05 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 11:30:56 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/10 11:55:02 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	char	*input;
 	char	prompt[100];
 	t_command *cmds;
-	// t_env	*env_vars;
+	t_env	*env_vars;
 	
 	char 	*tmp;
 	char	**args;
 	snprintf(prompt, sizeof(prompt), ANSI_COLOR_BOLD_GREEN "minishell $> " ANSI_COLOR_CYAN);
-	// env_vars = expanding(envp);
+	env_vars = expanding(envp);
 	while ((input = readline(prompt)) != NULL)
 	{
 		tmp = input;
@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		args = split_args(input, ' ');
 		cmds = split_cmds(args);
 		// print_list(cmds);
-		// execute(cmds, &env_vars); // I added this line
+		execute(cmds, &env_vars); // I added this line
 		printstrs(args);
 		free_cmds(cmds);
 		// printf("hna\n");

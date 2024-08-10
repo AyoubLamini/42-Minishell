@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 12:46:59 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/03 13:56:06 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:14:28 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_strs(char **strs)
 	int	i;
 
 	i = 0;
-	if (!strs || strs[i] == 0)
+	if (!strs)
 		return ;
 	while (strs[i])
 	{
@@ -38,9 +38,12 @@ void	free_cmds(t_command **cmds)
 	while (tmp != NULL)
 	{
 		p = tmp->next;
-		free_strs(tmp->cmd);
-		free_strs(tmp->redirection);
+		if (tmp->cmd || tmp->cmd[0])
+			free_strs(tmp->cmd);
+		if (tmp->redirection || tmp->redirection[0])
+			free_strs(tmp->redirection);
 		free(tmp);
+		exit(1);
 		tmp = p;
 	}
 	// *cmds = NULL;

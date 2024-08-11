@@ -53,18 +53,40 @@ int echo(t_command *command)
         printf("\n");
     return (0);
 }
+void print_error(char *cmd, char *path, char *error)
+{
+    ft_putstr_fd("minishell: ", 2);
+    ft_putstr_fd(cmd, 2);
+    ft_putstr_fd(": ", 2);
+    ft_putstr_fd(path, 2);
+    ft_putstr_fd(" ", 2);
+    ft_putstr_fd(error, 2);
+    ft_putstr_fd("\n", 2);
+}
 
-int cd(t_command *command)
+
+int cd(t_command *command, t_env *env) // need to updated PWD and OLD_PWD
 {
     int i;
 
-    i = 0;
+    i = 1;
     if (!command->cmd[1])
     {
-        if (!chdir(getenv("HOME")))
-            perror("chdir");
+        if (chdir(get_env_variable(env, "HOME")) == -1)
+            print_error("cd", get_env_variable(env, "HOME"), strerror(errno));
     }
-   
+    else if (ex_strcmp(command->cmd[1], "-") == 0)
+    {
+        if (chdir(get_env_variable(env, "OLDPWD")) == -1)
+            print_error("cd", get_env_variable(env, "OLDPWD"), strerror(errno));
+        else
+            update_var(env, "OLDPWD", get_env_variable(env, "OLDPWD"));
+    }
+    else
+    {
+        if (chdir(command->cmd[1]) == -1)
+            print_error("cd", command->cmd[1], strerror(errno));
+    }
     return (0);
 }
 void env(t_env *env_vars)

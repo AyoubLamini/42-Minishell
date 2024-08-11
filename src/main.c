@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/13 22:27:05 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 14:33:56 by ybouyzem         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
 
@@ -49,7 +37,9 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		input = add_spaces(input);
 		args = split_args(input, ' ');
 		cmds = split_cmds(args);
-		//execute(cmds, &env_vars); // I added this line
+		//execute(cmds, &env_vars); //
+		// print_list(cmds);
+		execute(cmds, &env_vars); // I added this line
 		free_cmds(cmds);
 		free_strs(args);
 		if (tmp)

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 12:46:59 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 11:52:01 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/10 12:46:23 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	free_strs(char **strs)
 	i = 0;
 	if (!strs)
 		return ;
-	
 	while (strs[i])
 	{
 		free(strs[i]);
@@ -27,6 +26,7 @@ void	free_strs(char **strs)
 	}
 	free(strs);
 }
+
 void	free_envs(t_env *envs)
 {
 	t_env	*current;

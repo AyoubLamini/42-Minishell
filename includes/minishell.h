@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 14:21:00 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/11 15:48:27 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ void	remove_spaces(char **input);
 char	*add_spaces(char *input);
 char	**split_args(char *s, char c);
 void	ft_check_quotes(int *single_quote, int *double_quote, char c);
-t_command	*split_cmds(char **args);
+t_command	*split_cmds(char **args, t_env *env_vars);
 void *ft_myfree(char **result, int index);
 int	ft_strslen(char **map);
+int	ft_strcmp(char *s1, char *s2);
+
 
 // list
 void	lstadd_back(t_command **lst, t_command *new);
@@ -75,7 +77,8 @@ void	add_env_back(t_env **envs, t_env *new);
 void 	delete_env(t_env **env, char *env_key);
 char 	*get_str(char *var, char *type);
 void	printstrs(char **map);
+void	print_envs(t_env *envs);
 
-// execution 
+// execution
 void execute(t_command *command, t_env **env_vars);
 #endif

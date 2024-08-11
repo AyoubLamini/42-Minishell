@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 11:30:37 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/11 16:21:09 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// int	count_tokens(char **args, char token)
-// {
-// 	int	i;
-// 	int	nb;
-
-// 	nb = 0;
-// 	i = 0;
-// 	while (args[i])
-// 	{
-// 		if (args[i][0] == token)
-// 			nb++;
-// 		i++;
-// 	}
-// 	return (nb);
-// }
 
 int	ft_strslen(char **map)
 {
@@ -42,6 +26,8 @@ int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
 
+	if (!s1 || !s2)
+		return (-1);
 	i = 0;
 	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
 	{
@@ -70,11 +56,23 @@ t_command	*allocate_node(char **args, int start, int end)
 	return (node);
 }
 
-t_command	*get_command(char **args, int start, int end)
+char	*get_right_cmd(t_env *envs, char *env_key)
 {
-	t_command *node;
-	int		ci;
-	int		ri;
+	char	*value;
+	
+	value = get_env_variable(envs, env_key);
+	// printf("value: %s\n", value);
+	if (value)
+		return (ft_strdup(value));
+	else
+		return (ft_strdup(env_key));
+}
+
+t_command	*get_command(char **args, t_env *envs, int start, int end)
+{
+	t_command	*node;
+	int			ci;
+	int			ri;
 
 	ci = 0;
 	ri = 0;
@@ -82,7 +80,7 @@ t_command	*get_command(char **args, int start, int end)
 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
 	{
-		node->cmd[ci] = ft_strdup(args[start]);
+		node->cmd[ci] = get_right_cmd(envs, args[start]);
 		start++;
 		ci++;
 	}
@@ -114,7 +112,7 @@ void	printstrs(char **map)
 	puts("\n");
 }
 
-t_command	*split_cmds(char **args)
+t_command	*split_cmds(char **args, t_env *envs)
 {
 	t_command	*input;
 	t_command *node;
@@ -130,7 +128,7 @@ t_command	*split_cmds(char **args)
 		{
 			if (start < i)
 			{
-				node = get_command(args, start, i);
+				node = get_command(args, envs, start, i);
 				lstadd_back(&input, node);
 			}
 			i++;
@@ -141,7 +139,7 @@ t_command	*split_cmds(char **args)
 	}
 	if (start < i)
 	{
-		node = get_command(args, start, i);
+		node = get_command(args, envs, start, i);
 		lstadd_back(&input, node);
 	}
 	return (input);

@@ -1,0 +1,21 @@
+Makefile
+README 2.md
+README.md
+exec
+hello.txt
+includes
+libft hello friend
+minishell
+src
+Hello Friends
+Hello Friends
+Makefile
+README 2.md
+README.md
+exec
+hello.txt
+includes
+libft
+minishell
+src
+Hello Friends

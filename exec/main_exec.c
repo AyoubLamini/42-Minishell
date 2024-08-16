@@ -21,7 +21,6 @@ void commands(t_command *command)
         i++;
     }
 }
-
 void check_command(t_command *command, t_env **env_vars)
 {
     if (ex_strcmp("cd", command->cmd[0]) == 0)
@@ -49,16 +48,25 @@ static void restore_original_fd(t_exec *file_d)
 
 void execute(t_command *command, t_env **env_vars)
 {
-    t_exec file_d; 
+    t_exec file_d;
+    t_command *current; 
 
     file_d.in = 0;
     file_d.out = 1;
+    int input_fd;
+    input_fd = 0;
     
-    if (!command)
+    current = command;
+    if (!current)
         return ;
-    if (command->redirection[0])
-        handle_redirection(command, &file_d);
-    check_command(command, env_vars);
+    while (current)
+    {
+        input_fd = 0;
+        // if (current->redirection[0])
+        //     handle_redirection(current, &file_d);
+        piping(current, env_vars, &input_fd); // wc - l
+        current = current->next;
+    }
     restore_original_fd(&file_d);
 }
            

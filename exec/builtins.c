@@ -64,7 +64,6 @@ void print_error(char *cmd, char *path, char *error)
     ft_putstr_fd("\n", 2);
 }
 
-
 int cd(t_command *command, t_env *env) // need to updated PWD and OLD_PWD
 {
     int i;

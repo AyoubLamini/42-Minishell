@@ -6,12 +6,30 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/08/16 18:37:49 by alamini          ###   ########.fr       */
+=======
+/*   Updated: 2024/08/16 14:32:50 by ybouyzem         ###   ########.fr       */
+>>>>>>> 84012e01dcc60554eacbaa8f4044914b7d83e38d
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../exec/minishell_exec.h"
+
+int	my_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	if (!s1 || !s2)
+		return (-1);
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0' && s2[i] != '\'' && s2[i] != '"')
+	{
+		i++;
+	}
+	return (s1[i] - s2[i]);
+}
 
 char	*get_env_variable(t_env *env, char *env_key)
 {
@@ -20,9 +38,7 @@ char	*get_env_variable(t_env *env, char *env_key)
 	tmp = env;
 	while (tmp)
 	{
-		// printf("key: %s\n", tmp->key);
-		// printf("env_key: %s\n", env_key);
-		if (env_key[0] == '$' && ft_strcmp(tmp->key, env_key+1) == 0)
+		if (env_key[0] == '$' && my_strcmp(tmp->key, env_key + 1) == 0)
 		{
 			return (tmp->value);
 		}

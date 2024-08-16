@@ -27,7 +27,13 @@
         "ratio": "c",
         "system_error": "c",
         "tuple": "c",
+<<<<<<< HEAD
+        "type_traits": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+=======
         "type_traits": "c",
         "minishell_exec.h": "c"
     }
+>>>>>>> 9e1239fd3682ab41d294799bfebe7d192040dc49
 }

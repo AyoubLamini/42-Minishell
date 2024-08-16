@@ -6,11 +6,38 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/11 16:21:09 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:32:29 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*concat_strs(char* s1, char* s2)
+{
+    int		len1;
+    int		len2;
+    int		i;
+    int		j;
+    char	*result; 
+	
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	i = 0;
+	j = 0;
+	result = (char*)malloc((len1 + len2 + 1) * sizeof(char));
+    if (!result)
+		return (NULL);
+    while (s1[i] != '\0') {
+        result[i] = s1[i];
+        i++;
+    }
+    while (s2[j] != '\0') {
+        result[i + j] = s2[j];
+        j++;
+    }
+    result[i + j] = '\0';
+    return (result);
+}
 
 int	ft_strslen(char **map)
 {
@@ -56,16 +83,45 @@ t_command	*allocate_node(char **args, int start, int end)
 	return (node);
 }
 
-char	*get_right_cmd(t_env *envs, char *env_key)
+char	*get_right_cmd(t_env *envs, char *node_cmd)
 {
 	char	*value;
-	
-	value = get_env_variable(envs, env_key);
-	// printf("value: %s\n", value);
-	if (value)
-		return (ft_strdup(value));
-	else
-		return (ft_strdup(env_key));
+	int		double_quote;
+	int		i;
+	char	*new_node;
+	int		pos;
+
+	pos = 0;
+	new_node = (char *)malloc(sizeof(char) * (ft_strlen(node_cmd) + 1));
+	if (!new_node)
+		return (NULL);
+	i = 0;
+	double_quote = 0;
+	while (node_cmd[i])
+	{
+		if (node_cmd[i] == '"')
+		{
+			i++;
+			double_quote = !double_quote;
+			while(node_cmd[i] != '"')
+			{
+				value = get_env_variable(envs, node_cmd + i);
+				if (value)
+				{
+					concat_strs(new_node, value);
+					pos += ft_strlen(value);
+				}
+				i++;
+			}
+		}
+		else if (node_cmd[i] == '\'' && !double_quote)
+			i++;
+		new_node[pos] = node_cmd[i];
+		pos++;
+		i++;
+	}
+	new_node[pos] = '\0';
+	return (new_node);
 }
 
 t_command	*get_command(char **args, t_env *envs, int start, int end)

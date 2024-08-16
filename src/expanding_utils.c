@@ -6,12 +6,26 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/11 15:50:09 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/16 11:04:51 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../exec/minishell_exec.h"
+
+char	*my_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	if (!s1 || !s2)
+		return (-1);
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0' && s2[i] != '\'' && s2[i] != '"')
+	{
+		i++;
+	}
+	return (s1[i] - s2[i]);
+}
 
 char	*get_env_variable(t_env *env, char *env_key)
 {
@@ -20,9 +34,7 @@ char	*get_env_variable(t_env *env, char *env_key)
 	tmp = env;
 	while (tmp)
 	{
-		// printf("key: %s\n", tmp->key);
-		// printf("env_key: %s\n", env_key);
-		if (env_key[0] == '$' && ft_strcmp(tmp->key, env_key+1) == 0)
+		if (env_key[0] == '$' && my_strcmp(tmp->key, env_key + 1) == 0)
 		{
 			return (tmp->value);
 		}

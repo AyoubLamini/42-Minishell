@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/11 15:48:27 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/16 11:01:11 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_command	*split_cmds(char **args, t_env *env_vars);
 void *ft_myfree(char **result, int index);
 int	ft_strslen(char **map);
 int	ft_strcmp(char *s1, char *s2);
-
+char	*concat_strs(char* s1, char* s2);
 
 // list
 void	lstadd_back(t_command **lst, t_command *new);

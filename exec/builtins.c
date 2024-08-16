@@ -53,16 +53,6 @@ int echo(t_command *command)
         printf("\n");
     return (0);
 }
-void print_error(char *cmd, char *path, char *error)
-{
-    ft_putstr_fd("minishell: ", 2);
-    ft_putstr_fd(cmd, 2);
-    ft_putstr_fd(": ", 2);
-    ft_putstr_fd(path, 2);
-    ft_putstr_fd(" ", 2);
-    ft_putstr_fd(error, 2);
-    ft_putstr_fd("\n", 2);
-}
 
 int cd(t_command *command, t_env *env) // need to updated PWD and OLD_PWD
 {
@@ -71,15 +61,15 @@ int cd(t_command *command, t_env *env) // need to updated PWD and OLD_PWD
     i = 1;
     if (!command->cmd[1])
     {
-        if (chdir(get_env_variable(env, "HOME")) == -1)
-            print_error("cd", get_env_variable(env, "HOME"), strerror(errno));
+        if (chdir(get_env(env, "HOME")) == -1)
+            print_error("cd", get_env(env, "HOME"), strerror(errno));
     }
     else if (ex_strcmp(command->cmd[1], "-") == 0)
     {
-        if (chdir(get_env_variable(env, "OLDPWD")) == -1)
-            print_error("cd", get_env_variable(env, "OLDPWD"), strerror(errno));
+        if (chdir(get_env(env, "OLDPWD")) == -1)
+            print_error("cd", get_env(env, "OLDPWD"), strerror(errno));
         else
-            update_var(env, "OLDPWD", get_env_variable(env, "OLDPWD"));
+            update_var(env, "OLDPWD", get_env(env, "OLDPWD"));
     }
     else
     {
@@ -98,33 +88,57 @@ void env(t_env *env_vars)
     }
     // printf("_=/usr/bin/env\n");
 }
-void export(t_command *cmds, t_env **env_vars)
+
+
+static void export_display(t_env **env_vars)
+{
+    t_env *env_copy;
+
+    env_copy = env_vars_copy(env_vars); // made a copy
+    sort_vars(&env_copy); // sorted the copy
+    while (env_copy) // printing the sorted copy
+    {
+        printf("declare -x %s=%s\n", env_copy->key, env_copy->value);
+        env_copy = env_copy->next;
+    }
+}
+
+void export(t_command *cmds, t_env **env)
 {
     int i;
-    t_env *env_copy;
+    
     i = 1;
     if (cmds->cmd[i])
     {
         while (cmds->cmd[i])
         {
-            if (get_env_variable(*env_vars, get_str(cmds->cmd[i], "key")))
-                update_var(*env_vars, get_str(cmds->cmd[i], "key"), get_str(cmds->cmd[i], "value"));
-            else
-                add_env_back(env_vars, new_variable(get_str(cmds->cmd[i],
-                    "key"), get_str(cmds->cmd[i], "value")));
+            if (get_env(*env, get_str(cmds->cmd[i], "key"))) // if key alrdy existing
+            {
+                if (ft_strstr(cmds->cmd[i], "+="))
+                {
+                    printf("Append mode:\n");
+                    update_var(*env, get_str(cmds->cmd[i], "key"), 
+                        ft_strjoin(get_env(*env, get_str(cmds->cmd[i], "key")),
+                            get_str(cmds->cmd[i], "value")));
+                } // if append mode
+                else
+                {
+                    printf("Update mode:\n");
+                    update_var(*env, get_str(cmds->cmd[i], "key"), 
+                        get_str(cmds->cmd[i], "value"));
+                } // if replace value mode
+            }
+            else // new variable mode
+            {
+                printf("New var mode:\n");
+                add_env_back(env, new_variable(get_str(cmds->cmd[i], "key"), 
+                    get_str(cmds->cmd[i], "value")));
+            } 
             i++;
         }
     }
     else
-    {
-        env_copy = env_vars_copy(env_vars); // made a copy
-        sort_vars(&env_copy); // sorted the copy
-        while (env_copy) // printing the sorted copy
-        {
-            printf("declare -x %s=%s\n", env_copy->key, env_copy->value);
-            env_copy = env_copy->next;
-        }
-    }
+        export_display(env);
 }
 
 void unset(t_command *cmds, t_env **env_vars)

@@ -11,16 +11,17 @@ static int create_pipe(int *fd)
 }
 static int child_process(t_command *command, t_env **env, int *fd, int *input_fd)
 {
-    if (*input_fd != 0) // If there is input from a previous pipe
+    // (void)input_fd;
+    if (*input_fd != 0) // If there is previous pipe
     {
-        if (dup2(*input_fd, STDIN_FILENO) < 0) // Redirect stdin to the previous pipe's read end
+        if (dup2(*input_fd, STDIN_FILENO) < 0) // read from stored previous pipe fd
         {
             perror("dup2");
             return (1);
         }
-            close(*input_fd);
+        close(*input_fd); // close it, cause we longer need it
     }
-    if (command->next) // If there is a next command, redirect stdout to the current pipe's write end
+    if (command->next) // If Next Command = STDOUT = pipe[1];
     {
         if (dup2(fd[1], STDOUT_FILENO) < 0)
         {
@@ -47,34 +48,30 @@ static int parent_process(t_command *command, int *fd, int *input_fd)
     else
     {
             close(fd[0]); // Close the last pipe's read end
-            *input_fd = 0;
     }
     return (0);
 }
-void piping(t_command *command, t_env **env_vars, int *id)
+void piping(t_command *command, t_env **env_vars, int *input_fd)
 {
-    (void)id;
     int pid;
     int fd[2];
-    static int input_fd = 0; // To store input from the previous command's pipe
 
-    if (command->next)  // Create a pipe if there is a next command
+    if (command->next)  // iF Next Command = Create Pipe
         if (create_pipe(fd))
             return ;
-    pid = fork();
+    pid = fork(); // Fork Child Process
     if (pid < 0)
         return (perror("fork"));
-    if (pid == 0)
+    if (pid == 0) // Child process
     {
-        if (child_process(command, env_vars, fd, &input_fd))
+        if (child_process(command, env_vars, fd, input_fd))
             return ;
     }
     else
     {
-        if (parent_process(command, fd, &input_fd))
+        if (parent_process(command, fd, input_fd))
             return ;
+         waitpid(pid, NULL, 0);
     }
-    waitpid(pid, NULL, 0);
-       
-    return ;
+    return ; 
 }

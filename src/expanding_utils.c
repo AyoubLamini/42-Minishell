@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/11 15:50:09 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/16 18:37:49 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char *get_str(char *var, char *type) // allocate memory and returns key or value
 	if (!str)
 		return (NULL);
 	if (ex_strcmp(type, "key") == 0)
-		while (var[i] != '=')
+		while (var[i] != '=' && var[i] != '+')
 		{
 			str[i] = var[i];
 			i++;

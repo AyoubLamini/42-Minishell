@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/16 11:27:52 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:32:29 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ char	*get_right_cmd(t_env *envs, char *node_cmd)
 	int		double_quote;
 	int		i;
 	char	*new_node;
-	int		j;
+	int		pos;
 
-	j = 0;
-	new_node = (char *)malloc(sizeof(char) * (node_cmd + 1));
+	pos = 0;
+	new_node = (char *)malloc(sizeof(char) * (ft_strlen(node_cmd) + 1));
 	if (!new_node)
 		return (NULL);
 	i = 0;
@@ -102,28 +102,26 @@ char	*get_right_cmd(t_env *envs, char *node_cmd)
 		if (node_cmd[i] == '"')
 		{
 			i++;
-			double_quote = 1;
-			while(node_cmd[i] == '"')
+			double_quote = !double_quote;
+			while(node_cmd[i] != '"')
 			{
-				value = get_env_variable(envs, node_cmd);
+				value = get_env_variable(envs, node_cmd + i);
 				if (value)
+				{
 					concat_strs(new_node, value);
+					pos += ft_strlen(value);
+				}
+				i++;
 			}
 		}
-		else if (node_cmd[i] == '\'' && double_quote != 1)
-		{
+		else if (node_cmd[i] == '\'' && !double_quote)
 			i++;
-		}
-		
+		new_node[pos] = node_cmd[i];
+		pos++;
+		i++;
 	}
-	// printf("command node: %s\n", node_cmd);
-	// printf("value: %s\n", value);
-
-	value = get_env_variable(envs, node_cmd + i);
-	if (value)
-		return (ft_strdup(value));
-	else
-		return (ft_strdup(node_cmd));
+	new_node[pos] = '\0';
+	return (new_node);
 }
 
 t_command	*get_command(char **args, t_env *envs, int start, int end)

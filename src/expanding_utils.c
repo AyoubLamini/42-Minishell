@@ -6,14 +6,14 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/16 11:04:51 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:32:50 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../exec/minishell_exec.h"
 
-char	*my_strcmp(char *s1, char *s2)
+int	my_strcmp(char *s1, char *s2)
 {
 	int	i;
 

@@ -34,6 +34,7 @@ int	    list_size(t_env *lst);
 void    sort_vars(t_env **env_vars);
 void	update_var(t_env *env, char *env_key, char *new_value);
 // comannds 
+void check_command(t_command *command, t_env **env_vars);
 int execute_command(t_command *command, char *path);
 
 // builtins
@@ -44,6 +45,8 @@ void    export(t_command *cmds, t_env **env_vars);
 void    unset(t_command *cmds, t_env **env_vars);
 // redirections 
 int handle_redirection(t_command *command, t_exec *file_d);
+// piping 
+void piping(t_command *command, t_env **env_vars, int *id);
 
 
 #endif

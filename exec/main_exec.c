@@ -10,6 +10,7 @@
 
 void execute(t_command *current, t_env **env_vars)
 {
+    // exit(0);
     t_exec file_d;
     t_command *command; 
     (void) env_vars;

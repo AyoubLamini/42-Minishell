@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/16 18:53:57 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/17 18:58:57 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,93 @@ char	*get_env_variable(t_env *env, char *env_key)
 	return (NULL);
 }
 
-char *get_str(char *var, char *type) // allocate memory and returns key or value string
+static char *get_key(char *str) // Hello=Friend  a+=  a     a=
 {
-	char *str;
-	int	i;
-	int j;
-	
+	char	*key;
+	int 	i;
+
 	i = 0;
-	j = 0;
-	str = (char *)malloc(sizeof(char) * ft_strlen(var)); 
-	if (!str)
+	key = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
+	if (!key)
 		return (NULL);
-	if (ex_strcmp(type, "key") == 0)
-		while (var[i] != '=' && var[i] != '+')
-		{
-			str[i] = var[i];
-			i++;
-		}
-	else if (ex_strcmp(type, "value") == 0)
+	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
-		while (var[j] != '=')
-			j++;
-		j++;
-		while (var[j])
-			str[i++] = var[j++]; 
+		key[i] = str[i];
+		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	key[i] = '\0';
+	return (key);
 }
 
+static char *get_value(char *str) // str = a
+{
+	char	*value;
+	int 	i;
+	int 	j;
+
+	i = 0;
+	j = 0;
+	value = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
+	if (!value)
+		return (NULL);
+	while (str[j] && str[j] != '=')
+			j++;
+	j++;
+	while (str[j])
+	{
+		value[i] = str[j]; 
+		i++;
+		j++;
+	}
+	value[i] = '\0';
+	if (i == 0)
+	{
+		free(value);
+		value = NULL;
+	}
+	return (value);
+}
+static char *get_sep(char *str)
+{
+	char	*sep;
+	int 	i;
+	int 	j;
+
+	i = 0;
+	j = 0;
+	sep = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
+	if (!sep)
+		return (NULL);
+	while (str[j] && str[j] != '=' && str[j] != '+')
+			j++;
+	if (str[j] == '=')
+	{
+		sep[i++] = '=';
+		sep[i++] = '\0';
+	}
+	else if (str[j] == '+' && str[j+1] == '=')
+	{
+		sep[i++] = '+';
+		sep[i++] = '=';
+		sep[i] = '\0';
+	}
+	else
+		return (NULL);
+	return (sep);
+}
+
+char *get_str(char *var, char *type) // allocate memory and returns key or value or sep
+{ 
+	if (!var || !type)
+		return (NULL);
+	if (ex_strcmp(type, "key") == 0)
+		return (get_key(var));
+	else if (ex_strcmp(type, "value") == 0)
+		return (get_value(var));
+	else if (ex_strcmp(type, "sep") == 0)
+		return (get_sep(var));
+	return (NULL);
+}
 
 t_env	*new_variable(char *env_key, char *env_value)
 {

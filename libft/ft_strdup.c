@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 21:47:23 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/09 09:55:19 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/17 18:46:43 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*ft_strdup(const char *s1)
 	char	*p;
 	int		i;
 
+	if (!s1)
+		return (NULL);
 	i = 0;
 	size = ft_size(s1);
 	p = (char *)malloc((size + 1) * sizeof(char));

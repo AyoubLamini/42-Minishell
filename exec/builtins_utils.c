@@ -75,7 +75,7 @@ void	update_var(t_env *env, char *env_key, char *new_value)
 	}
 	return ;
 }
-char	*get_env(t_env *env, char *env_key) // added this function
+char	*get_env_value(t_env *env, char *env_key) // added this function
 {
 	t_env	*tmp;
 	
@@ -88,26 +88,16 @@ char	*get_env(t_env *env, char *env_key) // added this function
 	}
 	return (NULL);
 }
-int	ft_strstr(char *haystack, char *needle)
+char	*get_env_key(t_env *env, char *env_key) // added this function
 {
-	size_t	i;
-	size_t	j;
-
-	if (!haystack || !needle)
-		return (0);
-	if (*needle == '\0')
-		return (1);
-	i = 0;
-	while (haystack[i])
+	t_env	*tmp;
+	
+	tmp = env;
+	while (tmp)
 	{
-		j = 0;
-		while (haystack[i + j] == needle[j] && needle[j])
-		{
-			if (needle[j + 1] == '\0')
-				return (1);  
-			j++;
-		}
-		i++;
+		if (ft_strcmp(tmp->key, env_key) == 0)
+			return (tmp->key);
+		tmp = tmp->next;
 	}
-	return (0);
+	return (NULL);
 }

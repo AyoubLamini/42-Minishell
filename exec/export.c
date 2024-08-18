@@ -43,8 +43,10 @@ void update_key(char *cmd, t_env **env)
     }
     else // Update Mode
     {
-        update_var(*env, get_str(cmd, "key"), 
-            get_str(cmd, "value"));
+        printf("Update mode:\n");
+        if (get_str(cmd, "value"))
+            update_var(*env, get_str(cmd, "key"), 
+                get_str(cmd, "value"));
     } 
 }
 void export(t_command *cmds, t_env **env)

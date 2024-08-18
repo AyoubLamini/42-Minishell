@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/17 18:58:57 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/18 19:14:33 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,11 @@ static char *get_value(char *str) // str = a
 		j++;
 	}
 	value[i] = '\0';
-	if (i == 0)
-	{
-		free(value);
-		value = NULL;
-	}
+	if (i == 0 && str[j-1] != '=')
+		return (free(value), NULL);
 	return (value);
 }
+
 static char *get_sep(char *str)
 {
 	char	*sep;

@@ -67,7 +67,8 @@ void	update_var(t_env *env, char *env_key, char *new_value)
 	{
 		if (ex_strcmp(tmp->key, env_key) == 0)
         {
-            free(tmp->value);
+            if (tmp->value)
+                free(tmp->value);
             tmp->value = new_value;
             return ;
         }

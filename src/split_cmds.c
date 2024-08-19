@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/16 14:32:29 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/19 13:25:47 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,17 @@ t_command	*allocate_node(char **args, int start, int end)
 
 char	*get_right_cmd(t_env *envs, char *node_cmd)
 {
-	char	*value;
+	// char	*value;
 	int		double_quote;
 	int		i;
 	char	*new_node;
+	int		start;
 	int		pos;
-
+	char	*tmp;
+	char *copy; //
+	copy = NULL; //
 	pos = 0;
+	start = 0;
 	new_node = (char *)malloc(sizeof(char) * (ft_strlen(node_cmd) + 1));
 	if (!new_node)
 		return (NULL);
@@ -102,20 +106,56 @@ char	*get_right_cmd(t_env *envs, char *node_cmd)
 		if (node_cmd[i] == '"')
 		{
 			i++;
-			double_quote = !double_quote;
-			while(node_cmd[i] != '"')
+			while(node_cmd[i] != '"' && node_cmd[i])
 			{
-				value = get_env_variable(envs, node_cmd + i);
-				if (value)
+				while (node_cmd[i] == '\'' && node_cmd[i] && node_cmd[i] != '"')
 				{
-					concat_strs(new_node, value);
-					pos += ft_strlen(value);
+					new_node = ft_strjoin(new_node, "'");
+					i++;
+				}
+				start = i;
+				//printf("start: %d\n", start);
+				while (node_cmd[i] != '\'' && node_cmd[i] && node_cmd[i] != '"')
+					i++;
+				//printf("i: %d\n", i);
+				tmp = ft_substr(node_cmd, start, i - start);
+				//printf("key: %s\n", tmp);
+				if (start != i)
+				{
+					if (get_env_variable(envs, tmp))
+						new_node = ft_strjoin(new_node, get_env_variable(envs, tmp));
+					else
+						new_node = ft_strjoin(new_node, tmp);
+				}
+				while (node_cmd[i] == '\'' && node_cmd[i] != '"' && node_cmd[i])
+				{
+					new_node = ft_strjoin(new_node, "'");
+					i++;
+				}
+				//printf("i: %d\n", i);
+				i++;
+			}
+			if (node_cmd[i] == '"')
+				i++;
+			pos = ft_strlen(new_node);
+		}
+		else if (node_cmd[i] == '\'')
+		{
+			i++;
+			while(node_cmd[i])
+			{
+				if (node_cmd[i] != '\'')
+				{
+					new_node[pos] = node_cmd[i];
+					pos++;
 				}
 				i++;
 			}
+			if (node_cmd[i] == '\'')
+				i++;
 		}
-		else if (node_cmd[i] == '\'' && !double_quote)
-			i++;
+		if (!node_cmd[i])
+				break;
 		new_node[pos] = node_cmd[i];
 		pos++;
 		i++;

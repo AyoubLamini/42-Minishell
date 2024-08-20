@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/20 13:44:08 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:32:58 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,14 @@ char	*expanding(t_env *envs, char *old_cmd, int pid)
 					start++;
 					i++;
 				}
-				// printf("start: %d\n", start);
 				if (start % 2 == 0)
 				{
 					start = start / 2;
 					while (start)
 					{
-						new_cmd = ft_strjoin(new_cmd, ft_itoa(pid));		
+						new_cmd = ft_strjoin(new_cmd, ft_itoa(pid));
 						start--;
+						pos = ft_strlen(new_cmd);
 					}
 				}
 				else
@@ -110,16 +110,14 @@ char	*expanding(t_env *envs, char *old_cmd, int pid)
 					start = start / 2;
 					while (start)
 					{
-						new_cmd = ft_strjoin(new_cmd, ft_itoa(pid));		
+						new_cmd = ft_strjoin(new_cmd, ft_itoa(pid));
 						start--;
+						pos = ft_strlen(new_cmd);	
 					}
 					start = i;
 					while (ft_isalnum(old_cmd[i]) && old_cmd[i])
 						i++;
-					// printf("start: %d\n", start);
-					// printf("i: %d\n", i);
 					key = ft_substr(old_cmd, start, i - start);
-					// printf("key: |%s|\n", key);
 					if (get_env_variable(envs, key))
 						new_cmd = ft_strjoin(new_cmd, get_env_variable(envs, key));
 				}

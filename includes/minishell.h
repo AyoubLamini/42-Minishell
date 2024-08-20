@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/20 13:22:40 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/20 20:30:16 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ typedef struct s_command {
 	char    **redirection;
 	struct s_command *next;
 } t_command;
+typedef struct s_path
+{
+	int exit_status;
+	char *path;
+}	t_path;
 
 int		is_redirection(char *str, int index);
 int		check_syntax(char *input);

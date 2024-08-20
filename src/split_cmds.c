@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/19 13:25:47 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:23:42 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,88 +83,52 @@ t_command	*allocate_node(char **args, int start, int end)
 	return (node);
 }
 
-char	*get_right_cmd(t_env *envs, char *node_cmd)
-{
-	// char	*value;
-	int		double_quote;
-	int		i;
-	char	*new_node;
-	int		start;
-	int		pos;
-	char	*tmp;
-	char *copy; //
-	copy = NULL; //
-	pos = 0;
-	start = 0;
-	new_node = (char *)malloc(sizeof(char) * (ft_strlen(node_cmd) + 1));
-	if (!new_node)
-		return (NULL);
-	i = 0;
-	double_quote = 0;
-	while (node_cmd[i])
-	{
-		if (node_cmd[i] == '"')
-		{
-			i++;
-			while(node_cmd[i] != '"' && node_cmd[i])
-			{
-				while (node_cmd[i] == '\'' && node_cmd[i] && node_cmd[i] != '"')
-				{
-					new_node = ft_strjoin(new_node, "'");
-					i++;
-				}
-				start = i;
-				//printf("start: %d\n", start);
-				while (node_cmd[i] != '\'' && node_cmd[i] && node_cmd[i] != '"')
-					i++;
-				//printf("i: %d\n", i);
-				tmp = ft_substr(node_cmd, start, i - start);
-				//printf("key: %s\n", tmp);
-				if (start != i)
-				{
-					if (get_env_variable(envs, tmp))
-						new_node = ft_strjoin(new_node, get_env_variable(envs, tmp));
-					else
-						new_node = ft_strjoin(new_node, tmp);
-				}
-				while (node_cmd[i] == '\'' && node_cmd[i] != '"' && node_cmd[i])
-				{
-					new_node = ft_strjoin(new_node, "'");
-					i++;
-				}
-				//printf("i: %d\n", i);
-				i++;
-			}
-			if (node_cmd[i] == '"')
-				i++;
-			pos = ft_strlen(new_node);
-		}
-		else if (node_cmd[i] == '\'')
-		{
-			i++;
-			while(node_cmd[i])
-			{
-				if (node_cmd[i] != '\'')
-				{
-					new_node[pos] = node_cmd[i];
-					pos++;
-				}
-				i++;
-			}
-			if (node_cmd[i] == '\'')
-				i++;
-		}
-		if (!node_cmd[i])
-				break;
-		new_node[pos] = node_cmd[i];
-		pos++;
-		i++;
-	}
-	new_node[pos] = '\0';
-	return (new_node);
-}
 
-t_command	*get_command(char **args, t_env *envs, int start, int end)
+// char	*get_right_cmd(t_env *envs, char *old_cmd)
+// {
+// 	int	i;
+// 	int	pos;
+// 	char	*new_cmd;
+// 	(void)envs;
+// 	int	single_quote;
+// 	int	double_quote;
+// 	int		start;
+// 	char	*key;
+
+// 	single_quote = 0;
+// 	double_quote = 0;
+// 	i = 0;
+// 	pos = 0;
+// 	new_cmd = (char *)malloc(sizeof(char) * (ft_strlen(old_cmd) + 1));
+// 	if (!new_cmd)
+// 		return (new_cmd);
+// 	while (old_cmd[i] != '\'' && old_cmd[i] != '"' && old_cmd[i])
+// 		new_cmd[pos++] = old_cmd[i++];
+// 	if (old_cmd[i] == '"')
+// 	{	
+// 		while (old_cmd[i])
+// 		{
+// 			while (old_cmd[i] == '"' && old_cmd[i])
+// 				i++;
+// 			while (ft_isspecial(old_cmd[i]) && old_cmd[i] != '"' && old_cmd[i])
+// 				new_cmd[pos++] = old_cmd[i++];
+// 			start = i;
+// 			while (!ft_isspecial(old_cmd[i]) && old_cmd[i])
+// 				i++;
+// 			key = ft_substr(old_cmd, start, i - start);
+// 			if (get_env_variable(envs, key))
+// 				new_cmd = ft_strjoin(new_cmd, get_env_variable(envs, key));
+// 			else
+// 				new_cmd = ft_strjoin(new_cmd, key);
+// 			pos = ft_strlen(new_cmd);
+// 		}
+// 	}
+// 		new_cmd[pos] = '\0';
+// 	return (new_cmd);
+// }
+
+
+t_command	*get_command(char **args, t_env *envs, int start, int end, int pid)
 {
 	t_command	*node;
 	int			ci;
@@ -176,7 +140,7 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
 	{
-		node->cmd[ci] = get_right_cmd(envs, args[start]);
+		node->cmd[ci] = expanding(envs, args[start], pid);
 		start++;
 		ci++;
 	}
@@ -208,7 +172,7 @@ void	printstrs(char **map)
 	puts("\n");
 }
 
-t_command	*split_cmds(char **args, t_env *envs)
+t_command	*split_cmds(char **args, t_env *envs, int pid)
 {
 	t_command	*input;
 	t_command *node;
@@ -224,7 +188,7 @@ t_command	*split_cmds(char **args, t_env *envs)
 		{
 			if (start < i)
 			{
-				node = get_command(args, envs, start, i);
+				node = get_command(args, envs, start, i, pid);
 				lstadd_back(&input, node);
 			}
 			i++;
@@ -235,8 +199,8 @@ t_command	*split_cmds(char **args, t_env *envs)
 	}
 	if (start < i)
 	{
-		node = get_command(args, envs, start, i);
+		node = get_command(args, envs, start, i, pid);
 		lstadd_back(&input, node);
 	}
-	return (input);
+	return (input); // $USER+
 }

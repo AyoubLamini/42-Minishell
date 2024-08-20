@@ -17,14 +17,16 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	char	prompt[100];
 	t_command *cmds;
 	t_env	*env_vars;
-	
+	int pid;
 	char 	*tmp;
 	char	**args;
 	snprintf(prompt, sizeof(prompt), ANSI_COLOR_BOLD_GREEN "minishell $> " ANSI_COLOR_CYAN);
-	env_vars = expanding(envp);
+	env_vars = full_envs(envp);
 	// print_envs(env_vars);
+	pid = getpid();
 	while ((input = readline(prompt)) != NULL)
 	{
+		
 		tmp = input;
 		add_history(tmp);
 		remove_spaces(&input);
@@ -37,7 +39,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		}
 		input = add_spaces(input);
 		args = split_args(input, ' ');
-		cmds = split_cmds(args, env_vars);
+		cmds = split_cmds(args, env_vars, pid);
 		//execute(cmds, &env_vars); //
 		// print_list(cmds);
 		execute(cmds, &env_vars); // I added this line

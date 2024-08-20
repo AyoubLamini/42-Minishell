@@ -11,9 +11,8 @@
 void execute(t_command *current, t_env **env_vars)
 {
     // exit(0);
-    t_exec file_d;
-    t_command *command; 
-    (void) env_vars;
+    t_exec      file_d;
+    t_command   *command; 
     // int i = 0;
     file_d.in = 0;
     file_d.out = 1;

@@ -75,7 +75,37 @@ void unset(t_command *cmds, t_env **env_vars)
         i++;
     }
 }
-// void exit(t_command *command)
-// {
-    
-// }
+static int ft_is_numeric(char *s)
+{
+    while (s)
+    {
+        if (!ft_isdigit(*s))
+            return (0);
+        s++;
+    }
+    return (1);
+}
+void exit_shell(t_command *command)
+{
+    if (!command->cmd[1])
+    {
+        printf("exit\n");
+        exit(0); // the exit status will be last command exit status
+    }
+    if (!ft_is_numeric(command->cmd[1])) // bash: exit: dwaf468: numeric argument required
+    {
+        printf("exit");
+        print_error("exit", command->cmd[1], "numeric argument required");
+        exit(255);
+    }
+    else if (command->cmd[2])
+    {
+        printf("exit");
+        print_error("exit", NULL, "too many arguments");
+    }
+    else
+    {
+        printf("exit");
+        exit(ft_atoi(command->cmd[1]));
+    }
+}

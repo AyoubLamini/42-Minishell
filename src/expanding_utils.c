@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/18 19:14:33 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/20 11:33:49 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,10 @@ int	my_strcmp(char *s1, char *s2)
 char	*get_env_variable(t_env *env, char *env_key)
 {
 	t_env	*tmp;
-	
 	tmp = env;
 	while (tmp)
 	{
-		if (env_key[0] == '$' && my_strcmp(tmp->key, env_key + 1) == 0)
+		if (my_strcmp(tmp->key, env_key) == 0)
 		{
 			return (tmp->value);
 		}

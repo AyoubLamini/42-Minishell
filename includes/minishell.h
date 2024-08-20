@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/16 11:01:11 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:22:40 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 
 #include <stdio.h>
 #include <unistd.h>
+
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../libft/libft.h"
+
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_BOLD_GREEN "\x1b[1;32m"
@@ -28,7 +30,7 @@
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
-
+#define PID getpid()
 
 typedef struct s_env {
 	char	*key;
@@ -50,7 +52,7 @@ void	remove_spaces(char **input);
 char	*add_spaces(char *input);
 char	**split_args(char *s, char c);
 void	ft_check_quotes(int *single_quote, int *double_quote, char c);
-t_command	*split_cmds(char **args, t_env *env_vars);
+t_command	*split_cmds(char **args, t_env *env_vars, int pid);
 void *ft_myfree(char **result, int index);
 int	ft_strslen(char **map);
 int	ft_strcmp(char *s1, char *s2);
@@ -70,7 +72,8 @@ void	free_strs(char **strs);
 void	free_envs(t_env *envs);
 
 //expanding
-t_env   *expanding(char **env);
+char	*expanding(t_env *envs, char *old_cmd, int pid);
+t_env   *full_envs(char **env);
 t_env	*new_variable(char *env_key, char *env_value);
 char	*get_env_variable(t_env *env, char *env_key);
 void	add_env_back(t_env **envs, t_env *new);
@@ -78,6 +81,9 @@ void 	delete_env(t_env **env, char *env_key);
 char 	*get_str(char *var, char *type);
 void	printstrs(char **map);
 void	print_envs(t_env *envs);
+char    **expanding_split(char *old_cmd, int pid);
+
+
 
 // execution
 void execute(t_command *command, t_env **env_vars);

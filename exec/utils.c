@@ -34,7 +34,7 @@ void print_error(char *cmd, char *path, char *error)
     if (path)
     {
     ft_putstr_fd(path, 2);
-    ft_putstr_fd(" ", 2);
+    ft_putstr_fd(": ", 2);
     }
     if (error)
         ft_putstr_fd(error, 2);

@@ -54,30 +54,6 @@ int echo(t_command *command)
     return (0);
 }
 
-int cd(t_command *command, t_env *env) // need to updated PWD and OLD_PWD
-{
-    int i;
-
-    i = 1;
-    if (!command->cmd[1])
-    {
-        if (chdir(get_env_value(env, "HOME")) == -1)
-            print_error("cd", get_env_value(env, "HOME"), strerror(errno));
-    }
-    else if (ex_strcmp(command->cmd[1], "-") == 0)
-    {
-        if (chdir(get_env_value(env, "OLDPWD")) == -1)
-            print_error("cd", get_env_value(env, "OLDPWD"), strerror(errno));
-        else
-            update_var(env, "OLDPWD", get_env_value(env, "OLDPWD"));
-    }
-    else
-    {
-        if (chdir(command->cmd[1]) == -1)
-            print_error("cd", command->cmd[1], strerror(errno));
-    }
-    return (0);
-}
 void env(t_env *env_vars)
 {
     while (env_vars)

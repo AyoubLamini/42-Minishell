@@ -11,6 +11,7 @@
 #include "../includes/minishell.h"
 #include <errno.h>
 #include <string.h>
+#include <limits.h>
 
 typedef struct s_exec
 {

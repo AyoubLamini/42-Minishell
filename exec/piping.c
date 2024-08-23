@@ -11,7 +11,6 @@ static int create_pipe(int *fd)
 }
 static int child_process(t_command *command, t_env **env, int *fd, int *input_fd)
 {
-    // (void)input_fd;
     if (*input_fd != 0) // If there is previous pipe
     {
         if (dup2(*input_fd, STDIN_FILENO) < 0) // read from stored previous pipe fd
@@ -32,6 +31,7 @@ static int child_process(t_command *command, t_env **env, int *fd, int *input_fd
     close(fd[0]); // Close the unused pipe ends
     close(fd[1]);
     check_command(command, env); // Execute the command
+    exit(0);
     return (0);
 }
 

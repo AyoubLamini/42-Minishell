@@ -28,8 +28,8 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	{
 		pid = getpid();
 		tmp = input;
-		add_history(tmp);
 		remove_spaces(&input);
+		// add_history(tmp);
 		if (check_syntax(input) == -1)
 		{
 			printf(ANSI_COLOR_RED "Syntax error\n");

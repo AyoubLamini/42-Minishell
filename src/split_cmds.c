@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/26 10:03:51 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:15:45 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void	printstrs(char **map)
 		return ;
 	while (map[i])
 	{
-		printf("%s\t", map[i]);
+		printf("%s\n", map[i]);
 		i++;
 	}
 	puts("\n");

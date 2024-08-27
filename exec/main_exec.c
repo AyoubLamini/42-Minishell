@@ -1,12 +1,12 @@
 #include "minishell_exec.h"
 
-// static void restore_original_fd(t_exec *file_d)
-// {
-//     if (file_d->out != 1)
-//         dup2(file_d->out, STDOUT_FILENO);
-//     if (file_d->in != 0)
-//         dup2(file_d->in, STDIN_FILENO);
-// }
+static void restore_original_fd(t_exec *file_d)
+{
+    if (file_d->out != 1)
+        dup2(file_d->out, STDOUT_FILENO);
+    if (file_d->in != 0)
+        dup2(file_d->in, STDIN_FILENO);
+}
 
 static int is_builtin(char *cmd)
 {
@@ -38,15 +38,15 @@ void execute(t_command *current, t_env **env_vars)
         return ;
     while (command)
     {
-        // if (current->redirection[0])
-        //     handle_redirection(current, &file_d);
-        if (is_builtin(command->cmd[0]) && !command->next) // cd -
+        if (command->redirection[0])
+            handle_redirection(current, &file_d);
+        if (is_builtin(command->cmd[0]) && !command->next) 
             check_command(command, env_vars);
         else
-            piping(command, env_vars, &input_fd);
+            piping(command, env_vars, &input_fd, &file_d);
         command = command->next;
+        restore_original_fd(&file_d);
     }
-    // restore_original_fd(&file_d);
 }
            
    

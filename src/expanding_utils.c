@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/20 11:33:49 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/25 15:59:19 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char *get_key(char *str) // Hello=Friend  a+=  a     a=
 	return (key);
 }
 
-static char *get_value(char *str) // str = a
+static char *get_value(char *str)  // OLDPWD   | OLDPWD=  | OLDPWD=hello
 {
 	char	*value;
 	int 	i;
@@ -71,18 +71,18 @@ static char *get_value(char *str) // str = a
 	value = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
 	if (!value)
 		return (NULL);
-	while (str[j] && str[j] != '=')
+	while (str[j] && str[j] != '=') // skip the key
 			j++;
-	j++;
-	while (str[j])
+	if (str[j] != '=') // if no seperator after key
+		return (free(value), NULL);
+	j++; // skip '=' 
+	while (str[j]) // fill the value
 	{
 		value[i] = str[j]; 
 		i++;
 		j++;
 	}
 	value[i] = '\0';
-	if (i == 0 && str[j-1] != '=')
-		return (free(value), NULL);
 	return (value);
 }
 

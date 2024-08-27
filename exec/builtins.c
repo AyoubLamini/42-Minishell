@@ -58,8 +58,11 @@ void env(t_env *env_vars)
 {
     while (env_vars)
     {
-        printf("%s=", env_vars->key);
-        printf("%s\n", env_vars->value);
+        if (get_env_value(env_vars, env_vars->key))
+        {
+            printf("%s=", env_vars->key);
+            printf("%s\n", env_vars->value);
+        }
         env_vars = env_vars->next;
     }
     // printf("_=/usr/bin/env\n");

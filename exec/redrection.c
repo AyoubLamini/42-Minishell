@@ -66,7 +66,6 @@ int handle_redirection(t_command *command, t_exec *file_d)
     i = 0;
     while (command->redirection[i])
     {
-        // there is a problem here must be handled 
         if (ex_strcmp(command->redirection[i], ">") == 0)
             std_out(command, i + 1, file_d);
         else if (ex_strcmp(command->redirection[i], ">>") == 0)

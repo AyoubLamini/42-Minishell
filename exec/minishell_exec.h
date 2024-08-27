@@ -52,7 +52,7 @@ void    exit_shell(t_command *command);
 // redirections 
 int handle_redirection(t_command *command, t_exec *file_d);
 // piping 
-void piping(t_command *command, t_env **env_vars, int *id);
+void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d);
 
 
 #endif

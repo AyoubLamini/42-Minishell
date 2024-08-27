@@ -23,7 +23,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	snprintf(prompt, sizeof(prompt), ANSI_COLOR_BOLD_GREEN "minishell $> " ANSI_COLOR_CYAN);
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
-	
 	while ((input = readline(prompt)) != NULL)
 	{
 		pid = getpid();

@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/25 15:59:37 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/27 12:22:01 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*expanding(t_env *envs, char *old_cmd, int pid)
 	while (old_cmd[i] != '\'' && old_cmd[i] != '"' && old_cmd[i])
 		new_cmd[pos++] = old_cmd[i++];
 	if (old_cmd[i] == '"')
-	{	
+	{
 		while (old_cmd[i])
 		{
 			while (old_cmd[i] == '"' && old_cmd[i])
@@ -90,7 +90,7 @@ char	*expanding(t_env *envs, char *old_cmd, int pid)
 			{
 				i++;
 				start = 1;
-				if (old_cmd[i] != '$' && !ft_isalnum(old_cmd[i]))
+				if ((old_cmd[i] != '$' && !ft_isalnum(old_cmd[i])) || old_cmd[i] == '\0')
 					new_cmd[pos++] = '$';
 				while (old_cmd[i] == '$')
 				{
@@ -110,12 +110,15 @@ char	*expanding(t_env *envs, char *old_cmd, int pid)
 				else
 				{
 					start = start / 2;
-					while (start)
+					printf("start: %d\n", start);
+					while (start >= 1)
 					{
 						new_cmd = ft_strjoin(new_cmd, ft_itoa(pid));
 						start--;
-						pos = ft_strlen(new_cmd);	
+						pos = ft_strlen(new_cmd);
 					}
+					if (!ft_isalpha(old_cmd[i]))
+						new_cmd[pos++] = '$';
 					start = i;
 					while (ft_isalnum(old_cmd[i]) && old_cmd[i])
 						i++;

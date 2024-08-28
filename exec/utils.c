@@ -63,3 +63,15 @@ int ft_is_numeric(char *s)
     }
     return (1);
 }
+int occur_alpha(char *str, int c)
+{
+    int i;
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == c)
+            return (1);
+        i++;
+    }
+    return (0);
+}

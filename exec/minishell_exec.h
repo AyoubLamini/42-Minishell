@@ -12,6 +12,7 @@
 #include <errno.h>
 #include <string.h>
 #include <limits.h>
+#include <sys/stat.h>
 
 typedef struct s_exec
 {
@@ -31,6 +32,8 @@ void    print_double_pointer(char **double_ptr);
 void	ex_putstr_fd(char *s, int fd);
 void    print_error(char *cmd, char *path, char *error);
 int	    ft_strstr(char *haystack, char *needle);
+int     ft_is_numeric(char *s);
+int     occur_alpha(char *str, int c);
 // list utils
 t_env   *env_vars_copy(t_env **env_vars);
 int	    list_size(t_env *lst);
@@ -38,6 +41,7 @@ void    sort_vars(t_env **env_vars);
 void	update_var(t_env *env, char *env_key, char *new_value);
 char	*get_env_value(t_env *env, char *env_key);
 char	*get_env_key(t_env *env, char *env_key);
+char    **envp_array(t_env *vars);
 
 // other utils
 void exit_status(int status, t_path *path);
@@ -52,7 +56,7 @@ int     echo(t_command *command);
 int     env(t_env *env_vars);
 int     export(t_command *cmds, t_env **env_vars);
 int     unset(t_command *cmds, t_env **env_vars);
-void    exit_shell(t_command *command);
+void    exit_shell(t_command *command, t_path *path);
 // redirections 
 int handle_redirection(t_command *command, t_exec *file_d);
 // piping 

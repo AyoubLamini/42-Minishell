@@ -97,7 +97,7 @@ void exit_shell(t_command *command, t_path *path)
     {
         ft_putstr_fd("exit\n", 1);
         print_error("exit", NULL, "too many arguments");
-        exit_status(1);
+        exit_status(1, path);
     }
     else
     {

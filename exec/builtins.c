@@ -23,7 +23,6 @@ static int is_valid_option(char *str)
 
 int echo(t_command *command)
 {
-    
     int is_valid;
     int new_line;
     int i;
@@ -54,7 +53,7 @@ int echo(t_command *command)
     return (0);
 }
 
-void env(t_env *env_vars)
+int env(t_env *env_vars)
 {
     while (env_vars)
     {
@@ -65,10 +64,11 @@ void env(t_env *env_vars)
         }
         env_vars = env_vars->next;
     }
+    return (0);
     // printf("_=/usr/bin/env\n");
 }
 
-void unset(t_command *cmds, t_env **env_vars)
+int  unset(t_command *cmds, t_env **env_vars)
 {
     int i;
     i = 1;
@@ -77,26 +77,15 @@ void unset(t_command *cmds, t_env **env_vars)
         delete_env(env_vars, cmds->cmd[i]);
         i++;
     }
+    return (0);
 }
-static int ft_is_numeric(char *s)
-{
-    int i;
 
-    i = 0;
-    while (s[i])
-    {
-        if (!ft_isdigit(s[i]))
-            return (0);
-        i++;
-    }
-    return (1);
-}
-void exit_shell(t_command *command)
+void exit_shell(t_command *command, t_path *path)
 {
     if (!command->cmd[1])
     {
         printf("exit\n");
-        exit(0); // the exit status will be last command exit status
+        exit(path->exit_status); // the exit status will be last command exit status
     }
     if (!ft_is_numeric(command->cmd[1])) // bash: exit: dwaf468: numeric argument required
     {
@@ -108,6 +97,7 @@ void exit_shell(t_command *command)
     {
         ft_putstr_fd("exit\n", 1);
         print_error("exit", NULL, "too many arguments");
+        exit_status(1, path);
     }
     else
     {

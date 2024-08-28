@@ -28,6 +28,9 @@ void execute(t_command *current, t_env **env_vars)
 {
     t_exec      file_d;
     t_command   *command; 
+    t_path path;
+
+    path.exit_status = 0;
     file_d.in = 0;
     file_d.out = 1;
     int input_fd;
@@ -41,9 +44,9 @@ void execute(t_command *current, t_env **env_vars)
         if (command->redirection[0])
             handle_redirection(current, &file_d);
         if (is_builtin(command->cmd[0]) && !command->next) 
-            check_command(command, env_vars);
+            check_command(command, env_vars, &path);
         else
-            piping(command, env_vars, &input_fd, &file_d);
+            piping(command, env_vars, &input_fd, &file_d, &path);
         command = command->next;
         restore_original_fd(&file_d);
     }

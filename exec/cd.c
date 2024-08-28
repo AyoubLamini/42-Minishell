@@ -18,10 +18,10 @@ int exec_cd(t_env *env, char *var, int check)
     if (!path)
         return (print_error("cd", var, "not set"), 1); // if path not set
     if (chdir(path) == -1)
-        return (print_error("cd", path, strerror(errno)), 1);
+        return (print_error("cd", path, strerror(errno)), errno);
     else
     {
-        if (get_env_key(env ,"OLDPWD"))
+        if (get_env_key(env, "OLDPWD"))
             update_var(env, "OLDPWD", old_wd);
         else
             add_env_back(&env, new_variable(ft_strdup("OLDPWD"), old_wd));
@@ -37,7 +37,6 @@ int exec_cd(t_env *env, char *var, int check)
 
 int cd(t_command *command, t_env *env) // need to updated PWD and OLD_PWD
 {
-   
     if (!command->cmd[1] || ex_strcmp(command->cmd[1], "~") == 0)
     {
         if (exec_cd(env, "HOME", 0))

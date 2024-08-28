@@ -102,3 +102,24 @@ char	*get_env_key(t_env *env, char *env_key) // added this function
 	}
 	return (NULL);
 }
+char **envp_array(t_env *vars)
+{
+    t_env *tmp;
+    char **envp;
+    int i;
+    char *str;
+
+    i = 0;
+    tmp = vars;
+    envp = (char **)malloc(sizeof(char *) * (list_size(tmp) + 1));
+    while (tmp)
+    {
+        str = ft_strjoin("=", tmp->value);
+        envp[i] = ft_strjoin(tmp->key, str);
+        i++;
+        free(str);
+        tmp = tmp->next;
+    }
+    envp[i] = NULL;
+    return (envp);
+}

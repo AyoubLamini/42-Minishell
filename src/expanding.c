@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/28 03:46:41 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/28 21:53:47 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,103 +134,6 @@ char	*double_quotes(t_env *envs, char *str, int pid)
 	return (res);
 }
 
-// char	*double_quotes_process(t_env *envs, char *old_cmd, char *new_cmd, int pid, int i)
-// {
-// 	int		start;
-// 	int		pos;
-// 	char	*key;
-// 	int		double_quote;
-// 	int		single_quote;
-
-
-
-// 	single_quote = 0;
-// 	double_quote = 0;
-// 	pos = 0;
-// 	int	last_quote;
-// 	printf("here\n");
-// 	last_quote = get_last_quote_pos(old_cmd);
-// 	while (old_cmd[i])
-// 	{
-// 		ft_check_quotes(&single_quote, &double_quote, old_cmd[i]);
-// 		while (old_cmd[i] == '"' && old_cmd[i])
-// 			i++;
-// 		while (old_cmd[i] != '$' && old_cmd[i])
-// 		{
-// 			if (old_cmd[i] == '\'' && i < last_quote)
-// 				new_cmd[pos++] = old_cmd[i];
-// 			else if (old_cmd[i] != '"')
-// 				new_cmd[pos++] = old_cmd[i];
-// 				i++;
-// 		}
-// 		if (old_cmd[i] == '$')
-// 		{
-// 			i++;
-// 			start = 1;
-// 			if ((old_cmd[i] != '$' && !ft_isalnum(old_cmd[i])) || old_cmd[i] == '\0')
-// 				new_cmd[pos++] = '$';
-// 			while (old_cmd[i] == '$')
-// 			{
-// 				start++;
-// 				i++;
-// 			}
-// 			if (start % 2 == 0)
-// 			{
-// 				start = start / 2;
-// 				while (start)
-// 				{
-// 					new_cmd = ft_strjoin(new_cmd, ft_itoa(pid));
-// 					start--;
-// 					pos = ft_strlen(new_cmd);
-// 				}
-// 			}
-// 			else
-// 			{
-// 				start = start / 2;
-// 				while (start >= 1)
-// 				{
-// 					new_cmd = ft_strjoin(new_cmd, ft_itoa(pid));
-// 					start--;
-// 					pos = ft_strlen(new_cmd);
-// 				}
-// 				if (!ft_isalpha(old_cmd[i]))
-// 					new_cmd[pos++] = '$';
-// 				start = i;
-// 				while (ft_isalnum(old_cmd[i]) && old_cmd[i])
-// 					i++;
-// 				key = ft_substr(old_cmd, start, i - start);
-// 				if (get_env_variable(envs, key))
-// 					new_cmd = ft_strjoin(new_cmd, get_env_variable(envs, key));
-// 			}
-// 				pos = ft_strlen(new_cmd);
-// 		}
-// 	}
-// 	new_cmd[pos] = '\0';
-// 	return (new_cmd);
-// }
-
-// char	*expanding(t_env *envs, char *old_cmd, int pid)
-// {
-// 	int		i;
-// 	int		pos;
-// 	char	*new_cmd;
-	
-// 	pos  = 0;
-// 	pid = getpid();
-// 	i = 0;
-// 	char **key;
-// 		key = expanding_split(old_cmd);
-
-// 	new_cmd = (char *)malloc(sizeof(char) * ((ft_strlen(old_cmd) * 5) + 1));
-// 	if (!new_cmd)
-// 		return (new_cmd);
-// 	if (check_quotes_existed(old_cmd) == 1)
-// 		new_cmd[pos] = '\0';
-// 	else
-// 		return (double_quotes_process(envs, old_cmd, new_cmd, pid, i));
-// 	return (new_cmd);
-// }
-
 char	*single_quotes_process(char *str)
 {
 	int		i;
@@ -264,7 +167,7 @@ int	check_is_joinable(char **cmd, int index)
 				nbr++;
 				i++;
 			}
-			if (nbr % 2 != 0 && cmd[index][i + 1] == '\0' && (cmd[index + 1][0] == '"' || cmd[index + 1][0] == '\''))
+			if (nbr % 2 != 0 && cmd[index][i] == '\0' && (cmd[index + 1][0] == '"' || cmd[index + 1][0] == '\''))
 				return (1);
 		}
 		else
@@ -291,6 +194,7 @@ char	*expanding(t_env *envs, char *old_cmd, int pid)
 			tmp = single_quotes_process(cmd[i]);
 		else
 		{
+
 			if (check_is_joinable(cmd, i))
 			{
 				cmd[i][ft_strlen(cmd[i]) - 1] = '\0';

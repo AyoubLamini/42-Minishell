@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/26 10:03:51 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/28 03:11:02 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,13 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, int pid)
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
 	{
 		node->cmd[ci] = expanding(envs, args[start], pid);
-		start++;
 		ci++;
+		start++;
 	}
 	node->cmd[ci] = NULL;
 	while (start < end)
 	{
-		node->redirection[ri] = ft_strdup(args[start]);
+		node->redirection[ri] = expanding(envs, args[start], pid);
 		start++;
 		ri++;
 	}
@@ -166,7 +166,7 @@ void	printstrs(char **map)
 		return ;
 	while (map[i])
 	{
-		printf("%s\t", map[i]);
+		printf("%s\n", map[i]);
 		i++;
 	}
 	puts("\n");
@@ -202,5 +202,5 @@ t_command	*split_cmds(char **args, t_env *envs, int pid)
 		node = get_command(args, envs, start, i, pid);
 		lstadd_back(&input, node);
 	}
-	return (input); // $USER+
+	return (input);
 }

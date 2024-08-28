@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/08/27 12:27:26 by alamini          ###   ########.fr       */
+=======
+/*   Updated: 2024/08/28 03:26:07 by ybouyzem         ###   ########.fr       */
+>>>>>>> 6220da4e5d5fbccd3f5c197c3c7a16e5d6680b9c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +47,7 @@ typedef struct s_command {
 	char    **redirection;
 	struct s_command *next;
 } t_command;
+
 typedef struct s_path
 {
 	int exit_status;
@@ -86,7 +91,12 @@ void 	delete_env(t_env **env, char *env_key);
 char 	*get_str(char *var, char *type);
 void	printstrs(char **map);
 void	print_envs(t_env *envs);
+<<<<<<< HEAD
 char    **expanding_split(char *old_cmd, int pid);
+=======
+char    **expanding_split(char  *old_cmd);
+
+>>>>>>> 6220da4e5d5fbccd3f5c197c3c7a16e5d6680b9c
 
 // execution
 void execute(t_command *command, t_env **env_vars);

@@ -26,15 +26,11 @@ int exec_cd(t_env *env, char *var, int check)
         else
             add_env_back(&env, new_variable(ft_strdup("OLDPWD"), old_wd));
         getcwd(cwd, PATH_MAX);
-<<<<<<< HEAD
-        update_var(env, "PWD", cwd);
-=======
         if (get_env_key(env ,"PWD"))
             update_var(env, "PWD", cwd);
         else
             add_env_back(&env, new_variable(ft_strdup("PWD"), cwd));
         return (0);
->>>>>>> 6220da4e5d5fbccd3f5c197c3c7a16e5d6680b9c
     }
     return (0);
 }

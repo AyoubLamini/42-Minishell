@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		pid = getpid();
 		tmp = input;
 		remove_spaces(&input);
-		// add_history(tmp);
+		add_history(tmp);
 		if (check_syntax(input) == -1)
 		{
 			printf(ANSI_COLOR_RED "Syntax error\n");

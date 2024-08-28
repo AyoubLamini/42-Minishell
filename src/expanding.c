@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/28 00:08:28 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/28 03:46:41 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,32 @@ char	*single_quotes_process(char *str)
 	return (res);
 }
 
+int	check_is_joinable(char **cmd, int index)
+{
+	int	i;
+	int	nbr;
+	
+	i = 0;
+	while (cmd[index][i])
+	{
+		if (cmd[index][i] == '$')
+		{
+			i++;
+			nbr = 1;
+			while (cmd[index][i] && cmd[index][i] == '$')
+			{
+				nbr++;
+				i++;
+			}
+			if (nbr % 2 != 0 && cmd[index][i + 1] == '\0' && (cmd[index + 1][0] == '"' || cmd[index + 1][0] == '\''))
+				return (1);
+		}
+		else
+			i++;
+	}
+	return (0);
+}
+
 char	*expanding(t_env *envs, char *old_cmd, int pid)
 {
 	char	**cmd;
@@ -265,10 +291,11 @@ char	*expanding(t_env *envs, char *old_cmd, int pid)
 			tmp = single_quotes_process(cmd[i]);
 		else
 		{
-			if (cmd[i][0] == '"')
-				tmp = double_quotes(envs, cmd[i], pid);
-			else
-				tmp = double_quotes(envs, cmd[i], pid);	
+			if (check_is_joinable(cmd, i))
+			{
+				cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
+			}
+			tmp = double_quotes(envs, cmd[i], pid);	
 		}
 		new_cmd = ft_strjoin(new_cmd, tmp);
 		i++;

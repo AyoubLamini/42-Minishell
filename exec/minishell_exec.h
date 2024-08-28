@@ -38,21 +38,25 @@ void    sort_vars(t_env **env_vars);
 void	update_var(t_env *env, char *env_key, char *new_value);
 char	*get_env_value(t_env *env, char *env_key);
 char	*get_env_key(t_env *env, char *env_key);
+
+// other utils
+void exit_status(int status, t_path *path);
+
 // comannds 
-void check_command(t_command *command, t_env **env_vars);
+void check_command(t_command *command, t_env **env_vars, t_path *path);
 
 
 // builtins
 int     cd(t_command *command, t_env *env_vars);
 int     echo(t_command *command);
-void    env(t_env *env_vars);
-void    export(t_command *cmds, t_env **env_vars);
-void    unset(t_command *cmds, t_env **env_vars);
+int     env(t_env *env_vars);
+int     export(t_command *cmds, t_env **env_vars);
+int     unset(t_command *cmds, t_env **env_vars);
 void    exit_shell(t_command *command);
 // redirections 
 int handle_redirection(t_command *command, t_exec *file_d);
 // piping 
-void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d);
+void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d, t_path *path);
 
 
 #endif

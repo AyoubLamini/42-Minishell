@@ -50,3 +50,16 @@ void	ex_putstr_fd(char *s, int fd)
 	while (s[i])
 		write(fd, &s[i++], 1);
 }
+int ft_is_numeric(char *s)
+{
+    int i;
+
+    i = 0;
+    while (s[i])
+    {
+        if (!ft_isdigit(s[i]))
+            return (0);
+        i++;
+    }
+    return (1);
+}

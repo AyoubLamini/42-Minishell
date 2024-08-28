@@ -1,5 +1,5 @@
 #include "minishell_exec.h"
-static void commands(t_command *command, char** envp)
+static void commands(t_command *command, char** envp, t_path *path)
 {
     char **ptr;
     int i;
@@ -24,7 +24,8 @@ static void commands(t_command *command, char** envp)
         i++;
     }
     print_error(command->cmd[0], NULL, "command not found");
-    exit(1);
+    exit_status(127, path);
+    exit(path->exit_status);
 }
 static char **envp_array(t_env *vars)
 {
@@ -47,21 +48,21 @@ static char **envp_array(t_env *vars)
     envp[i] = NULL;
     return (envp);
 }
-void check_command(t_command *command, t_env **env_vars)
+void check_command(t_command *command, t_env **env_vars, t_path *path)
 {
     if (ex_strcmp("cd", command->cmd[0]) == 0)
-        cd(command, *env_vars);
+        exit_status(cd(command, *env_vars), path); // exit( ,path)
     else if (ex_strcmp("echo", command->cmd[0]) == 0)
-        echo(command);
+        exit_status(echo(command), path);
     else if (ex_strcmp("export", command->cmd[0]) == 0)
-        export(command, env_vars);
+        exit_status(export(command, env_vars), path);
     else if (ex_strcmp("env", command->cmd[0]) == 0)
-        env(*env_vars);
+        exit_status(env(*env_vars), path);
     else if (ex_strcmp("unset", command->cmd[0]) == 0)
-        unset(command, env_vars);
+        exits_status(unset(command, env_vars), path);
     else if (ex_strcmp("exit", command->cmd[0]) == 0)
-        exit_shell(command);
+        exit_shell(command, path);
     else
-       commands(command, envp_array(*env_vars));
+       commands(command, envp_array(*env_vars), path);
 }
 

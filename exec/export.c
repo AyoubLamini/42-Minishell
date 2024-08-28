@@ -49,7 +49,7 @@ void update_key(char *cmd, t_env **env)
                 get_str(cmd, "value"));
     } 
 }
-void export(t_command *cmds, t_env **env)
+int export(t_command *cmds, t_env **env)
 {
     int i;
 
@@ -59,7 +59,10 @@ void export(t_command *cmds, t_env **env)
         while (cmds->cmd[i])
         {
             if (export_syntax(get_str(cmds->cmd[i], "key"))) // check key syntax
+            {
                 print_error("export", cmds->cmd[i], ":not a valid identifier");
+                return (1);
+            }
             else if (get_env_key(*env, get_str(cmds->cmd[i], "key"))) // if key alrdy existing
                 update_key(cmds->cmd[i], env);
             else // new variable mode
@@ -73,4 +76,5 @@ void export(t_command *cmds, t_env **env)
     }
     else
         export_display(env);
+    return (0);
 }

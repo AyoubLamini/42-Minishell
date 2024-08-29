@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/29 06:09:05 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/29 06:54:55 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,9 +167,11 @@ int	check_is_joinable(char **cmd, int index)
 				nbr++;
 				i++;
 			}
-			//printf("c : %c\n", cmd[index + 1][0]);
-			if (nbr % 2 != 0 && cmd[index][i] == '\0' && (cmd[index + 1][0] == '"' || cmd[index + 1][0] == '\''))
-				return (1);
+			if (cmd[index + 1] != NULL)
+			{
+				if (nbr % 2 != 0 && cmd[index][i] == '\0' && (cmd[index + 1][0] == '"' || cmd[index + 1][0] == '\''))
+					return (1);	
+			}
 		}
 		else
 			i++;
@@ -199,7 +201,7 @@ int	check_will_splited(char **old_cmd)
 			check = 1;
 		i++;
 	}
-	if (check)
+	if (check == 1)
 		return (1);
 	return (0);
 }
@@ -278,22 +280,28 @@ char	**expanding_cmd(t_env *envs, char *old_cmd)
 		else
 		{
 			if (check_is_joinable(cmd, i))
-				cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
+			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
+			
 			tmp = double_quotes(envs, cmd[i]);
 		}
 
 		new_cmd = ft_strjoin(new_cmd, tmp);
 		i++;
-		printf("yes\n");
 	}
 	new_cmd = ft_strjoin(new_cmd, "\0");
 	//printf("new_cmd: %s\n", new_cmd);
-
+	// if (new_cmd[0] == '\0')
+	// {
+	// 	res = (char **)malloc(sizeof(char *) * 2);
+	// 	if (!res)
+	// 		return (NULL);
+	// 	res[0] = "";
+	// 	res[1] = NULL;
+	// 	printstrs(res);
+	// 	return (res);
+	// }
 	if (check_will_splited(cmd))
-	{
-		//printf("yes\n");
 		res = ft_split(new_cmd, ' ');
-	}
 	else
 	{
 		res = (char **)malloc(sizeof(char *) * 2);

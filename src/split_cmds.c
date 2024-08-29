@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/29 05:39:39 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/29 06:45:54 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,11 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 	{
 		j = 0;
 		tmp = expanding_cmd(envs, args[start]);
-		while (tmp[j])
+		if (tmp)
+		{
+			while (tmp[j])
 			node->cmd[ci++] = tmp[j++];
+		}
 		start++;
 	}
 	node->cmd[ci] = NULL;
@@ -170,10 +173,9 @@ void	printstrs(char **map)
 		return ;
 	while (map[i])
 	{
-		printf("%s\n", map[i]);
+		printf("|%s|\n", map[i]);
 		i++;
 	}
-	puts("\n");
 }
 
 t_command	*split_cmds(char **args, t_env *envs)

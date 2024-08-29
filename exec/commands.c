@@ -41,7 +41,7 @@ static void commands(t_command *command, t_env **env, char **envp, t_path *path)
 
     if (command->cmd[0] == NULL || ex_strlen(command->cmd[0]) == 0)
     {
-        print_error(command->cmd[0], command->cmd[0], "command not found");
+        print_error(command->cmd[0], NULL, "command not found"); //
         exit_status(127, path);
         exit(path->exit_status);
     }

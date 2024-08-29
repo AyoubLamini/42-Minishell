@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/28 21:53:47 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/29 06:09:05 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	get_last_quote_pos(char	*old_cmd)
 	return (len);
 }
 
-char	*double_quotes(t_env *envs, char *str, int pid)
+char	*double_quotes(t_env *envs, char *str)
 {
 	int		i;
 	char	*res;
@@ -92,7 +92,7 @@ char	*double_quotes(t_env *envs, char *str, int pid)
 		{
 			i++;
 			start = 1;
-			while (str[i] == '$')
+			while (str[i] == '$' && str[i])
 			{
 				start++;
 				i++;
@@ -102,7 +102,7 @@ char	*double_quotes(t_env *envs, char *str, int pid)
 				start = start / 2;
 				while (start)
 				{
-					res = ft_strjoin(res, ft_itoa(pid));
+					res = ft_strjoin(res, "$");
 					start--;
 				}
 			}
@@ -111,21 +111,21 @@ char	*double_quotes(t_env *envs, char *str, int pid)
 				start = start / 2;
 				while (start >= 1)
 				{
-					res = ft_strjoin(res, ft_itoa(pid));
+					res = ft_strjoin(res, "$");
 					start--;
 				}
 				if (ft_isdigit(str[i]))
 					i++;
 				else
 				{
-				if (!ft_isalpha(str[i]))
-					res = ft_strjoin(res, "$");
-				start = i;
-				while (ft_isalnum(str[i]) && str[i])
-					i++;
-				key = ft_substr(str, start, i - start);
-				if (get_env_variable(envs, key))
-					res = ft_strjoin(res, get_env_variable(envs, key));
+					if (!ft_isalpha(str[i]))
+						res = ft_strjoin(res, "$");
+					start = i;
+					while (ft_isalnum(str[i]) && str[i])
+						i++;
+					key = ft_substr(str, start, i - start);
+					if (get_env_variable(envs, key))
+						res = ft_strjoin(res, get_env_variable(envs, key));
 				}
 			}
 		}
@@ -167,6 +167,7 @@ int	check_is_joinable(char **cmd, int index)
 				nbr++;
 				i++;
 			}
+			//printf("c : %c\n", cmd[index + 1][0]);
 			if (nbr % 2 != 0 && cmd[index][i] == '\0' && (cmd[index + 1][0] == '"' || cmd[index + 1][0] == '\''))
 				return (1);
 		}
@@ -176,7 +177,135 @@ int	check_is_joinable(char **cmd, int index)
 	return (0);
 }
 
-char	*expanding(t_env *envs, char *old_cmd, int pid)
+int	check_will_splited(char **old_cmd)
+{
+	int	i;
+	int	j;
+	int	check;
+
+	check = 0;
+	j = 0;
+	i = 0;
+	while (old_cmd[i])
+	{
+		if (old_cmd[i][0] == '"' || old_cmd[i][0] == '\'')
+			return (0);
+		i++;
+	}
+	i = 0;
+	while (old_cmd[0][i])
+	{
+		if (old_cmd[0][i] == '$' && ft_isalpha(old_cmd[0][i + 1]))
+			check = 1;
+		i++;
+	}
+	if (check)
+		return (1);
+	return (0);
+}
+
+// int	count_cmd_split_words(char *new_cmd)
+// {
+// 	int	i;
+// 	int	nbr;
+
+// 	nbr = 0;
+// 	i = 0;
+// 	while (new_cmd[i])
+// 	{
+// 		while (ft_isspace(new_cmd[i]) && new_cmd[i])
+// 			i++;
+// 		if (new_cmd[i] != '\0')
+// 			nbr++;
+// 		while (!ft_isspace(new_cmd[i]) && new_cmd[i])
+// 			i++;
+// 	}
+// 	return (nbr);
+// }
+
+// char	**cmd_split(char *new_cmd)
+// {
+// 	int		i;
+// 	char	**res;
+// 	int		start;
+// 	char	*tmp;
+// 	int		index;
+// 	start = 0;
+// 	index = 0;
+// 	i = 0;
+// 	// printf("lw: %d\n", count_cmd_split_words(new_cmd));
+// 	res = (char **)malloc(sizeof(char *) * (count_cmd_split_words(new_cmd) + 1));
+// 	if (!res)
+// 		return (NULL);
+// 	while (new_cmd[i])
+// 	{
+		
+// 		while (ft_isspace(new_cmd[i]) && new_cmd[i])
+// 			i++;
+// 		if (new_cmd[i] != '\0')
+// 		{
+// 			tmp = ft_substr(new_cmd, start, i - start);
+// 			res[index++] = tmp;
+// 		}
+// 		while (ft_isspace(new_cmd[i]) && new_cmd[i])
+// 			i++;
+// 	}
+// 	res[index] = NULL;
+// //	printstrs(res);
+// 	return (res);
+// }
+
+char	**expanding_cmd(t_env *envs, char *old_cmd)
+{
+	char	**cmd;
+	char	*new_cmd;
+	char	*tmp;
+	char	**res;
+	int		i;
+	int		j;
+
+	j = 0;
+	tmp = NULL;
+	new_cmd = NULL;
+	i = 0;
+	cmd = expanding_split(old_cmd);
+	while (cmd[i])
+	{
+		if (cmd[i][0] == '\'')
+		{
+			tmp = single_quotes_process(cmd[i]);
+		}
+		else
+		{
+			if (check_is_joinable(cmd, i))
+				cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
+			tmp = double_quotes(envs, cmd[i]);
+		}
+
+		new_cmd = ft_strjoin(new_cmd, tmp);
+		i++;
+		printf("yes\n");
+	}
+	new_cmd = ft_strjoin(new_cmd, "\0");
+	//printf("new_cmd: %s\n", new_cmd);
+
+	if (check_will_splited(cmd))
+	{
+		//printf("yes\n");
+		res = ft_split(new_cmd, ' ');
+	}
+	else
+	{
+		res = (char **)malloc(sizeof(char *) * 2);
+		if (!res)
+			return (NULL);
+		res[0] = new_cmd;
+		res[1] = NULL;
+	}
+	return (res);
+}
+
+char	*expanding_red(t_env *envs, char *old_cmd)
 {
 	char	**cmd;
 	char	*new_cmd;
@@ -189,17 +318,13 @@ char	*expanding(t_env *envs, char *old_cmd, int pid)
 	cmd = expanding_split(old_cmd);
 	while (cmd[i])
 	{
-		
 		if (cmd[i][0] == '\'')	
 			tmp = single_quotes_process(cmd[i]);
 		else
 		{
-
 			if (check_is_joinable(cmd, i))
-			{
 				cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
-			}
-			tmp = double_quotes(envs, cmd[i], pid);	
+			tmp = double_quotes(envs, cmd[i]);
 		}
 		new_cmd = ft_strjoin(new_cmd, tmp);
 		i++;

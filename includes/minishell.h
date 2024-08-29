@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/28 14:51:45 by alamini          ###   ########.fr       */
+/*   Updated: 2024/08/29 05:39:21 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_env {
 
 typedef struct s_command {
 	char    **cmd;
+	
 	char    **redirection;
 	struct s_command *next;
 } t_command;
@@ -58,7 +59,7 @@ void	remove_spaces(char **input);
 char	*add_spaces(char *input);
 char	**split_args(char *s, char c);
 void	ft_check_quotes(int *single_quote, int *double_quote, char c);
-t_command	*split_cmds(char **args, t_env *env_vars, int pid);
+t_command	*split_cmds(char **args, t_env *env_vars);
 void *ft_myfree(char **result, int index);
 int	ft_strslen(char **map);
 int	ft_strcmp(char *s1, char *s2);
@@ -78,7 +79,8 @@ void	free_strs(char **strs);
 void	free_envs(t_env *envs);
 
 //expanding
-char	*expanding(t_env *envs, char *old_cmd, int pid);
+char	**expanding_cmd(t_env *envs, char *old_cmd);
+char	*expanding_red(t_env *envs, char *old_cmd);
 t_env   *full_envs(char **env);
 t_env	*new_variable(char *env_key, char *env_value);
 char	*get_env_variable(t_env *env, char *env_key);

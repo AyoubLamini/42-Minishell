@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/28 03:11:02 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/08/29 05:39:39 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,13 @@ t_command	*allocate_node(char **args, int start, int end)
 // }
 
 
-t_command	*get_command(char **args, t_env *envs, int start, int end, int pid)
+t_command	*get_command(char **args, t_env *envs, int start, int end)
 {
 	t_command	*node;
 	int			ci;
 	int			ri;
+	char		**tmp;
+	int			j;
 
 	ci = 0;
 	ri = 0;
@@ -140,14 +142,16 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, int pid)
 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
 	{
-		node->cmd[ci] = expanding(envs, args[start], pid);
-		ci++;
+		j = 0;
+		tmp = expanding_cmd(envs, args[start]);
+		while (tmp[j])
+			node->cmd[ci++] = tmp[j++];
 		start++;
 	}
 	node->cmd[ci] = NULL;
 	while (start < end)
 	{
-		node->redirection[ri] = expanding(envs, args[start], pid);
+		node->redirection[ri] = expanding_red(envs, args[start]);
 		start++;
 		ri++;
 	}
@@ -172,7 +176,7 @@ void	printstrs(char **map)
 	puts("\n");
 }
 
-t_command	*split_cmds(char **args, t_env *envs, int pid)
+t_command	*split_cmds(char **args, t_env *envs)
 {
 	t_command	*input;
 	t_command *node;
@@ -188,7 +192,7 @@ t_command	*split_cmds(char **args, t_env *envs, int pid)
 		{
 			if (start < i)
 			{
-				node = get_command(args, envs, start, i, pid);
+				node = get_command(args, envs, start, i);
 				lstadd_back(&input, node);
 			}
 			i++;
@@ -199,7 +203,7 @@ t_command	*split_cmds(char **args, t_env *envs, int pid)
 	}
 	if (start < i)
 	{
-		node = get_command(args, envs, start, i, pid);
+		node = get_command(args, envs, start, i);
 		lstadd_back(&input, node);
 	}
 	return (input);

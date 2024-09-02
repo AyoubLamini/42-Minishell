@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 08:33:12 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/10 12:06:34 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/01 11:35:00 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	check_directions(char *input)
 			}
 			i++;
 			if (j > 2)
-				return (-1);
+				return (-2);
 		}
 		else
 			i++;
@@ -112,10 +112,15 @@ int check_syntax(char *input)
 	single_quote = 0;
 	double_quote = 0;
 	i = 0;
-	if (check_directions(input) == -1 || check_quotes(input) == -1)
+	if (check_directions(input) == -1)
 		return (-1);
+	else if (check_directions(input) == -2)
+		return (-2);
+	if (check_quotes(input) == -1)
+		return (-1);
+	// printf("here\n");
 	if ((is_redirection(input, 0) == 2 && input[i + 2] == '\0') || (is_redirection(input, 0) && input[i + 1] == '\0'))
-		return (-1);
+		return (-2);
 	while (input[i])
 	{
 		j = i;
@@ -131,20 +136,28 @@ int check_syntax(char *input)
 			if (input[i] == '>')
 			{
 				i = skip_spaces(input, i + 1);
-				if (input[i] == '|' ||(j+1 != i && (input[i] == '>' || input[i] == '|')) || input[i] == '<' || input[i] == '\0')
+				if ( input[i] == '\0')
 					return (-1);
+				if (j + 1 != i && input[i] == '>')
+					return (-2);
+				else if ( input[i] == '<' || input[i] == '<')
+					return (-3);
+				else if (input[i] == '|')
+					return (-4);
 			}
 			if (input[i] == '<')
 			{
 				i = skip_spaces(input, i + 1);
-				if (input[i] == '|' || input[i] == '\0')
+				if (input[i] == '|')
+					return (-4);
+				else if (input[i] == '\0')
 					return (-1);
 			}
 			if (input[i] == '|')
 			{
 				i = skip_spaces(input, i + 1);
 				if (input[i] == '|' || input[i] == '\0')
-					return (-1);
+					return (-4);
 			}
 		}
 		i = j;

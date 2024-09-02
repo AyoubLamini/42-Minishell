@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/29 05:39:21 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/01 11:05:04 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_path
 	char *path;
 }	t_path;
 
+void	syntax_error_messages(int code);
 int		is_redirection(char *str, int index);
 int		check_syntax(char *input);
 int		check_quotes(char	*input);

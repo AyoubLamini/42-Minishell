@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/25 15:59:19 by alamini          ###   ########.fr       */
+/*   Updated: 2024/09/01 11:26:48 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../exec/minishell_exec.h"
+
+void	syntax_error_messages(int code)
+{
+	if (code == -1)
+		write(1, "Minishell: syntax error near unexpected token `newline'\n", 57);
+	else if (code == -2)
+		write(1, "Minishell: syntax error near unexpected token `>'\n", 51);
+	else if (code == -3)
+		write(1, "Minishell: syntax error near unexpected token `<'\n", 51);
+	else if (code == -4)
+		write(1, "bash: syntax error near unexpected token `|'\n", 46); 
+}
 
 int	my_strcmp(char *s1, char *s2)
 {
@@ -21,9 +33,7 @@ int	my_strcmp(char *s1, char *s2)
 		return (-1);
 	i = 0;
 	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0' && s2[i] != '\'' && s2[i] != '"')
-	{
 		i++;
-	}
 	return (s1[i] - s2[i]);
 }
 
@@ -34,9 +44,7 @@ char	*get_env_variable(t_env *env, char *env_key)
 	while (tmp)
 	{
 		if (my_strcmp(tmp->key, env_key) == 0)
-		{
 			return (tmp->value);
-		}
 		tmp = tmp->next;
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/29 06:54:55 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/01 10:20:03 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,33 +274,18 @@ char	**expanding_cmd(t_env *envs, char *old_cmd)
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '\'')
-		{
 			tmp = single_quotes_process(cmd[i]);
-		}
 		else
 		{
 			if (check_is_joinable(cmd, i))
 			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
-			
 			tmp = double_quotes(envs, cmd[i]);
 		}
-
 		new_cmd = ft_strjoin(new_cmd, tmp);
 		i++;
 	}
 	new_cmd = ft_strjoin(new_cmd, "\0");
-	//printf("new_cmd: %s\n", new_cmd);
-	// if (new_cmd[0] == '\0')
-	// {
-	// 	res = (char **)malloc(sizeof(char *) * 2);
-	// 	if (!res)
-	// 		return (NULL);
-	// 	res[0] = "";
-	// 	res[1] = NULL;
-	// 	printstrs(res);
-	// 	return (res);
-	// }
-	if (check_will_splited(cmd))
+	if (new_cmd[0] && check_will_splited(cmd))
 		res = ft_split(new_cmd, ' ');
 	else
 	{
@@ -310,7 +295,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd)
 		res[0] = new_cmd;
 		res[1] = NULL;
 	}
-	return (res);
+	return (free_strs(cmd), res);
 }
 
 char	*expanding_red(t_env *envs, char *old_cmd)

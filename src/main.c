@@ -10,7 +10,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 {
 	(void)argc;
 	(void)argv;
-	(void)envp;
 	char	*input;
 	char	prompt[100];
 	t_command *cmds;
@@ -25,9 +24,11 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		tmp = input;
 		remove_spaces(&input);
 		add_history(tmp);
-		if (check_syntax(input) == -1)
+		if (check_syntax(input) < 0)
 		{
-			printf(ANSI_COLOR_RED "Syntax error\n");
+			printf("returned value: %d\n", check_syntax(input));
+			syntax_error_messages(check_syntax(input));
+			// printf(ANSI_COLOR_RED "Syntax error\n");
 			if (input)
 				free(input);
 			continue;
@@ -35,14 +36,13 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		input = add_spaces(input);
 		args = split_args(input, ' ');
 		cmds = split_cmds(args, env_vars);
-
 		execute(cmds, &env_vars); // I added this line
 		free_cmds(cmds);
 		free_strs(args);
 		if (tmp)
 			free(tmp);
 		free(input);
-		// leaks();
+		//leaks();
 	}
 	free_envs(env_vars);
 	// atexit(leaks);

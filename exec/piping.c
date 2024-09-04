@@ -22,6 +22,7 @@ static int child_process(t_command *command, t_env **env, int *fd, int *input_fd
     }
     if (command->next && file_d->out == STDOUT_FILENO) // iF Next Command: pipe[1] = STDOUT;
     {
+
         if (dup2(fd[1], STDOUT_FILENO) < 0)
             return (perror("dup2"), 1);
     }

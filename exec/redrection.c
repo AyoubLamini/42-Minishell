@@ -3,7 +3,6 @@
 static int std_out(t_command *command, int pos, t_exec *file_d)
 {
     int fd;
-
     if (file_d->out == 1)  
         file_d->out = dup(STDOUT_FILENO); // when 
     fd = open(command->redirection[pos], O_WRONLY | O_CREAT | O_TRUNC, 0644);

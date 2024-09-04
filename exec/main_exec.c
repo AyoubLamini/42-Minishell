@@ -24,10 +24,10 @@ static int is_builtin(char *cmd)
         return (1);
     return (0);
 }
-void execute(t_command *current, t_env **env_vars)
+void execute(t_command *command, t_env **env_vars)
 {
     t_exec      file_d;
-    t_command   *command; 
+    t_command   *current; 
     t_path path;
 
     path.exit_status = 0;
@@ -36,18 +36,18 @@ void execute(t_command *current, t_env **env_vars)
     int input_fd;
     input_fd = 0;
     
-    command = current;
+    current = command;
     if (!current)
         return ;
-    while (command)
+    while (current)
     {
-        if (command->redirection[0])
+        if (current->redirection[0])
             handle_redirection(current, &file_d);
-        if (is_builtin(command->cmd[0]) && !command->next) 
-            check_command(command, env_vars, &path);
+        if (is_builtin(current->cmd[0]) && !current->next) 
+            check_command(current, env_vars, &path);
         else
-            piping(command, env_vars, &input_fd, &file_d, &path);
-        command = command->next;
+            piping(current, env_vars, &input_fd, &file_d, &path);
+        current = current->next;
         restore_original_fd(&file_d);
     }
 }

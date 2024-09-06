@@ -11,7 +11,7 @@ static int create_pipe(int *fd)
 }
 static int child_process(t_command *command, t_env **env, int *fd, int *input_fd, t_exec *file_d, t_path *path)
 {
-    if (*input_fd != 0) // If there is previous pipe
+    if (*input_fd != -1) // If there is previous pipe
     {
         if (dup2(*input_fd, STDIN_FILENO) < 0) // read from stored previous pipe fd
         {
@@ -20,21 +20,26 @@ static int child_process(t_command *command, t_env **env, int *fd, int *input_fd
         }
         close(*input_fd); // close it, cause we longer need it
     }
-    if (command->next && file_d->out == STDOUT_FILENO) // iF Next Command: pipe[1] = STDOUT;
+    if (command->next ) // iF Next Command: pipe[1] = STDOUT;
     {
-
+       
         if (dup2(fd[1], STDOUT_FILENO) < 0)
             return (perror("dup2"), 1);
+        close(fd[0]);
+        close(fd[1]);
     }
-    close(fd[0]); // Close the unused pipe ends
-    close(fd[1]);
-    check_command(command, env, path); // Execute the command
+    if (command->redirection[0])
+    {
+        handle_redirection(command, file_d, path);
+    }
+    check_command(command, env, path);
     exit(0);
 }
 
-static int parent_process(t_command *command, int *fd, int *input_fd)
+static int parent_process(t_command *command, int *fd, t_exec *file_d, int *input_fd)
 {
-    if (*input_fd != 0)
+    (void)file_d;
+    if (*input_fd != -1)
         close(*input_fd); // Close the previous pipe's read end
 
     if (command->next) // If there is a next command
@@ -66,9 +71,8 @@ void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d,
     }
     else
     {
-        if (parent_process(command, fd, input_fd))
+        if (parent_process(command, fd, file_d, input_fd))
             return ;
-         waitpid(pid, NULL, 0);
     }
     return ; 
 }

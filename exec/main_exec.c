@@ -1,12 +1,12 @@
 #include "minishell_exec.h"
 
-static void restore_original_fd(t_exec *file_d)
-{
-    if (file_d->out != 1)
-        dup2(file_d->out, STDOUT_FILENO);
-    if (file_d->in != 0)
-        dup2(file_d->in, STDIN_FILENO);
-}
+// static void restore_original_fd(t_exec *file_d)
+// {
+//     if (file_d->out != 1)
+//         dup2(file_d->out, STDOUT_FILENO);
+//     if (file_d->in != 0)
+//         dup2(file_d->in, STDIN_FILENO);
+// }
 
 static int is_builtin(char *cmd)
 {
@@ -34,22 +34,26 @@ void execute(t_command *command, t_env **env_vars)
     file_d.in = 0;
     file_d.out = 1;
     int input_fd;
-    input_fd = 0;
+    input_fd = -1;
     
     current = command;
     if (!current)
         return ;
     while (current)
     {
-        if (current->redirection[0])
-            handle_redirection(current, &file_d);
-        if (is_builtin(current->cmd[0]) && !current->next) 
+        if (is_builtin(current->cmd[0]) && !current->next)
+        {
             check_command(current, env_vars, &path);
-        else
-            piping(current, env_vars, &input_fd, &file_d, &path);
+            return ;
+        }
+        //pipe in parent process
+        //fork
+        // loop for child
+        piping(current, env_vars, &input_fd, &file_d, &path);
         current = current->next;
-        restore_original_fd(&file_d);
     }
+    while (waitpid(-1, &path.exit_status, 0) != -1 && errno != ECHILD)
+        ;
 }
            
    

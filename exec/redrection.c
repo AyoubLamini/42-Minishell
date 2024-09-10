@@ -51,14 +51,13 @@ static int std_in(t_command *command, int pos, t_exec *file_d)
         close(fd);
         return (1);
     }
+    
     close(fd);
     return (0);
 }
 // static int here_doc(t_command *command, int pos)
 // {
-
 // }
-
 
 int handle_redirection(t_command *command, t_exec *file_d)
 {

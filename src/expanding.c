@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/01 10:20:03 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:06:12 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,25 +179,18 @@ int	check_is_joinable(char **cmd, int index)
 	return (0);
 }
 
-int	check_will_splited(char **old_cmd)
+int	check_will_splited(char *str)
 {
 	int	i;
-	int	j;
 	int	check;
-
 	check = 0;
-	j = 0;
+
 	i = 0;
-	while (old_cmd[i])
+	if (str[i] == '"' || str[i] == '\'')
+		return (0);
+	while (str[i] && str[i] != '"')
 	{
-		if (old_cmd[i][0] == '"' || old_cmd[i][0] == '\'')
-			return (0);
-		i++;
-	}
-	i = 0;
-	while (old_cmd[0][i])
-	{
-		if (old_cmd[0][i] == '$' && ft_isalpha(old_cmd[0][i + 1]))
+		if (str[i] == '$' && ft_isalpha(str[i + 1]))
 			check = 1;
 		i++;
 	}
@@ -206,95 +199,123 @@ int	check_will_splited(char **old_cmd)
 	return (0);
 }
 
-// int	count_cmd_split_words(char *new_cmd)
-// {
-// 	int	i;
-// 	int	nbr;
+int	count_cmd_split_words(char *new_cmd)
+{
+	int	i;
+	int	nbr;
 
-// 	nbr = 0;
-// 	i = 0;
-// 	while (new_cmd[i])
-// 	{
-// 		while (ft_isspace(new_cmd[i]) && new_cmd[i])
-// 			i++;
-// 		if (new_cmd[i] != '\0')
-// 			nbr++;
-// 		while (!ft_isspace(new_cmd[i]) && new_cmd[i])
-// 			i++;
-// 	}
-// 	return (nbr);
-// }
+	nbr = 0;
+	i = 0;
+	while (new_cmd[i])
+	{
+		while (ft_isspace(new_cmd[i]) && new_cmd[i])
+			i++;
+		if (new_cmd[i] != '\0')
+			nbr++;
+		while (!ft_isspace(new_cmd[i]) && new_cmd[i])
+			i++;
+	}
+	return (nbr);
+}
 
-// char	**cmd_split(char *new_cmd)
-// {
-// 	int		i;
-// 	char	**res;
-// 	int		start;
-// 	char	*tmp;
-// 	int		index;
-// 	start = 0;
-// 	index = 0;
-// 	i = 0;
-// 	// printf("lw: %d\n", count_cmd_split_words(new_cmd));
-// 	res = (char **)malloc(sizeof(char *) * (count_cmd_split_words(new_cmd) + 1));
-// 	if (!res)
-// 		return (NULL);
-// 	while (new_cmd[i])
-// 	{
-		
-// 		while (ft_isspace(new_cmd[i]) && new_cmd[i])
-// 			i++;
-// 		if (new_cmd[i] != '\0')
-// 		{
-// 			tmp = ft_substr(new_cmd, start, i - start);
-// 			res[index++] = tmp;
-// 		}
-// 		while (ft_isspace(new_cmd[i]) && new_cmd[i])
-// 			i++;
-// 	}
-// 	res[index] = NULL;
-// //	printstrs(res);
-// 	return (res);
-// }
+char	**cmd_split(char *new_cmd)
+{
+	int		i;
+	char	**res;
+	int		start;
+	char	*tmp;
+	int		index;
+	start = 0;
+	index = 0;
+	i = 0;
+	// printf("lw: %d\n", count_cmd_split_words(new_cmd));
+	res = (char **)malloc(sizeof(char *) * (count_cmd_split_words(new_cmd) + 1));
+	if (!res)
+		return (NULL);
+	start = i;
+	while (new_cmd[i] && ft_isspace(new_cmd[i]))
+		i++;
+	while (new_cmd[i] && !ft_isspace(new_cmd[i]))
+		i++;
+	res[index++] = ft_substr(new_cmd, start, i - start);
+	while (new_cmd[i])
+	{
+		while (ft_isspace(new_cmd[i]) && new_cmd[i])
+			i++;
+		start = i;
+		while (!ft_isspace(new_cmd[i]) && new_cmd[i])
+			i++;
+		if (new_cmd[i] != '\0')
+		{
+			tmp = ft_substr(new_cmd, start, i - start);
+			res[index++] = tmp;
+		}
+	}
+	res[index] = NULL;
+//	printstrs(res);
+	return (res);
+}
+
+
 
 char	**expanding_cmd(t_env *envs, char *old_cmd)
 {
 	char	**cmd;
-	char	*new_cmd;
 	char	*tmp;
 	char	**res;
+	char	**temp;
 	int		i;
-	int		j;
+	int		index;
 
-	j = 0;
+	res = NULL;
+	temp = NULL;
 	tmp = NULL;
-	new_cmd = NULL;
 	i = 0;
 	cmd = expanding_split(old_cmd);
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '\'')
+		{
 			tmp = single_quotes_process(cmd[i]);
+			index = ft_strslen(res);
+			if (!res)
+				res = join_double_strs_with_str(res, tmp);
+			else
+			{
+				res[index - 1] = ft_strjoin(res[index - 1], tmp);
+				res[index] = 0;	
+			}
+		}
 		else
 		{
+			// printf("here\n");
 			if (check_is_joinable(cmd, i))
 			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
 			tmp = double_quotes(envs, cmd[i]);
+			//printf("check : %d\n", check_will_splited(cmd[i]));
+			if (check_will_splited(cmd[i]) == 1 && tmp && tmp[0] != '\0')
+			{
+				temp = ft_split(tmp, ' ');
+				res = join_two_double_strs(res, temp);
+			}
+			else 
+			{
+				index = ft_strslen(res);
+				if (!res)
+					res = join_double_strs_with_str(res, tmp);
+				else
+				{
+					res[index - 1] = ft_strjoin(res[index - 1], tmp);
+					res[index] = 0;
+				}
+			}
 		}
-		new_cmd = ft_strjoin(new_cmd, tmp);
 		i++;
 	}
-	new_cmd = ft_strjoin(new_cmd, "\0");
-	if (new_cmd[0] && check_will_splited(cmd))
-		res = ft_split(new_cmd, ' ');
-	else
-	{
-		res = (char **)malloc(sizeof(char *) * 2);
-		if (!res)
-			return (NULL);
-		res[0] = new_cmd;
-		res[1] = NULL;
-	}
+	if (res[0] == NULL)
+		printf("yes\n");
+	//printstrs(res);
+	//printf("out\n");
 	return (free_strs(cmd), res);
 }
 

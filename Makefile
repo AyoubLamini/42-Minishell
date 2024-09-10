@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alamini <alamini@student.42.fr>            +#+  +:+       +#+         #
+#    By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 22:26:51 by ybouyzem          #+#    #+#              #
-#    Updated: 2024/08/28 14:51:27 by alamini          ###   ########.fr        #
+#    Updated: 2024/09/05 13:30:59 by ybouyzem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ CFLAGS = -I/usr/local/opt/readline/include
 
 LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
 
-FLAG = cc
+FLAG = cc #-g -fsanitize=address
 
 # GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS)
 GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS) 

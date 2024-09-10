@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/01 11:26:48 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:18:50 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,4 +204,68 @@ void	print_envs(t_env *envs)
 		printf("=%s\n", p->value);
 		p = p->next;
 	}
+}
+
+char	**join_double_strs_with_str(char **s1, char *s2)
+{
+	char	**new;
+	int		len;
+	int		i;
+
+	i = 0;
+	if (!s2)
+		return (s1);
+	if (!s1 || !*s1)
+	{
+		new = (char **)malloc(sizeof(char *) * 2);
+		if (!new)
+			return (NULL);
+		new[0] = s2;
+		new[1] = NULL;
+		return (new);
+	}
+	len = ft_strslen(s1);
+	new = (char **)malloc(sizeof(char *) * (len + 2));
+	if (!new)
+		return (NULL);
+	while (s1[i])
+	{
+		new[i]= s1[i];
+		i++;
+	}
+	new[i++] = s2;
+	new[i] = 0;
+	return (new); 
+}
+
+char	**join_two_double_strs(char **s1, char **s2)
+{
+	char	**new;
+	int		len1;
+	int		len2;
+	int		i;
+	int		j;
+	
+	i = 0;
+	j = 0;
+	if (!s2)
+		return (s1);
+	if (!s1)
+		return (s2);
+	if (!s1 && !s2)
+		return (NULL);
+	len1 = ft_strslen(s1);
+	len2 = ft_strslen(s2);
+	new = (char **)malloc(sizeof(char *) * (len1 + len2 + 1));
+	if (!new)
+		return (NULL);
+	while (s1[i])
+	{
+		new[i]= s1[i];
+		i++;
+	}
+	while (s2[j])
+		new[i++] = s2[j++];
+	new[i] = 0;
+	return (new); 
 }

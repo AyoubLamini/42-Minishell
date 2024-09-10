@@ -58,7 +58,7 @@ int     export(t_command *cmds, t_env **env_vars);
 int     unset(t_command *cmds, t_env **env_vars);
 void    exit_shell(t_command *command, t_path *path);
 // redirections 
-int handle_redirection(t_command *command, t_exec *file_d);
+int handle_redirection(t_command *command, t_exec *file_d, t_path *path);
 // piping 
 void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d, t_path *path);
 

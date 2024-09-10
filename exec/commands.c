@@ -4,7 +4,6 @@ static void execution(char *cmd, char **args, char **envp, t_path *path)
 {
     if (execve(cmd, args, envp) == -1)
     {
-        printf("fesfsefjjsfesf\n");
         print_error(cmd, NULL, strerror(errno));
         exit_status(1, path);
         exit(1);

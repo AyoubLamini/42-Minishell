@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	t_env	*env_vars;
 	char 	*tmp;
 	char	**args;
-	snprintf(prompt, sizeof(prompt), ANSI_COLOR_BOLD_GREEN "minishell $> " ANSI_COLOR_BLUE ) ;
+	snprintf(prompt, sizeof(prompt),  "minishell $> "  ) ;
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
 	set_up(attrs);  // Set up signal handlers
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		//leaks();
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
-	free_envs(env_vars);
+	//free_envs(env_vars);
 	// atexit(leaks);
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/30 00:46:36 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:57:09 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	ft_strslen(char **map)
 {
 	int	i;
 
+	if (map == NULL)
+		return (0);
 	i = 0;
 	while (map[i])
 		i++;
@@ -66,67 +68,32 @@ int	ft_strcmp(char *s1, char *s2)
 t_command	*allocate_node(char **args, int start, int end)
 {
 	t_command	*node;
+	int	lencmd;
 
+	lencmd = 0;
 	node = (t_command *)malloc(sizeof(t_command));
 	if (!node)
 		return (NULL);
+	printstrs(args);
 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
+	{
+		// printf("arg: %s\n", args[start]);
 		start++;
-	node->cmd = (char **)malloc(sizeof(char *) * (start + 1));
+		lencmd++;
+	}
+	// printf("lencmd: %d\n", lencmd);
+	node->cmd = (char **)malloc(sizeof(char *) * (lencmd + 1));
 	if (!node->cmd)
-		return (NULL);
-	node->redirection = (char **)malloc(sizeof(char *) * (end - start) + 1);
+		return (printf("failed\n"), exit(1), NULL);
+	
+	// printf("\n\n\nlenre : %d\n\n\n", (end - start));
+	node->redirection = (char **)malloc(sizeof(char *) * ((end - start) + 1));
 	if (!node->redirection)
-		return (NULL);
+		return (printf("failed\n"), exit(1), NULL);
 	node->next = NULL;
 	return (node);
 }
-
-
-// char	*get_right_cmd(t_env *envs, char *old_cmd)
-// {
-// 	int	i;
-// 	int	pos;
-// 	char	*new_cmd;
-// 	(void)envs;
-// 	int	single_quote;
-// 	int	double_quote;
-// 	int		start;
-// 	char	*key;
-
-// 	single_quote = 0;
-// 	double_quote = 0;
-// 	i = 0;
-// 	pos = 0;
-// 	new_cmd = (char *)malloc(sizeof(char) * (ft_strlen(old_cmd) + 1));
-// 	if (!new_cmd)
-// 		return (new_cmd);
-// 	while (old_cmd[i] != '\'' && old_cmd[i] != '"' && old_cmd[i])
-// 		new_cmd[pos++] = old_cmd[i++];
-// 	if (old_cmd[i] == '"')
-// 	{	
-// 		while (old_cmd[i])
-// 		{
-// 			while (old_cmd[i] == '"' && old_cmd[i])
-// 				i++;
-// 			while (ft_isspecial(old_cmd[i]) && old_cmd[i] != '"' && old_cmd[i])
-// 				new_cmd[pos++] = old_cmd[i++];
-// 			start = i;
-// 			while (!ft_isspecial(old_cmd[i]) && old_cmd[i])
-// 				i++;
-// 			key = ft_substr(old_cmd, start, i - start);
-// 			if (get_env_variable(envs, key))
-// 				new_cmd = ft_strjoin(new_cmd, get_env_variable(envs, key));
-// 			else
-// 				new_cmd = ft_strjoin(new_cmd, key);
-// 			pos = ft_strlen(new_cmd);
-// 		}
-// 	}
-// 		new_cmd[pos] = '\0';
-// 	return (new_cmd);
-// }
-
 
 t_command	*get_command(char **args, t_env *envs, int start, int end)
 {
@@ -139,26 +106,35 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 	ci = 0;
 	ri = 0;
 	node = allocate_node(args, start, end);
+	
 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
 	{
 		j = 0;
+		printf("\nargs : %s\n\n", args[start]);
 		tmp = expanding_cmd(envs, args[start]);
 		if (tmp)
 		{
 			while (tmp[j])
-			node->cmd[ci++] = tmp[j++];
+				node->cmd[ci++] = tmp[j++];
 		}
 		start++;
 	}
-	node->cmd[ci] = NULL;
+	node->cmd[ci] = 0;
+	printf("cmd: \n");
+	printstrs(node->cmd);
+	// printf("start: %d\n", start);
+	// printf("end: %d\n", end);
+
 	while (start < end)
 	{
 		node->redirection[ri] = expanding_red(envs, args[start]);
 		start++;
 		ri++;
 	}
-	node->redirection[ri] = NULL;
+	node->redirection[ri] = 0;
+	printf("red: \n");
+	printstrs(node->redirection);
 	return (node);
 }
 
@@ -190,7 +166,7 @@ t_command	*split_cmds(char **args, t_env *envs)
 	start = i;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], "|") == 0)
+		if (ft_strcmp(args[i], "|") == 0 || !args[i])
 		{
 			if (start < i)
 			{
@@ -208,5 +184,6 @@ t_command	*split_cmds(char **args, t_env *envs)
 		node = get_command(args, envs, start, i);
 		lstadd_back(&input, node);
 	}
+	//print_list(input);
 	return (input);
 }

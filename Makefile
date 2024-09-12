@@ -6,7 +6,7 @@
 #    By: alamini <alamini@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 22:26:51 by ybouyzem          #+#    #+#              #
-#    Updated: 2024/09/12 12:51:57 by alamini          ###   ########.fr        #
+#    Updated: 2024/09/12 15:02:09 by alamini          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ CFLAGS = -I $(READLINEDIR)/include
 
 LDFLAGS = -L $(READLINEDIR)/lib -lreadline
 
-FLAG = cc
+FLAG = cc -g -fsanitize=address
 
 # GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS)
 GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS) 
@@ -50,7 +50,6 @@ PROGRAM = minishell
 
 $(PROGRAM): $(OBJECTFILES)
 	$(FLAG) $(LDFLAGS) $(OBJECTFILES) -o $(PROGRAM)
-
 
 all: $(PROGRAM)
 

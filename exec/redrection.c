@@ -62,12 +62,12 @@ static int std_in(t_command *command, int pos, t_exec *file_d, t_path *path)
         close(fd);
         return (1);
     }
+    
     close(fd);
     return (0);
 }
 // static int here_doc(t_command *command, int pos)
 // {
-
 // }
 
 

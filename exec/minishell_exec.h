@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <fcntl.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "../includes/minishell.h"
 #include <errno.h>
 #include <string.h>
@@ -20,7 +18,6 @@ typedef struct s_exec
     int in;
     int out;
 } t_exec;
-
 
 // utils
 char	**ex_split(char const *s, char c);
@@ -54,6 +51,7 @@ void check_command(t_command *command, t_env **env_vars, t_path *path);
 int     cd(t_command *command, t_env *env_vars);
 int     echo(t_command *command);
 int     env(t_env *env_vars);
+int     pwd();
 int     export(t_command *cmds, t_env **env_vars);
 int     unset(t_command *cmds, t_env **env_vars);
 void    exit_shell(t_command *command, t_path *path);

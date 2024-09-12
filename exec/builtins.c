@@ -1,6 +1,5 @@
 #include "minishell_exec.h"
 
-
 static int is_valid_option(char *str)
 {
     int i;
@@ -68,15 +67,12 @@ int env(t_env *env_vars)
     // printf("_=/usr/bin/env\n");
 }
 
-int  unset(t_command *cmds, t_env **env_vars)
+int pwd() // pwd
 {
-    int i;
-    i = 1;
-    while (cmds->cmd[i])
-    {
-        delete_env(env_vars, cmds->cmd[i]);
-        i++;
-    }
+    char *cwd;
+    cwd = getcwd(NULL, 0);
+    printf("%s\n", cwd);
+    free(cwd);
     return (0);
 }
 

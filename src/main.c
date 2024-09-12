@@ -5,9 +5,37 @@ void leaks() // TEMporary comment
 {
 	system("leaks minishell");
 }
-
+static void tty_attributes(struct termios *attrs, int action)
+{
+	if (action == ATTR_GET)
+	{
+		tcgetattr(STDIN_FILENO, &attrs[0]);
+		tcgetattr(STDOUT_FILENO, &attrs[1]);
+		tcgetattr(STDERR_FILENO, &attrs[2]);
+	}
+	else if (action == ATTR_SET)
+	{
+		tcsetattr(STDIN_FILENO, TCSANOW, &attrs[0]);
+		tcsetattr(STDOUT_FILENO, TCSANOW, &attrs[1]);
+		tcsetattr(STDERR_FILENO, TCSANOW, &attrs[2]);
+	}
+	else if (action == ATTR_CHG)
+	{
+		attrs[0].c_lflag &= ~ECHOCTL;
+		attrs[1].c_lflag &= ~ECHOCTL;
+		attrs[2].c_lflag &= ~ECHOCTL;
+		tty_attributes(attrs, ATTR_SET);
+	}
+}
+void set_up(struct termios *attrs)
+{
+	// setup_signals();
+	tty_attributes(attrs, ATTR_GET); // Save terminal attributes
+	tty_attributes(attrs, ATTR_CHG); // Change terminal attributes
+}
 int	main(int argc, char **argv, char **envp) // added envp argument
 {
+	struct termios	attrs[3];
 	(void)argc;
 	(void)argv;
 	char	*input;
@@ -19,6 +47,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	snprintf(prompt, sizeof(prompt), ANSI_COLOR_BOLD_GREEN "minishell $> " ANSI_COLOR_BLUE ) ;
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
+	set_up(attrs);  // Set up signal handlers
 	while ((input = readline(prompt)) != NULL)
 	{
 		tmp = input;
@@ -43,6 +72,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 			free(tmp);
 		free(input);
 		//leaks();
+		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
 	free_envs(env_vars);
 	// atexit(leaks);

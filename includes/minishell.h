@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/01 11:05:04 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:17:49 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 
 #include <stdio.h>
 #include <unistd.h>
-
+#include <termios.h>
 #include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 #include "../libft/libft.h"
+#include <signal.h>
+
 
 
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -50,6 +52,13 @@ typedef struct s_path
 	int exit_status;
 	char *path;
 }	t_path;
+
+enum
+{
+	ATTR_SET,  
+	ATTR_GET,  
+	ATTR_CHG 
+};
 
 void	syntax_error_messages(int code);
 int		is_redirection(char *str, int index);
@@ -95,4 +104,6 @@ char    **expanding_split(char  *old_cmd);
 
 // execution
 void execute(t_command *command, t_env **env_vars);
+void setup_signals(void);
+
 #endif

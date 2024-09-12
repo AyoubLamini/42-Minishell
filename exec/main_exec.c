@@ -1,16 +1,10 @@
 #include "minishell_exec.h"
 
-// static void restore_original_fd(t_exec *file_d)
-// {
-//     if (file_d->out != 1)
-//         dup2(file_d->out, STDOUT_FILENO);
-//     if (file_d->in != 0)
-//         dup2(file_d->in, STDIN_FILENO);
-// }
-
 static int is_builtin(char *cmd)
 {
     if (ex_strcmp("cd", cmd) == 0)
+        return (1);
+    else if (ex_strcmp("pwd", cmd) == 0)
         return (1);
     else if (ex_strcmp("echo", cmd) == 0)
         return (1);
@@ -46,9 +40,6 @@ void execute(t_command *command, t_env **env_vars)
             check_command(current, env_vars, &path);
             return ;
         }
-        //pipe in parent process
-        //fork
-        // loop for child
         piping(current, env_vars, &input_fd, &file_d, &path);
         current = current->next;
     }

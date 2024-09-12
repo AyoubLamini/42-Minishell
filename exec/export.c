@@ -8,7 +8,7 @@ static void export_display(t_env **env_vars)
     while (env_copy) // printing the sorted copy
     {
         if (env_copy->value)
-            printf("declare -x %s=%s\n", env_copy->key, env_copy->value);
+            printf("declare -x %s=\"%s\"\n", env_copy->key, env_copy->value);
         else
             printf("declare -x %s\n", env_copy->key);
         env_copy = env_copy->next;
@@ -59,10 +59,7 @@ int export(t_command *cmds, t_env **env)
         while (cmds->cmd[i])
         {
             if (export_syntax(get_str(cmds->cmd[i], "key"))) // check key syntax
-            {
                 print_error("export", cmds->cmd[i], ":not a valid identifier");
-                return (1);
-            }
             else if (get_env_key(*env, get_str(cmds->cmd[i], "key"))) // if key alrdy existing
                 update_key(cmds->cmd[i], env);
             else // new variable mode
@@ -76,5 +73,19 @@ int export(t_command *cmds, t_env **env)
     }
     else
         export_display(env);
+    return (0);
+}
+int  unset(t_command *cmds, t_env **env_vars)
+{
+    int i;
+    i = 1;
+    while (cmds->cmd[i])
+    {
+        if (export_syntax(get_str(cmds->cmd[i], "key"))) // check key syntax
+            print_error("unset", cmds->cmd[i], ":not a valid identifier");
+        else
+            delete_env(env_vars, cmds->cmd[i]);
+        i++;
+    }
     return (0);
 }

@@ -6,7 +6,7 @@
 #    By: alamini <alamini@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 22:26:51 by ybouyzem          #+#    #+#              #
-#    Updated: 2024/08/28 14:51:27 by alamini          ###   ########.fr        #
+#    Updated: 2024/09/12 12:51:57 by alamini          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 # 			lib/clean_utils.c 
 
 # FILEPARCIN = parcin/parcin_file.c 
-
+READLINEDIR    =    $(shell brew --prefix readline)
 LIB_FILES	:= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c libft/ft_isprint.c libft/ft_strlen.c libft/ft_memset.c \
 	libft/ft_bzero.c libft/ft_memcpy.c libft/ft_memmove.c libft/ft_strlcpy.c libft/ft_strlcat.c libft/ft_toupper.c libft/ft_tolower.c libft/ft_strchr.c \
 	libft/ft_strrchr.c libft/ft_strncmp.c libft/ft_memchr.c libft/ft_memcmp.c libft/ft_strnstr.c libft/ft_atoi.c libft/ft_calloc.c libft/ft_strdup.c \
@@ -29,12 +29,12 @@ LIB_FILES	:= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_i
 FILE = src/main.c src/check_syntax.c src/parssing_utils.c src/split_args.c src/split_cmds.c src/list_utils.c src/expanding.c \
 	src/expanding_utils.c src/expanding_split.c\
 	exec/commands.c exec/builtins.c exec/builtins_utils.c exec/ft_split.c exec/ft_strjoin.c exec/redrection.c exec/utils.c exec/main_exec.c\
-	src/free_memory.c exec/piping.c exec/export.c exec/cd.c exec/exec_utils.c $(LIB_FILES)
+	src/free_memory.c exec/piping.c exec/export.c exec/cd.c exec/exec_utils.c exec/signals.c $(LIB_FILES)
 	
 
-CFLAGS = -I/usr/local/opt/readline/include
+CFLAGS = -I $(READLINEDIR)/include 
 
-LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
+LDFLAGS = -L $(READLINEDIR)/lib -lreadline
 
 FLAG = cc
 
@@ -45,8 +45,8 @@ OBJECTFILES = $(FILE:.c=.o)
 
 PROGRAM = minishell
 
-%.o: %.c includes/minishell.h exec/minishell_exec.h
-	$(GFLAG) -o $@ -c $<
+%.o: %.c includes/minishell.h exec/minishell_exec.h 
+	$(GFLAG) -o $@ -c $< 
 
 $(PROGRAM): $(OBJECTFILES)
 	$(FLAG) $(LDFLAGS) $(OBJECTFILES) -o $(PROGRAM)

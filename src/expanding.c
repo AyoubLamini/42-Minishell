@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/05 13:06:12 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:16:33 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,6 +257,39 @@ char	**cmd_split(char *new_cmd)
 }
 
 
+int	ft_check_space_in_cmd(char *str)
+{
+	int	i;
+	int	begining;
+	int	len;
+
+	begining = 0;
+	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (i > 0)
+		begining = 1;
+	len = ft_strlen(str) - 1;
+	i = len;
+	printf("len %d\n", len);
+	while (i && ft_isspace(str[i]))
+		i--;
+	printf("i : %d\n", i);
+	
+	if (len != i && begining == 1)
+	{
+		return (2);
+	}
+	else if (len != i)
+		return (1);
+	else
+	{
+		
+		printf("yesss\n");
+		return (0);
+	}
+}
+
 
 char	**expanding_cmd(t_env *envs, char *old_cmd)
 {
@@ -266,7 +299,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd)
 	char	**temp;
 	int		i;
 	int		index;
-
+	char	*tmp1;
 	res = NULL;
 	temp = NULL;
 	tmp = NULL;
@@ -292,28 +325,43 @@ char	**expanding_cmd(t_env *envs, char *old_cmd)
 			if (check_is_joinable(cmd, i))
 			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
 			tmp = double_quotes(envs, cmd[i]);
+			if (i > 0)
+				tmp1 = double_quotes(envs, cmd[i - 1]);
+			else
+				tmp1 = tmp;
 			//printf("check : %d\n", check_will_splited(cmd[i]));
 			if (check_will_splited(cmd[i]) == 1 && tmp && tmp[0] != '\0')
 			{
 				temp = ft_split(tmp, ' ');
 				res = join_two_double_strs(res, temp);
+				
 			}
 			else 
 			{
-				index = ft_strslen(res);
 				if (!res)
 					res = join_double_strs_with_str(res, tmp);
 				else
 				{
-					res[index - 1] = ft_strjoin(res[index - 1], tmp);
-					res[index] = 0;
+					//printf("tmp: %s\n", tmp);
+					if (ft_check_space_in_cmd(tmp1) == 1)
+					{
+						//printf("yesssss\n");
+						res = join_double_strs_with_str(res, tmp);	
+					}
+					else
+					{
+						index = ft_strslen(res);
+						res[index - 1] = ft_strjoin(res[index - 1], tmp);
+						res[index] = 0;
+					}
 				}
 			}
 		}
 		i++;
 	}
-	if (res[0] == NULL)
-		printf("yes\n");
+	// if (res[0] == NULL)
+	// 	printf("yes\n");
+	// printf("end: \n");
 	//printstrs(res);
 	//printf("out\n");
 	return (free_strs(cmd), res);

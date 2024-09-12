@@ -6,7 +6,7 @@
 #    By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 22:26:51 by ybouyzem          #+#    #+#              #
-#    Updated: 2024/09/05 13:30:59 by ybouyzem         ###   ########.fr        #
+#    Updated: 2024/09/12 11:24:38 by ybouyzem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ CFLAGS = -I/usr/local/opt/readline/include
 
 LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
 
-FLAG = cc #-g -fsanitize=address
+FLAG = cc -g -fsanitize=address
 
 # GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS)
 GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS) 
@@ -50,7 +50,6 @@ PROGRAM = minishell
 
 $(PROGRAM): $(OBJECTFILES)
 	$(FLAG) $(LDFLAGS) $(OBJECTFILES) -o $(PROGRAM)
-
 
 all: $(PROGRAM)
 

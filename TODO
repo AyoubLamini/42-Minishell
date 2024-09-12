@@ -1,13 +1,33 @@
-cat < "hh jkj"
 
 in bash : 
 bash-3.2$ ls > $SDFGHJKL
 bash: $SDFGHJKL: ambiguous redirect
 
-in ur ikhan : 
-minishell $> ls > $SDFGHJKL
-open: No such file or directory
-'cat            README.md       exec            ls?-la
-Makefile        TODO            includes        minishell
-README 2.md     dir             libft           src
 
+ ----------------------------------------------------------------------------------------------12-08-2024=-------------------
+
+ minishell $> $GH ls
+minishell: : command not found
+
+
+
+minishell $> 
+cmd : pwd *
+suposed : /Users/ybouyzem/Desktop/minishell42
+result : usage: pwd [-L | -P]
+
+
+minishell $> export 7yh
+minishell: export: 7yh: :not a valid identifier
+
+
+
+
+
+minishell $> "                  "
+minishell:                       : command not found
+minishell $> export w="                        "
+
+
+unset 7hn a
+7hn invalid argument

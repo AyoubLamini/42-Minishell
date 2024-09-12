@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/12 15:01:46 by alamini          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:25:41 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,10 +271,10 @@ int	ft_check_space_in_cmd(char *str)
 		begining = 1;
 	len = ft_strlen(str) - 1;
 	i = len;
-	printf("len %d\n", len);
+	// printf("len %d\n", len);
 	while (i && ft_isspace(str[i]))
 		i--;
-	printf("i : %d\n", i);
+	// printf("i : %d\n", i);
 	
 	if (len != i && begining == 1)
 	{
@@ -285,7 +285,7 @@ int	ft_check_space_in_cmd(char *str)
 	else
 	{
 		
-		printf("yesss\n");
+		// printf("yesss\n");
 		return (0);
 	}
 }
@@ -345,7 +345,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd)
 					//printf("tmp: %s\n", tmp);
 					if (ft_check_space_in_cmd(tmp1) == 1)
 					{
-						//printf("yesssss\n");
+						// printf("yesssss\n");
 						res = join_double_strs_with_str(res, tmp);	
 					}
 					else
@@ -380,7 +380,7 @@ char	*expanding_red(t_env *envs, char *old_cmd)
 	cmd = expanding_split(old_cmd);
 	while (cmd[i])
 	{
-		if (cmd[i][0] == '\'')	
+		if (cmd[i][0] == '\'')
 			tmp = single_quotes_process(cmd[i]);
 		else
 		{

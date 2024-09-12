@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/12 15:37:28 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:23:12 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,80 +65,69 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-t_command	*allocate_node(char **args, int start, int end)
+t_command	*allocate_node()
 {
 	t_command	*node;
-	int	lencmd;
-
-	lencmd = 0;
+	
 	node = (t_command *)malloc(sizeof(t_command));
 	if (!node)
-		return (NULL);
-	//printstrs(args);
-	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
-		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
-	{
-		// printf("arg: %s\n", args[start]);
-		start++;
-		lencmd++;
-	}
+		return (printf("malloc failed!\n"), exit(1), NULL);
+	node->cmd = NULL;
+	node->redirection = NULL;
+	node->next = NULL;
+	// t_command	*node;
+	// int	lencmd;
+
+	// lencmd = 0;
+	// node = (t_command *)malloc(sizeof(t_command));
+	// if (!node)
+	// 	return (NULL);
+	// //printstrs(args);
+	// while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
+	// 	&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
+	// {
+	// 	// printf("arg: %s\n", args[start]);
+	// 	start++;
+	// 	lencmd++;
+	// }
 	// printf("lencmd: %d\n", lencmd);
 	// node->cmd = (char **)malloc(sizeof(char *) * (lencmd + 1));
 	// if (!node->cmd)
 	// 	return (printf("failed\n"), exit(1), NULL);
 	
 	// printf("\n\n\nlenre : %d\n\n\n", (end - start));
-	node->redirection = (char **)malloc(sizeof(char *) * ((end - start) + 1));
-	if (!node->redirection)
-		return (printf("failed\n"), exit(1), NULL);
-	node->next = NULL;
+	// node->redirection = (char **)malloc(sizeof(char *) * ((end - start) + 1));
+	// if (!node->redirection)
+	// 	return (printf("failed\n"), exit(1), NULL);
+	// node->next = NULL;
 	return (node);
 }
 
 t_command	*get_command(char **args, t_env *envs, int start, int end)
 {
 	t_command	*node;
-	int			ci;
-	int			ri;
 	char		**tmp;
-	int			j;
 
 	tmp = NULL;
-	ci = 0;
-	ri = 0;
-	node = allocate_node(args, start, end);
-	node->cmd= NULL;
+	node = allocate_node();
 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
 	{
-		j = 0;
-		//printf("\nargs : %s\n\n", args[start]);
 		tmp = expanding_cmd(envs, args[start]);
 		node->cmd = join_two_double_strs(node->cmd, tmp);
-		//printf("tmp:\n");
-		//printstrs(node->cmd);
-		// if (tmp)
-		// {
-		// 	while (tmp[j])
-		// 		node->cmd[ci++] = tmp[j++];
-		// }
 		start++;
 	}
-	//node->cmd[ci] = 0;
-	//printf("cmd: \n");
-	//printstrs(node->cmd);
-	// printf("start: %d\n", start);
-	// printf("end: %d\n", end);
-
 	while (start < end)
 	{
-		node->redirection[ri] = expanding_red(envs, args[start]);
+		tmp = expanding_cmd(envs, args[start]);
+		node->redirection = join_two_double_strs(node->redirection, tmp);
 		start++;
-		ri++;
 	}
-	node->redirection[ri] = 0;
-	//printf("red: \n");
-	//printstrs(node->redirection);
+	if (node->redirection == NULL)
+	{
+		node->redirection = (char **)malloc(sizeof(char *));
+		node->redirection[0] = 0;		
+	}
 	return (node);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/12 14:57:09 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:37:28 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_command	*allocate_node(char **args, int start, int end)
 	node = (t_command *)malloc(sizeof(t_command));
 	if (!node)
 		return (NULL);
-	printstrs(args);
+	//printstrs(args);
 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
 	{
@@ -83,9 +83,9 @@ t_command	*allocate_node(char **args, int start, int end)
 		lencmd++;
 	}
 	// printf("lencmd: %d\n", lencmd);
-	node->cmd = (char **)malloc(sizeof(char *) * (lencmd + 1));
-	if (!node->cmd)
-		return (printf("failed\n"), exit(1), NULL);
+	// node->cmd = (char **)malloc(sizeof(char *) * (lencmd + 1));
+	// if (!node->cmd)
+	// 	return (printf("failed\n"), exit(1), NULL);
 	
 	// printf("\n\n\nlenre : %d\n\n\n", (end - start));
 	node->redirection = (char **)malloc(sizeof(char *) * ((end - start) + 1));
@@ -103,26 +103,30 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 	char		**tmp;
 	int			j;
 
+	tmp = NULL;
 	ci = 0;
 	ri = 0;
 	node = allocate_node(args, start, end);
-	
+	node->cmd= NULL;
 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
 	{
 		j = 0;
-		printf("\nargs : %s\n\n", args[start]);
+		//printf("\nargs : %s\n\n", args[start]);
 		tmp = expanding_cmd(envs, args[start]);
-		if (tmp)
-		{
-			while (tmp[j])
-				node->cmd[ci++] = tmp[j++];
-		}
+		node->cmd = join_two_double_strs(node->cmd, tmp);
+		//printf("tmp:\n");
+		//printstrs(node->cmd);
+		// if (tmp)
+		// {
+		// 	while (tmp[j])
+		// 		node->cmd[ci++] = tmp[j++];
+		// }
 		start++;
 	}
-	node->cmd[ci] = 0;
-	printf("cmd: \n");
-	printstrs(node->cmd);
+	//node->cmd[ci] = 0;
+	//printf("cmd: \n");
+	//printstrs(node->cmd);
 	// printf("start: %d\n", start);
 	// printf("end: %d\n", end);
 
@@ -133,8 +137,8 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 		ri++;
 	}
 	node->redirection[ri] = 0;
-	printf("red: \n");
-	printstrs(node->redirection);
+	//printf("red: \n");
+	//printstrs(node->redirection);
 	return (node);
 }
 

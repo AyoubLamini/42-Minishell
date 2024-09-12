@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		free(input);
 		//leaks();
 	}
-	free_envs(env_vars);
+	//free_envs(env_vars);
 	// atexit(leaks);
 	return 0;
 }

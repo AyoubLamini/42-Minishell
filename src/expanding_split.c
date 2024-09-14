@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:26:37 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/29 06:09:18 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/14 14:22:35 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ char    **expanding_split(char  *old_cmd)
 		res[index] = ft_substr(old_cmd, start, i - start);
 		index++;
 	}
-	res[index] = NULL;
+	res[index] = 0;
 	return (res);
 }

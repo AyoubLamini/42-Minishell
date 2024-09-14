@@ -36,6 +36,11 @@ void set_up(struct termios *attrs)
 int	main(int argc, char **argv, char **envp) // added envp argument
 {
 	struct termios	attrs[3];
+	// if (!isatty(0))
+	// {
+	// 	printf("erorr\n");
+	// 	exit(1);
+	// }
 	(void)argc;
 	(void)argv;
 	char	*input;
@@ -44,6 +49,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	t_env	*env_vars;
 	char 	*tmp;
 	char	**args;
+	args = NULL;
 	snprintf(prompt, sizeof(prompt),  "minishell $> "  ) ;
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
@@ -55,7 +61,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		add_history(tmp);
 		if (check_syntax(input) < 0)
 		{
-			printf("returned value: %d\n", check_syntax(input));
+			// printf("returned value: %d\n", check_syntax(input));
 			syntax_error_messages(check_syntax(input));
 			// printf(ANSI_COLOR_RED "Syntax error\n");
 			if (input)
@@ -65,16 +71,17 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		input = add_spaces(input);
 		args = split_args(input, ' ');
 		cmds = split_cmds(args, env_vars);
+		//print_list(cmds);
 		execute(cmds, &env_vars); // I added this line
 		free_cmds(cmds);
-		free_strs(args);
+//		free_strs(args);
 		if (tmp)
 			free(tmp);
 		free(input);
-		//leaks();
+		// leaks();
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
-	//free_envs(env_vars);
+	free_envs(env_vars);
 	// atexit(leaks);
 	return 0;
 }

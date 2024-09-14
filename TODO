@@ -11,16 +11,8 @@ minishell: : command not found
 
 
 
-minishell $> 
-cmd : pwd *
-suposed : /Users/ybouyzem/Desktop/minishell42
-result : usage: pwd [-L | -P]
-
-
 minishell $> export 7yh
 minishell: export: 7yh: :not a valid identifier
-
-
 
 
 
@@ -31,3 +23,7 @@ minishell $> export w="                        "
 
 unset 7hn a
 7hn invalid argument
+
+minishell $> $dkj | echo $?
+$?
+minishell $> minishell: : command not found

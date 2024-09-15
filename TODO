@@ -14,11 +14,11 @@ unset 7hn a
 
 cat | cat | cat | cat | cat | ls
 
-
 minishell $> gdf | echo $_
 $_
 minishell $> minishell: gdf: command not found
 
 
-
 env -i ./minishell (only clear shouldn't work)
+
+mkdir -p 1/2/3/4

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/14 14:10:04 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/15 11:29:59 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 		node->redirection = (char **)malloc(sizeof(char *));
 		node->redirection[0] = 0;
 	}
+	//exit(1);
 	// printf("cmd: \n");
 	// printstrs(node->cmd);
 	// printf("red: \n");

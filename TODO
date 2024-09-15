@@ -1,13 +1,9 @@
 
-in bash : 
-bash-3.2$ ls > $SDFGHJKL
-bash: $SDFGHJKL: ambiguous redirect
+
 
 
  ----------------------------------------------------------------------------------------------12-08-2024=-------------------
 
- minishell $> $GH ls
-minishell: : command not found
 
 
 
@@ -24,6 +20,3 @@ minishell $> export w="                        "
 unset 7hn a
 7hn invalid argument
 
-minishell $> $dkj | echo $?
-$?
-minishell $> minishell: : command not found

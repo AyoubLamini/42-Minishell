@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/14 11:39:12 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/15 11:05:54 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char    **expanding_split(char  *old_cmd);
 int	check_will_splited(char *str);
 char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
+char	*normal_process(t_env *envs, char *str);
 
 // execution
 void execute(t_command *command, t_env **env_vars);

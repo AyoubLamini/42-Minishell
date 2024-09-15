@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/13 11:06:42 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:17:12 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 void	syntax_error_messages(int code)
 {
 	if (code == -1)
-		write(1, "Minishell: syntax error near unexpected token `newline'\n", 57);
+		write(2, "Minishell: syntax error \n", 26);
 	else if (code == -2)
-		write(1, "Minishell: syntax error near unexpected token `>'\n", 51);
+		write(2, "Minishell: syntax error near unexpected token `>'\n", 51);
 	else if (code == -3)
-		write(1, "Minishell: syntax error near unexpected token `<'\n", 51);
+		write(2, "Minishell: syntax error near unexpected token `<'\n", 51);
 	else if (code == -4)
-		write(1, "bash: syntax error near unexpected token `|'\n", 46); 
+		write(2, "bash: syntax error near unexpected token `|'\n", 46); 
 }
 
 int	my_strcmp(char *s1, char *s2)

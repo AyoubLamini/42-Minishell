@@ -1,20 +1,5 @@
 
-in bash : 
-bash-3.2$ ls > $SDFGHJKL
-bash: $SDFGHJKL: ambiguous redirect
 
-
- ----------------------------------------------------------------------------------------------12-08-2024=-------------------
-
- minishell $> $GH ls
-minishell: : command not found
-
-
-
-minishell $> 
-cmd : pwd *
-suposed : /Users/ybouyzem/Desktop/minishell42
-result : usage: pwd [-L | -P]
 
 
 minishell $> export 7yh
@@ -23,11 +8,17 @@ minishell: export: 7yh: :not a valid identifier
 
 
 
-
-minishell $> "                  "
-minishell:                       : command not found
-minishell $> export w="                        "
-
-
 unset 7hn a
 7hn invalid argument
+
+
+cat | cat | cat | cat | cat | ls
+
+minishell $> gdf | echo $_
+$_
+minishell $> minishell: gdf: command not found
+
+
+env -i ./minishell (only clear shouldn't work)
+
+mkdir -p 1/2/3/4

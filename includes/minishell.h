@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/12 15:01:17 by alamini          ###   ########.fr       */
+/*   Updated: 2024/09/15 11:05:54 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
+#define AMBIGOUS_INDEX -1
+
 typedef struct s_env {
 	char	*key;
 	char	*value;
@@ -41,7 +43,6 @@ typedef struct s_env {
 
 typedef struct s_command {
 	char    **cmd;
-	
 	char    **redirection;
 	struct s_command *next;
 } t_command;
@@ -89,7 +90,7 @@ void	free_envs(t_env *envs);
 
 //expanding
 char	**expanding_cmd(t_env *envs, char *old_cmd);
-char	*expanding_red(t_env *envs, char *old_cmd);
+char	**expanding_red(t_env *envs, char *old_cmd);
 t_env   *full_envs(char **env);
 t_env	*new_variable(char *env_key, char *env_value);
 char	*get_env_variable(t_env *env, char *env_key);
@@ -102,6 +103,7 @@ char    **expanding_split(char  *old_cmd);
 int	check_will_splited(char *str);
 char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
+char	*normal_process(t_env *envs, char *str);
 
 // execution
 void execute(t_command *command, t_env **env_vars);

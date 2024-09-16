@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/12 16:23:12 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/15 11:29:59 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,41 @@ t_command	*allocate_node()
 	return (node);
 }
 
+// t_command	*get_command(char **args, t_env *envs, int start, int end)
+// {
+// 	t_command	*node;
+// 	char		**tmp;
+
+// 	tmp = NULL;
+// 	node = allocate_node();
+// 	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
+// 		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
+// 	{
+// 		tmp = expanding_cmd(envs, args[start]);
+// 		node->cmd = join_two_double_strs(node->cmd, tmp);
+// 		start++;
+// 	}
+// 	while (start < end)
+// 	{
+// 		tmp = expanding_cmd(envs, args[start]);
+// 		node->redirection = join_two_double_strs(node->redirection, tmp);
+// 		start++;
+// 	}
+// 	if (node->redirection == NULL)
+// 	{
+// 		node->redirection = (char **)malloc(sizeof(char *));
+// 		node->redirection[0] = 0;
+// 	}
+// 	return (node);
+// }
+
+int	ft_is_red(char *str)
+{
+	if (!ft_strcmp(str, ">") || !ft_strcmp(str, ">>") || !ft_strcmp(str, "<") || !ft_strcmp(str, "<<"))
+		return (1);
+	return (0);
+}
+
 t_command	*get_command(char **args, t_env *envs, int start, int end)
 {
 	t_command	*node;
@@ -110,24 +145,34 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 
 	tmp = NULL;
 	node = allocate_node();
-	while (start < end && ft_strcmp(args[start], ">>") && ft_strcmp(args[start], "<<") 
-		&& ft_strcmp(args[start], ">") && ft_strcmp(args[start], "<"))
+	while (start < end && args[start])
 	{
-		tmp = expanding_cmd(envs, args[start]);
-		node->cmd = join_two_double_strs(node->cmd, tmp);
-		start++;
-	}
-	while (start < end)
-	{
-		tmp = expanding_cmd(envs, args[start]);
-		node->redirection = join_two_double_strs(node->redirection, tmp);
-		start++;
+		if (ft_is_red(args[start]))
+		{
+			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
+			start++;
+			tmp = expanding_red(envs, args[start]);
+
+			node->redirection = join_two_double_strs(node->redirection, tmp);
+			start++;
+		}
+		else
+		{
+			tmp = expanding_cmd(envs, args[start]);
+			node->cmd = join_two_double_strs(node->cmd, tmp);
+			start++;
+		}
 	}
 	if (node->redirection == NULL)
 	{
 		node->redirection = (char **)malloc(sizeof(char *));
-		node->redirection[0] = 0;		
+		node->redirection[0] = 0;
 	}
+	//exit(1);
+	// printf("cmd: \n");
+	// printstrs(node->cmd);
+	// printf("red: \n");
+	// printstrs(node->redirection);
 	return (node);
 }
 

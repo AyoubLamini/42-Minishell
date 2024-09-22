@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/15 11:05:54 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/22 13:48:00 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,17 @@ typedef struct s_path
 	char *path;
 }	t_path;
 
-enum
+enum //enumeration type
 {
 	ATTR_SET,  
 	ATTR_GET,  
 	ATTR_CHG 
+};
+
+enum
+{
+	SET_SIG,
+	UNSET_SIG
 };
 
 void	syntax_error_messages(int code);
@@ -107,6 +113,6 @@ char	*normal_process(t_env *envs, char *str);
 
 // execution
 void execute(t_command *command, t_env **env_vars);
-void setup_signals(void);
+void setup_signals(t_path *path, int action);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/15 11:29:59 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/19 18:04:19 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 
 	tmp = NULL;
 	node = allocate_node();
+	
 	while (start < end && args[start])
 	{
 		if (ft_is_red(args[start]))
@@ -167,6 +168,11 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 	{
 		node->redirection = (char **)malloc(sizeof(char *));
 		node->redirection[0] = 0;
+	}
+	if (node->cmd == NULL)
+	{
+		node->cmd = (char **)malloc(sizeof(char *));
+		node->cmd[0] = 0;
 	}
 	//exit(1);
 	// printf("cmd: \n");

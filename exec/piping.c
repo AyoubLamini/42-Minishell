@@ -11,6 +11,7 @@ static int create_pipe(int *fd)
 }
 static int child_process(t_command *command, t_env **env, int *fd, int *input_fd, t_exec *file_d, t_path *path)
 {
+    setup_signals(path, UNSET_SIG);
     if (*input_fd != -1) // If there is previous pipe
     {
         if (dup2(*input_fd, STDIN_FILENO) < 0) // read from stored previous pipe fd
@@ -20,7 +21,7 @@ static int child_process(t_command *command, t_env **env, int *fd, int *input_fd
         }
         close(*input_fd); // close it, cause we longer need it
     }
-    if (command->next ) // iF Next Command: pipe[1] = STDOUT;
+    if (command->next) // iF Next Command: pipe[1] = STDOUT;
     {
        
         if (dup2(fd[1], STDOUT_FILENO) < 0)

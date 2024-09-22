@@ -27,9 +27,9 @@ static void tty_attributes(struct termios *attrs, int action)
 		tty_attributes(attrs, ATTR_SET);
 	}
 }
-void set_up(struct termios *attrs)
+void set_up(struct termios *attrs, t_path *path)
 {
-	// setup_signals();
+	setup_signals(path, SET_SIG);
 	tty_attributes(attrs, ATTR_GET); // Save terminal attributes
 	tty_attributes(attrs, ATTR_CHG); // Change terminal attributes
 }
@@ -41,19 +41,21 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	// 	printf("erorr\n");
 	// 	exit(1);
 	// }
+	// printstrs(envp);
 	(void)argc;
 	(void)argv;
 	char	*input;
 	char	prompt[100];
 	t_command *cmds;
 	t_env	*env_vars;
+	t_path path;
 	char 	*tmp;
 	char	**args;
 	args = NULL;
 	snprintf(prompt, sizeof(prompt),  "minishell $> "  ) ;
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
-	set_up(attrs);  // Set up signal handlers
+	set_up(attrs, &path); 
 	while ((input = readline(prompt)) != NULL)
 	{
 		tmp = input;
@@ -69,9 +71,11 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 			continue;
 		}
 		input = add_spaces(input);
+		input = ft_strtrim(input, " ");
 		args = split_args(input, ' ');
+		//printstrs(args);
 		cmds = split_cmds(args, env_vars);
-		//print_list(cmds);
+		// print_list(cmds);
 		execute(cmds, &env_vars); // I added this line
 		free_cmds(cmds);
 //		free_strs(args);

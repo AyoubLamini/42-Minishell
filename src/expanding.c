@@ -3,22 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/15 11:47:43 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:16:00 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../exec/minishell_exec.h"
 
+static t_env *empty_envs(void)
+{
+	t_env *env_vars;
+	char *path;
+	char *pwd;
+	
+	
+	env_vars = NULL;
+	path = ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
+	getcwd(pwd, PATH_MAX);
+	add_env_back(&env_vars, new_variable(ft_strdup("PATH"), path));
+	add_env_back(&env_vars, new_variable(ft_strdup("PWD"), pwd));
+	add_env_back(&env_vars, new_variable(ft_strdup("SHLVL"), ft_strdup("1")));
+	add_env_back(&env_vars, new_variable(ft_strdup("OLDPWD"), NULL));
+	return (env_vars);
+}
 t_env   *full_envs(char **env)
 {
 	int		i;
 	t_env	*node;
 	t_env	*env_vars;
 
+	if (*env == NULL) // if env is empty
+		return (empty_envs());
 	env_vars = NULL;
 	i = 0;
 	while (env[i])
@@ -364,7 +383,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd)
 					{
 						// printf("tmp: |%s|\n", tmp);
 						// printf("tmp1: |%s|\n", tmp1);
-						if (ft_check_space_in_cmd(tmp1) == 1)
+						if (ft_check_space_in_cmd(tmp1) > 0)
 						{
 							res = join_double_strs_with_str(res, tmp);	
 						}

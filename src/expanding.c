@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/23 11:03:48 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:29:45 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,8 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path path)
 			if (check_is_joinable(cmd, i))
 			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
 			tmp = double_quotes(envs, cmd[i], path);
+			if (tmp[0] != '\0')
+			{
 			// printf("cmd: |%s|\n", cmd[i]);
 			if (cmd[i][0] == '"' || (cmd[i][0] != '"' && !is_only_spaces(tmp)))
 			{
@@ -354,10 +356,12 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path path)
 			}
 			else
 				res = join_double_strs_with_str(res, tmp);
+			}
 		}
 		i++;
 	}
-	// printstrs(res);
+	// if (res[0][0] == '\0')
+	// 	res[0] = NULL;
 	return (free_strs(cmd), res);
 }
 

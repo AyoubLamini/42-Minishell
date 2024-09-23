@@ -49,6 +49,7 @@ void execute(t_command *command, t_env **env_vars)
 	int input_fd;
 	input_fd = -1;
 	
+	
 	current = command;
 	if (!current)
 		return ;

@@ -54,7 +54,12 @@ void execute(t_command *command, t_env **env_vars)
 		return ;
 	while (current)
 	{
-			if (is_builtin(current->cmd[0]) && !current->next)
+			if (!current->cmd[0])
+			{
+				if (current->redirection[0])
+					handle_redirection(current, &file_d, &path);
+			}
+			if (is_builtin(current->cmd[0]) && !current->next) // i
 			{
 				exec_builtin(current, env_vars, &file_d, &path);
 				return ;

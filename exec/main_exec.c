@@ -60,15 +60,15 @@ void execute(t_command *command, t_env **env_vars)
 				if (current->redirection[0])
 					handle_redirection(current, &file_d, &path);
 			}
-			int i = 0;
-			while (current->cmd[i])
-				printf("|%s|\n", current->cmd[i++]);
+			else
+			{
 			if (is_builtin(current->cmd[0]) && !current->next) // i
 			{
 				exec_builtin(current, env_vars, &file_d, &path);
 				return ;
 			}
-			piping(current, env_vars, &input_fd, &file_d, &path);
+				piping(current, env_vars, &input_fd, &file_d, &path);
+			}
 		current = current->next;
 	}
 	while (waitpid(-1, &path.exit_status, 0) != -1 && errno != ECHILD)

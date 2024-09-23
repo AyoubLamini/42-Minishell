@@ -59,6 +59,9 @@ void execute(t_command *command, t_env **env_vars)
 				if (current->redirection[0])
 					handle_redirection(current, &file_d, &path);
 			}
+			int i = 0;
+			while (current->cmd[i])
+				printf("|%s|\n", current->cmd[i++]);
 			if (is_builtin(current->cmd[0]) && !current->next) // i
 			{
 				exec_builtin(current, env_vars, &file_d, &path);

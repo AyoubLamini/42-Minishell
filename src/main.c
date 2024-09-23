@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		input = ft_strtrim(input, " ");
 		args = split_args(input, ' ');
 		//printstrs(args);
-		cmds = split_cmds(args, env_vars);
+		cmds = split_cmds(args, env_vars, path);
 		// print_list(cmds);
 		execute(cmds, &env_vars); // I added this line
 		free_cmds(cmds);

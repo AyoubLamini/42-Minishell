@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/19 18:04:19 by alamini          ###   ########.fr       */
+/*   Updated: 2024/09/23 11:00:36 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	ft_is_red(char *str)
 	return (0);
 }
 
-t_command	*get_command(char **args, t_env *envs, int start, int end)
+t_command	*get_command(char **args, t_env *envs, int start, int end, t_path path)
 {
 	t_command	*node;
 	char		**tmp;
@@ -152,14 +152,14 @@ t_command	*get_command(char **args, t_env *envs, int start, int end)
 		{
 			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
 			start++;
-			tmp = expanding_red(envs, args[start]);
+			tmp = expanding_red(envs, args[start], path);
 
 			node->redirection = join_two_double_strs(node->redirection, tmp);
 			start++;
 		}
 		else
 		{
-			tmp = expanding_cmd(envs, args[start]);
+			tmp = expanding_cmd(envs, args[start], path);
 			node->cmd = join_two_double_strs(node->cmd, tmp);
 			start++;
 		}
@@ -198,7 +198,7 @@ void	printstrs(char **map)
 	}
 }
 
-t_command	*split_cmds(char **args, t_env *envs)
+t_command	*split_cmds(char **args, t_env *envs, t_path path)
 {
 	t_command	*input;
 	t_command *node;
@@ -214,7 +214,7 @@ t_command	*split_cmds(char **args, t_env *envs)
 		{
 			if (start < i)
 			{
-				node = get_command(args, envs, start, i);
+				node = get_command(args, envs, start, i, path);
 				lstadd_back(&input, node);
 			}
 			i++;
@@ -225,7 +225,7 @@ t_command	*split_cmds(char **args, t_env *envs)
 	}
 	if (start < i)
 	{
-		node = get_command(args, envs, start, i);
+		node = get_command(args, envs, start, i, path);
 		lstadd_back(&input, node);
 	}
 	//print_list(input);

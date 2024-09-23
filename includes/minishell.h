@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/22 13:48:00 by alamini          ###   ########.fr       */
+/*   Updated: 2024/09/23 11:01:42 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	remove_spaces(char **input);
 char	*add_spaces(char *input);
 char	**split_args(char *s, char c);
 void	ft_check_quotes(int *single_quote, int *double_quote, char c);
-t_command	*split_cmds(char **args, t_env *env_vars);
+t_command	*split_cmds(char **args, t_env *env_vars, t_path path);
 void *ft_myfree(char **result, int index);
 int	ft_strslen(char **map);
 int	ft_strcmp(char *s1, char *s2);
@@ -95,8 +95,8 @@ void	free_strs(char **strs);
 void	free_envs(t_env *envs);
 
 //expanding
-char	**expanding_cmd(t_env *envs, char *old_cmd);
-char	**expanding_red(t_env *envs, char *old_cmd);
+char	**expanding_cmd(t_env *envs, char *old_cmd, t_path path);
+char	**expanding_red(t_env *envs, char *old_cmd, t_path path);
 t_env   *full_envs(char **env);
 t_env	*new_variable(char *env_key, char *env_value);
 char	*get_env_variable(t_env *env, char *env_key);
@@ -106,7 +106,7 @@ char 	*get_str(char *var, char *type);
 void	printstrs(char **map);
 void	print_envs(t_env *envs);
 char    **expanding_split(char  *old_cmd);
-int	check_will_splited(char *str);
+int	check_will_splited(t_env *envs, char *str, t_path path);
 char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
 char	*normal_process(t_env *envs, char *str);

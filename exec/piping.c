@@ -58,11 +58,11 @@ void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d,
 {
     int pid;
     int fd[2];
-
     if (command->next)  // iF Next Command = Create Pipe
         if (create_pipe(fd))
             return ;
     pid = fork(); // Fork Child Process
+    path->is_forked = 1;
     if (pid < 0)
         return (perror("fork"));
     if (pid == 0) // Child process

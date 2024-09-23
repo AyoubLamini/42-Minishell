@@ -43,10 +43,11 @@ void execute(t_command *command, t_env **env_vars)
 	t_exec      file_d;
 	t_command   *current; 
 	t_path	  path;
+	int input_fd;
 	path.exit_status = 0;
 	file_d.in = 0;
 	file_d.out = 1;
-	int input_fd;
+	path.is_forked = 0;
 	input_fd = -1;
 	
 	
@@ -55,20 +56,24 @@ void execute(t_command *command, t_env **env_vars)
 		return ;
 	while (current)
 	{
-			if (!current->cmd[0])
+		if (!current->cmd[0])
+		{
+			if (current->redirection[0])
 			{
-				if (current->redirection[0])
-					handle_redirection(current, &file_d, &path);
+				handle_redirection(current, &file_d, &path);
+				reset_fd(&file_d);
 			}
-			else
-			{
-			if (is_builtin(current->cmd[0]) && !current->next) // i
+					
+		}
+		else
+		{
+			if (is_builtin(current->cmd[0]) && !current->next)
 			{
 				exec_builtin(current, env_vars, &file_d, &path);
 				return ;
 			}
-				piping(current, env_vars, &input_fd, &file_d, &path);
-			}
+			piping(current, env_vars, &input_fd, &file_d, &path);
+		}
 		current = current->next;
 	}
 	while (waitpid(-1, &path.exit_status, 0) != -1 && errno != ECHILD)

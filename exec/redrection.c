@@ -10,7 +10,10 @@ static int std_out(t_command *command, int pos, t_exec *file_d, t_path *path)
     {
         print_error(command->redirection[pos], NULL, strerror(errno));
         exit_status(1, path);
-        exit(1);
+        if (path->is_forked)
+            exit(1);
+        else
+            return (1);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {  
@@ -32,7 +35,10 @@ static int std_out_append(t_command *command, int pos, t_exec *file_d, t_path *p
     {
         print_error(command->redirection[pos], NULL, strerror(errno));
         exit_status(1, path);
-        exit(1);
+        if (path->is_forked)
+            exit(1);
+        else
+            return (1);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
@@ -54,7 +60,10 @@ static int std_in(t_command *command, int pos, t_exec *file_d, t_path *path)
     {
         print_error(command->redirection[pos], NULL, strerror(errno));
         exit_status(1, path);
-        exit(1);
+        if (path->is_forked)
+            exit(1);
+        else
+            return (1);
     }
     if (dup2(fd, STDIN_FILENO) == -1)
     {
@@ -62,7 +71,6 @@ static int std_in(t_command *command, int pos, t_exec *file_d, t_path *path)
         close(fd);
         return (1);
     }
-    
     close(fd);
     return (0);
 }

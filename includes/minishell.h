@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/24 17:23:25 by alamini          ###   ########.fr       */
+/*   Updated: 2024/09/24 17:34:29 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	**join_two_double_strs(char **s1, char **s2);
 char	*normal_process(t_env *envs, char *str);
 
 // execution
-void execute(t_command *command, t_env **env_vars);
+void execute(t_command *command, t_env **env_vars, t_path *path);
 void setup_signals(t_path *path, int action);
 
 #endif

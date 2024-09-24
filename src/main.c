@@ -29,7 +29,7 @@ static void tty_attributes(struct termios *attrs, int action)
 }
 void set_up(struct termios *attrs, t_path *path)
 {
-	setup_signals(path, SET_SIG);
+	setup_signals(path, SET_SIG); 
 	tty_attributes(attrs, ATTR_GET); // Save terminal attributes
 	tty_attributes(attrs, ATTR_CHG); // Change terminal attributes
 }
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	// 	exit(1);
 	// }
 	// printstrs(envp);
-	(void)argc;
+	(void)argc; 
 	(void)argv;
 	char	*input;
 	char	prompt[100];
@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
 	set_up(attrs, &path); 
+	path.exit_status = 0;
 	while ((input = readline(prompt)) != NULL)
 	{
 		tmp = input;
@@ -72,12 +73,14 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		}
 		input = add_spaces(input);
 		input = ft_strtrim(input, " ");
+		//printf("input : |%s|\n", input);
 		args = split_args(input, ' ');
 		//printstrs(args);
+		//printf ("exit : %d\n", path.exit_status);
 		cmds = split_cmds(args, env_vars, path);
 		cmds->last_file = NULL;
 		// print_list(cmds);
-		execute(cmds, &env_vars); // I added this line
+		execute(cmds, &env_vars, &path); // I added this line
 		free_cmds(cmds);
 //		free_strs(args);
 		if (tmp)

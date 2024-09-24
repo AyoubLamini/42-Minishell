@@ -1,6 +1,7 @@
 #include "../includes/minishell.h"
+#include "minishell_exec.h"
 
-static void    ft_rename(t_herdoc *herdoc)
+static void    ft_rename(t_heredoc *herdoc)
 {
     static int id;
 
@@ -10,14 +11,14 @@ static void    ft_rename(t_herdoc *herdoc)
 
 void    ft_heredoc(t_command *command, t_path *path, char *delimiter)
 {
-    t_heredoc herdoc; 
+    t_heredoc heredoc; 
     int     fd;
     char    *line; 
 
-    herdoc.delimiter = delimiter;
-    herdoc.file = NULL;
-    ft_rename(&herdoc);
-    fd = open(herdoc->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    heredoc.delimiter = delimiter;
+    heredoc.file = NULL;
+    ft_rename(&heredoc);
+    fd = open(heredoc.file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd == -1)
     {
         print_error("heredoc", NULL, strerror(errno));
@@ -32,7 +33,7 @@ void    ft_heredoc(t_command *command, t_path *path, char *delimiter)
         line = readline("> ");
         if (!line)
             break ;
-        if (ft_strcmp(line, herdoc->delimiter) == 0)
+        if (ft_strcmp(line, heredoc.delimiter) == 0)
         {
             free(line);
             break ;
@@ -41,6 +42,6 @@ void    ft_heredoc(t_command *command, t_path *path, char *delimiter)
         write(fd, "\n", 1);
         free(line);
     }
-    command->last_file = herdoc->file;
+    command->last_file = heredoc.file;
     close(fd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/23 16:19:20 by alamini          ###   ########.fr       */
+/*   Updated: 2024/09/23 16:57:21 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	**join_two_double_strs(char **s1, char **s2);
 char	*normal_process(t_env *envs, char *str);
 
 // execution
-void execute(t_command *command, t_env **env_vars);
+void execute(t_command *command, t_env **env_vars, t_path *path);
 void setup_signals(t_path *path, int action);
 
 #endif

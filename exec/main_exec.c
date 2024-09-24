@@ -38,16 +38,14 @@ static void exec_builtin(t_command *current, t_env **env_vars, t_exec *file_d, t
 
 
 
-void execute(t_command *command, t_env **env_vars)
+void execute(t_command *command, t_env **env_vars, t_path *path)
 {
 	t_exec      file_d;
 	t_command   *current; 
-	t_path	  path;
 	int input_fd;
-	path.exit_status = 0;
 	file_d.in = 0;
 	file_d.out = 1;
-	path.is_forked = 0;
+	path->is_forked = 0;
 	input_fd = -1;
 	
 	
@@ -60,23 +58,22 @@ void execute(t_command *command, t_env **env_vars)
 		{
 			if (current->redirection[0])
 			{
-				handle_redirection(current, &file_d, &path);
+				handle_redirection(current, &file_d, path);
 				reset_fd(&file_d);
-			}
-					
+			}		
 		}
 		else
 		{
 			if (is_builtin(current->cmd[0]) && !current->next)
 			{
-				exec_builtin(current, env_vars, &file_d, &path);
+				exec_builtin(current, env_vars, &file_d, path);
 				return ;
 			}
-			piping(current, env_vars, &input_fd, &file_d, &path);
+			piping(current, env_vars, &input_fd, &file_d, path);
 		}
 		current = current->next;
 	}
-	while (waitpid(-1, &path.exit_status, 0) != -1 && errno != ECHILD)
+	while (waitpid(-1, &path->exit_status, 0) != -1 && errno != ECHILD)
 		;
 }
 		   

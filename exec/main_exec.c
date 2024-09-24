@@ -50,7 +50,6 @@ void execute(t_command *command, t_env **env_vars)
 	path.is_forked = 0;
 	input_fd = -1;
 	
-	
 	current = command;
 	if (!current)
 		return ;

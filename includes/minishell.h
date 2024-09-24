@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/23 16:19:20 by alamini          ###   ########.fr       */
+/*   Updated: 2024/09/24 17:23:25 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,15 @@ typedef struct s_env {
 	struct s_env *next;
 } t_env;
 
+typedef struct s_heredoc {
+    char *delimiter;
+	char *file;
+} t_heredoc;
+
 typedef struct s_command {
 	char    **cmd;
 	char    **redirection;
+	char 	*last_file;
 	struct s_command *next;
 } t_command;
 

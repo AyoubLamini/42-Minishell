@@ -74,9 +74,6 @@ static int std_in(t_command *command, int pos, t_exec *file_d, t_path *path)
     close(fd);
     return (0);
 }
-// static int here_doc(t_command *command, int pos)
-// {
-// }
 
 
 int handle_redirection(t_command *command, t_exec *file_d, t_path *path)
@@ -91,8 +88,10 @@ int handle_redirection(t_command *command, t_exec *file_d, t_path *path)
             std_out_append(command, i + 1, file_d, path);
         else if (ex_strcmp(command->redirection[i], "<") == 0)
             std_in(command, i + 1, file_d, path);
-        // else if (ft_strcmp(command->redirection[i], "<<") == 0)
-        //     here_doc(command, i + 1);
+        else if (ft_strcmp(command->redirection[i], "<<") == 0)
+        {
+            ft_heredoc(command, path, command->redirection[i + 1]);
+        }
         i++;
     }
     return (0);

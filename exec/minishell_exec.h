@@ -19,6 +19,8 @@ typedef struct s_exec
     int out;
 } t_exec;
 
+
+
 // utils
 char	**ex_split(char const *s, char c);
 int     ex_strcmp(char *s1, char *s2);
@@ -57,6 +59,7 @@ int     unset(t_command *cmds, t_env **env_vars);
 void    exit_shell(t_command *command, t_path *path);
 // redirections 
 int handle_redirection(t_command *command, t_exec *file_d, t_path *path);
+void    ft_heredoc(t_command *command, t_path *path, char *delimiter);
 // piping 
 void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d, t_path *path);
 

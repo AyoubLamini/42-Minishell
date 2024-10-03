@@ -11,7 +11,7 @@ static char *ft_rename(void)
     return (file);
 }
 
-static void ft_heredoc(t_command *command, t_path *path, char *delimiter)
+static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env **env)
 {
     t_heredoc *heredoc;
     int     fd;
@@ -36,7 +36,7 @@ static void ft_heredoc(t_command *command, t_path *path, char *delimiter)
             free(line);
             break ;
         }
-        //line = expanding_herdoc(path->envs, line, *path); // i need the envs to expand the line
+        line = expanding_herdoc(path->envs, line, *path); // i need the envs to expand the line
         write(fd, line, ft_strlen(line));
         write(fd, "\n", 1);
         free(line);
@@ -61,7 +61,7 @@ int is_heredoc(char **red)
     }
     return (0);
 }
-int handle_herdoc(t_command *command, t_path *path)
+int handle_herdoc(t_command *command, t_path *path, t_env **envs)
 {
     int i;
     i = 0;
@@ -70,7 +70,7 @@ int handle_herdoc(t_command *command, t_path *path)
     while (command->redirection[i])
     {
         if (ex_strcmp(command->redirection[i], "<<") == 0)
-            ft_heredoc(command, path, command->redirection[i + 1]);
+            ft_heredoc(command, path, command->redirection[i + 1], envs);
         i++;
     }
     return (0);

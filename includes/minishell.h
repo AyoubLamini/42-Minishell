@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/03 14:54:12 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:58:57 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void setup_signals(t_path *path, int action);
 char	*expanding_herdoc(t_env *envs, char *str, t_path path);
 char    *expanding_cmd_herdoc(t_env *envs, char *old_cmd, t_path path);
 void 	clear_herdocs(t_path *path);
-int 	handle_herdoc(t_command *command, t_path *path);
+int 	handle_herdoc(t_command *command, t_path *path, t_env **envs);
 t_heredoc *lst_heredoc_new(char *delimiter, char *file);
 void    lst_heredoc_add_back(t_heredoc **lst, t_heredoc *new);
 

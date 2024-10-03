@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/24 17:34:29 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/03 10:48:53 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,8 @@ char	*normal_process(t_env *envs, char *str);
 void execute(t_command *command, t_env **env_vars, t_path *path);
 void setup_signals(t_path *path, int action);
 
+
+// heredoc
+char	*expanding_herdoc(t_env *envs, char *str, t_path path);
+char    *expanding_cmd_herdoc(t_env *envs, char *old_cmd, t_path path);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/23 15:29:45 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/09/28 00:03:53 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	get_last_quote_pos(char	*old_cmd)
 	return (len);
 }
 
-char	*double_quotes(t_env *envs, char *str, t_path path)
+char	*double_quotes(t_env *envs, char *str, t_path *path)
 {
 	int		i;
 	char	*res;
@@ -135,7 +135,7 @@ char	*double_quotes(t_env *envs, char *str, t_path path)
 				}
 				if (str[i] == '?')
 				{
-					res = ft_strjoin(res, ft_itoa(path.exit_status));
+					res = ft_strjoin(res, ft_itoa(path->exit_status));
 					i++;
 				}
 				else if (ft_isdigit(str[i]))
@@ -207,7 +207,7 @@ int	check_is_joinable(char **cmd, int index)
 	return (0);
 }
 
-int	check_will_splited(t_env *envs, char *str, t_path path)
+int	check_will_splited(t_env *envs, char *str, t_path *path)
 {
 	int	i;
 	int	check;
@@ -277,7 +277,7 @@ int	is_only_spaces(char *str)
 	return (0);
 }
 
-char	**expanding_cmd(t_env *envs, char *old_cmd, t_path path)
+char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 {
 	char	**cmd;
 	char	*tmp;
@@ -365,7 +365,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path path)
 	return (free_strs(cmd), res);
 }
 
-char	**expanding_red(t_env *envs, char *old_cmd, t_path path)
+char	**expanding_red(t_env *envs, char *old_cmd, t_path *path)
 {
 	char	**cmd;
 	char	*tmp;

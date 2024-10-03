@@ -1,10 +1,10 @@
 #include "minishell_exec.h"
 
 
-static void reset_fd(t_exec *file_d)
+static void reset_fd(t_path *path)
 {
-	dup2(file_d->in, STDIN_FILENO);
-	dup2(file_d->out, STDOUT_FILENO);
+	dup2(path->fd_in, STDIN_FILENO);
+	dup2(path->fd_out, STDOUT_FILENO);
 }
 static int is_builtin(char *cmd)
 {
@@ -28,47 +28,46 @@ static int is_builtin(char *cmd)
 
 }
 
-static void exec_builtin(t_command *current, t_env **env_vars, t_exec *file_d, t_path *path)
+static void exec_builtin(t_command *current, t_env **env_vars, t_path *path)
 {
 	if (current->redirection[0])
-			handle_redirection(current, file_d, path);
+			handle_redirection(current, path);
 	check_command(current, env_vars, path);
-	reset_fd(file_d);
+	reset_fd(path);
 }
 
 
 
 void execute(t_command *command, t_env **env_vars, t_path *path)
 {
-	t_exec      file_d;
-	t_command   *current; 
+	t_command   *current;
+
 	int input_fd;
-	file_d.in = 0;
-	file_d.out = 1;
-	path->is_forked = 0;
+
 	input_fd = -1;
-	
 	current = command;
 	if (!current)
 		return ;
+
 	while (current)
 	{
+		handle_herdoc(current, path);
 		if (!current->cmd[0])
 		{
 			if (current->redirection[0])
 			{
-				handle_redirection(current, &file_d, path);
-				reset_fd(&file_d);
+				handle_redirection(current, path);
+				reset_fd(path);
 			}		
 		}
 		else
 		{
 			if (is_builtin(current->cmd[0]) && !current->next)
 			{
-				exec_builtin(current, env_vars, &file_d, path);
+				exec_builtin(current, env_vars, path);
 				return ;
 			}
-			piping(current, env_vars, &input_fd, &file_d, path);
+			piping(current, env_vars, &input_fd, path);
 		}
 		current = current->next;
 	}

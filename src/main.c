@@ -27,6 +27,16 @@ static void tty_attributes(struct termios *attrs, int action)
 		tty_attributes(attrs, ATTR_SET);
 	}
 }
+static t_path *init_data(t_path *path)
+{
+	path = (t_path *)malloc(sizeof(t_path));
+	path->exit_status = 0;
+	path->is_forked = 0;
+	path->fd_in = 0;
+	path->fd_out = 1;
+	path->heredoc = NULL;
+	return (path);
+}
 void set_up(struct termios *attrs, t_path *path)
 {
 	setup_signals(path, SET_SIG); 
@@ -48,15 +58,17 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	char	prompt[100];
 	t_command *cmds;
 	t_env	*env_vars;
-	t_path path;
+	t_path 	*path;
 	char 	*tmp;
 	char	**args;
 	args = NULL;
+	path = NULL;
 	snprintf(prompt, sizeof(prompt),  "minishell $> "  ) ;
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
-	set_up(attrs, &path); 
-	path.exit_status = 0;
+	path = init_data(path); // I added this line
+	set_up(attrs, path); 
+	path->exit_status = 0;
 	while ((input = readline(prompt)) != NULL)
 	{
 		tmp = input;
@@ -78,17 +90,19 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		//printstrs(args);
 		//printf ("exit : %d\n", path.exit_status);
 		cmds = split_cmds(args, env_vars, path);
-		cmds->last_file = NULL;
 		// print_list(cmds);
-		execute(cmds, &env_vars, &path); // I added this line
+		execute(cmds, &env_vars, path); // I added this line
 		free_cmds(cmds);
 //		free_strs(args);
 		if (tmp)
 			free(tmp);
 		free(input);
 		// leaks();
+		// process_heredocs(path);
+		clear_herdocs(path);
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
+	
 	free_envs(env_vars);
 	// atexit(leaks);
 	return 0;

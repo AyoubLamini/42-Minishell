@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/03 13:42:44 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:54:23 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_is_red(char *str)
 	return (0);
 }
 
-t_command	*get_command(char **args, t_env *envs, int start, int end, t_path path)
+t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *path)
 {
 	t_command	*node;
 	char		**tmp;
@@ -130,6 +130,7 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path path
 		node->cmd = (char **)malloc(sizeof(char *));
 		node->cmd[0] = 0;
 	}
+	node->last_file = NULL;
 	//exit(1);
 	// printf("cmd: \n");
 	// printstrs(node->cmd);
@@ -154,7 +155,7 @@ void	printstrs(char **map)
 	}
 }
 
-t_command	*split_cmds(char **args, t_env *envs, t_path path)
+t_command	*split_cmds(char **args, t_env *envs, t_path *path)
 {
 	t_command	*input;
 	t_command *node;

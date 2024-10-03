@@ -54,7 +54,6 @@ int     unset(t_command *cmds, t_env **env_vars);
 void    exit_shell(t_command *command, t_path *path);
 // redirections 
 int     handle_redirection(t_command *command, t_path *path);
-void    ft_heredoc(t_command *command, t_path *path, char *delimiter);
 // piping 
 void piping(t_command *command, t_env **env_vars, int *input_fd, t_path *path);
 

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 08:33:12 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/01 11:35:00 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:36:29 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	check_directions(char *input)
 	while (input[i])
 	{
 		j = 0;
+	
 		ft_check_quotes(&single_quote, &double_quote, input[i]);
 		if (!single_quote && !double_quote)
 		{
@@ -85,7 +86,8 @@ int	check_directions(char *input)
 				j++;
 				i++;
 			}
-			i++;
+			if (input[i] != '\0' && input[i] != '<' && input[i] != '>')
+				i++;
 			if (j > 2)
 				return (-2);
 		}
@@ -112,12 +114,14 @@ int check_syntax(char *input)
 	single_quote = 0;
 	double_quote = 0;
 	i = 0;
+	// printf("input: |%s|\n", input);
 	if (check_directions(input) == -1)
 		return (-1);
-	else if (check_directions(input) == -2)
+	 if (check_directions(input) == -2)
 		return (-2);
 	if (check_quotes(input) == -1)
 		return (-1);
+	
 	// printf("here\n");
 	if ((is_redirection(input, 0) == 2 && input[i + 2] == '\0') || (is_redirection(input, 0) && input[i + 1] == '\0'))
 		return (-2);

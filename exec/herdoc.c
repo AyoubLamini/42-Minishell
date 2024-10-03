@@ -11,7 +11,7 @@ static char *ft_rename(void)
     return (file);
 }
 
-static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env **env)
+static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env **envs)
 {
     t_heredoc *heredoc;
     int     fd;
@@ -36,7 +36,7 @@ static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env 
             free(line);
             break ;
         }
-        line = expanding_herdoc(path->envs, line, *path); // i need the envs to expand the line
+        line = expanding_herdoc(*envs, line, *path); // i need the envs to expand the line
         write(fd, line, ft_strlen(line));
         write(fd, "\n", 1);
         free(line);

@@ -12,12 +12,7 @@
 #include <limits.h>
 #include <sys/stat.h>
 
-typedef struct s_exec
-{
-    char *path;
-    int in;
-    int out;
-} t_exec;
+
 
 
 
@@ -49,7 +44,7 @@ void exit_status(int status, t_path *path);
 void check_command(t_command *command, t_env **env_vars, t_path *path);
 
 
-// builtins
+// builtins 
 int     cd(t_command *command, t_env *env_vars);
 int     echo(t_command *command);
 int     env(t_env *env_vars);
@@ -58,10 +53,10 @@ int     export(t_command *cmds, t_env **env_vars);
 int     unset(t_command *cmds, t_env **env_vars);
 void    exit_shell(t_command *command, t_path *path);
 // redirections 
-int handle_redirection(t_command *command, t_exec *file_d, t_path *path);
+int     handle_redirection(t_command *command, t_path *path);
 void    ft_heredoc(t_command *command, t_path *path, char *delimiter);
 // piping 
-void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d, t_path *path);
+void piping(t_command *command, t_env **env_vars, int *input_fd, t_path *path);
 
 
 #endif

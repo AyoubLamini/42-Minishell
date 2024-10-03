@@ -9,7 +9,7 @@ static int create_pipe(int *fd)
     }
     return (0);
 }
-static int child_process(t_command *command, t_env **env, int *fd, int *input_fd, t_exec *file_d, t_path *path)
+static int child_process(t_command *command, t_env **env, int *fd, int *input_fd, t_path *path)
 {
     setup_signals(path, UNSET_SIG);
     if (*input_fd != -1) // If there is previous pipe
@@ -31,15 +31,14 @@ static int child_process(t_command *command, t_env **env, int *fd, int *input_fd
     }
     if (command->redirection[0])
     {
-        handle_redirection(command, file_d, path);
+        handle_redirection(command, path);
     }
     check_command(command, env, path);
     exit(0);
 }
 
-static int parent_process(t_command *command, int *fd, t_exec *file_d, int *input_fd)
+static int parent_process(t_command *command, int *fd, int *input_fd)
 {
-    (void)file_d;
     if (*input_fd != -1)
         close(*input_fd); // Close the previous pipe's read end
 
@@ -54,7 +53,7 @@ static int parent_process(t_command *command, int *fd, t_exec *file_d, int *inpu
     }
     return (0);
 }
-void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d, t_path *path)
+void piping(t_command *command, t_env **env_vars, int *input_fd, t_path *path)
 {
     int pid;
     int fd[2];
@@ -67,12 +66,12 @@ void piping(t_command *command, t_env **env_vars, int *input_fd, t_exec *file_d,
         return (perror("fork"));
     if (pid == 0) // Child process
     {
-        if (child_process(command, env_vars, fd, input_fd, file_d, path))
+        if (child_process(command, env_vars, fd, input_fd, path))
             return ;
     }
     else
     {
-        if (parent_process(command, fd, file_d, input_fd))
+        if (parent_process(command, fd, input_fd))
             return ;
     }
     return ; 

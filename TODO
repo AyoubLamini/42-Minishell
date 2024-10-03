@@ -8,3 +8,7 @@ mkdir -p 1/2/3/4
 
 
 // weird behavior, when passing t_path path from main.c to execute function | but when editing in split commands it works fine
+
+
+//WIFSIGNALED WEXITSTATUS
+//

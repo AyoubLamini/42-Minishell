@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/24 17:34:29 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/01 18:16:36 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ typedef struct s_env {
 	struct s_env *next;
 } t_env;
 
-typedef struct s_heredoc {
-    char *delimiter;
-	char *file;
-} t_heredoc;
-
 typedef struct s_command {
 	char    **cmd;
 	char    **redirection;
@@ -53,11 +48,20 @@ typedef struct s_command {
 	struct s_command *next;
 } t_command;
 
+typedef struct s_heredoc {
+    char *delimiter;
+    char *file;
+    struct s_heredoc *next;
+} t_heredoc;
+
 typedef struct s_path
 {
-	int exit_status;
-	int is_forked;
-}	t_path;
+    int exit_status;
+    int is_forked;
+    int fd_in;
+    int fd_out;
+    struct s_heredoc *heredoc;  
+} t_path;
 
 enum //enumeration type
 {
@@ -81,7 +85,7 @@ void	remove_spaces(char **input);
 char	*add_spaces(char *input);
 char	**split_args(char *s, char c);
 void	ft_check_quotes(int *single_quote, int *double_quote, char c);
-t_command	*split_cmds(char **args, t_env *env_vars, t_path path);
+t_command	*split_cmds(char **args, t_env *env_vars, t_path *path);
 void *ft_myfree(char **result, int index);
 int	ft_strslen(char **map);
 int	ft_strcmp(char *s1, char *s2);
@@ -101,8 +105,8 @@ void	free_strs(char **strs);
 void	free_envs(t_env *envs);
 
 //expanding
-char	**expanding_cmd(t_env *envs, char *old_cmd, t_path path);
-char	**expanding_red(t_env *envs, char *old_cmd, t_path path);
+char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path);
+char	**expanding_red(t_env *envs, char *old_cmd, t_path *path);
 t_env   *full_envs(char **env);
 t_env	*new_variable(char *env_key, char *env_value);
 char	*get_env_variable(t_env *env, char *env_key);
@@ -112,7 +116,7 @@ char 	*get_str(char *var, char *type);
 void	printstrs(char **map);
 void	print_envs(t_env *envs);
 char    **expanding_split(char  *old_cmd);
-int	check_will_splited(t_env *envs, char *str, t_path path);
+int		check_will_splited(t_env *envs, char *str, t_path *path);
 char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
 char	*normal_process(t_env *envs, char *str);
@@ -120,5 +124,9 @@ char	*normal_process(t_env *envs, char *str);
 // execution
 void execute(t_command *command, t_env **env_vars, t_path *path);
 void setup_signals(t_path *path, int action);
-
+void lst_heredoc_add_back(t_heredoc **lst, t_heredoc *new);
+void process_heredocs(t_path *path);
+t_heredoc *lst_heredoc_new(char *delimiter, char *file);
+int handle_herdoc(t_command *command, t_path *path);
+void clear_herdocs(t_path *path);
 #endif

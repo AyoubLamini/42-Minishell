@@ -63,7 +63,6 @@ static void commands(t_command *command, t_env **env, char **envp, t_path *path)
     }
     print_error(command->cmd[0], NULL, "command not found"); // if command not found
     exit_status(127, path);
-    printf("exit: %d\n", path->exit_status);
     exit(path->exit_status);
 }
 

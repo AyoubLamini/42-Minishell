@@ -97,7 +97,7 @@ void exit_shell(t_command *command, t_path *path)
     }
     else
     {
-        // printf("exit");
+        printf("exit\n");
         exit(ft_atoi(command->cmd[1]));
     }
 }

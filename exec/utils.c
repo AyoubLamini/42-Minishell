@@ -55,6 +55,8 @@ int ft_is_numeric(char *s)
     int i;
 
     i = 0;
+    if (s[i] == '-' || s[i] == '+')
+        i++;
     while (s[i])
     {
         if (!ft_isdigit(s[i]))

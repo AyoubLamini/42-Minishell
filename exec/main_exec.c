@@ -25,7 +25,6 @@ static int is_builtin(char *cmd)
 	else if (ex_strcmp("exit", cmd) == 0)
 		return (1);
 	return (0);
-
 }
 
 static void exec_builtin(t_command *current, t_env **env_vars, t_path *path)
@@ -43,7 +42,7 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 	t_command   *current;
 
 	int input_fd;
-
+	int status;
 	input_fd = -1;
 	current = command;
 	if (!current)
@@ -71,8 +70,13 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 		}
 		current = current->next;
 	}
-	while (waitpid(-1, &path->exit_status, 0) != -1 && errno != ECHILD)
-		;
+	while (waitpid(-1, &status, 0) != -1 && errno != ECHILD)
+	{
+		if (WIFEXITED(status))
+			exit_status(WEXITSTATUS(status), path);
+	}
+		
+	
 }
 		   
    

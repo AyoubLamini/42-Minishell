@@ -25,3 +25,4 @@ mkdir -p 1/2/3/4
 //bash-3.2$ cat << $"USER"
 
 //bash-3.2$ cat << "USER"
+// in case of '' single quotes, you need to send NULL

@@ -12,3 +12,16 @@ mkdir -p 1/2/3/4
 
 //WIFSIGNALED WEXITSTATUS
 //
+
+
+//handle relative path    
+
+
+
+//cat << a << b << c | << a << b << c  ==> file disc leaks    cmd : lsof -p 54995
+
+
+
+//bash-3.2$ cat << $"USER"
+
+//bash-3.2$ cat << "USER"

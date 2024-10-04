@@ -36,14 +36,14 @@ void update_key(char *cmd, t_env **env)
 {
     if (ex_strcmp(get_str(cmd, "sep"), "+=") == 0) // Append mode
     {
-        printf("Append mode:\n");
+        //printf("Append mode:\n");
         update_var(*env, get_str(cmd, "key"), 
             ft_strjoin(get_env_value(*env, get_str(cmd, "key")),
                 get_str(cmd, "value")));
     }
     else // Update Mode
     {
-        printf("Update mode:\n");
+        //printf("Update mode:\n");
         if (get_str(cmd, "value"))
             update_var(*env, get_str(cmd, "key"), 
                 get_str(cmd, "value"));
@@ -64,7 +64,7 @@ int export(t_command *cmds, t_env **env)
                 update_key(cmds->cmd[i], env);
             else // new variable mode
             {
-                printf("New var mode:\n");
+                //printf("New var mode:\n");
                 add_env_back(env, new_variable(get_str(cmds->cmd[i], "key"), 
                     get_str(cmds->cmd[i], "value")));
             }

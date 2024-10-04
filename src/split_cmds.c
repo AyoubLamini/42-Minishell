@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/03 14:54:23 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/04 10:21:00 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 		{
 			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
 			start++;
-			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
+			node->redirection = join_double_strs_with_str(node->redirection, get_right_delimeter(args[start]));
 			start++;
 		}
 		else

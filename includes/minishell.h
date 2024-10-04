@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/03 15:58:57 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/04 10:16:21 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,5 @@ void 	clear_herdocs(t_path *path);
 int 	handle_herdoc(t_command *command, t_path *path, t_env **envs);
 t_heredoc *lst_heredoc_new(char *delimiter, char *file);
 void    lst_heredoc_add_back(t_heredoc **lst, t_heredoc *new);
-
+char	*get_right_delimeter(char *s);
 #endif

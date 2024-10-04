@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 09:59:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/03 10:48:25 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/04 10:26:55 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,3 +117,38 @@ char    *expanding_cmd_herdoc(t_env *envs, char *old_cmd, t_path path)
     }
     return (free_strs(cmd), res);
 }
+
+char	*get_right_delimeter(char *s)
+{
+	int		i;
+	char	*delimeter;
+	char	**del;
+	int		j;
+	
+	delimeter = NULL;
+	del = NULL;
+	i = 0;
+	del = expanding_split(s);
+	while (del[i])
+	{
+		j = 0;
+		if (del[i][0] == '\'')
+		{
+			j++;
+			while (del[i][j] && del[i][j] != '\'')
+				j++;
+			delimeter = ft_strjoin(delimeter, ft_substr(del[i], 1, j - 1));
+		}
+		else if (del[i][0] == '"')
+		{
+			j++;
+			while (del[i][j] && del[i][j] != '"')
+				j++;
+			delimeter = ft_strjoin(delimeter, ft_substr(del[i], 1, j - 1));
+		}
+		else
+			delimeter = ft_strjoin(delimeter, del[i]);
+		i++;
+	}
+		return (delimeter);
+	}

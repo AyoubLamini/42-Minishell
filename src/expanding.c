@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/28 00:03:53 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/05 23:46:43 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,12 +304,14 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 				res[index - 1] = ft_strjoin(res[index - 1], tmp);
 				res[index] = 0;
 			}
+			// }
 		}
 		else
 		{
 			if (check_is_joinable(cmd, i))
 			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
 			tmp = double_quotes(envs, cmd[i], path);
+			
 			if (tmp[0] != '\0')
 			{
 			// printf("cmd: |%s|\n", cmd[i]);

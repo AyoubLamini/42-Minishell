@@ -55,6 +55,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	(void)argc; 
 	(void)argv;
 	char	*input;
+	input = NULL;
 	char	prompt[100];
 	t_command *cmds;
 	t_env	*env_vars;
@@ -79,8 +80,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 			// printf("returned value: %d\n", check_syntax(input));
 			syntax_error_messages(check_syntax(input));
 			// printf(ANSI_COLOR_RED "Syntax error\n");
-			if (input)
-				free(input);
 			continue;
 		}
 		input = add_spaces(input);
@@ -102,7 +101,8 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		clear_herdocs(path);
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
-	
+	if (input)
+		free(input);
 	free_envs(env_vars);
 	// atexit(leaks);
 	return 0;

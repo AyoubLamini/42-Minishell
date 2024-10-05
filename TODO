@@ -20,9 +20,29 @@ mkdir -p 1/2/3/4
 
 //cat << a << b << c | << a << b << c  ==> file disc leaks    cmd : lsof -p 54995
 
+bash-3.2$ ls | exit 78
+bash-3.2$ echo $?
+78
 
 
-//bash-3.2$ cat << $"USER"
 
-//bash-3.2$ cat << "USER"
+bash-3.2$ ls | exit dfg
+bash: exit: dfg: numeric argument required
+bash-3.2$ echo $?
+255
+
+
+
+bash-3.2$ cat 
+^\Quit: 3
+bash-3.2$ echo $?
+131
+
+
+$> ls | echo $?
+127
+minishell $> 
+
+
+
 // in case of '' single quotes, you need to send NULL

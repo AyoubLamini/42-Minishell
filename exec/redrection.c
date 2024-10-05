@@ -107,11 +107,20 @@ int handle_redirection(t_command *command, t_path *path)
     while (command->redirection[i])
     {
         if (ex_strcmp(command->redirection[i], ">") == 0)
-            std_out(command, i + 1, path);
+        {
+            if (std_out(command, i + 1, path))
+                return (1);
+        }
         else if (ex_strcmp(command->redirection[i], ">>") == 0)
-            std_out_append(command, i + 1, path);
+        {
+             if (std_out_append(command, i + 1, path))
+                return (1);
+        }
         else if (ex_strcmp(command->redirection[i], "<") == 0)
-            std_in(command, i + 1, path);
+        {
+            if (std_in(command, i + 1, path) == 1)
+                return (1);
+        }
         else if (ex_strcmp(command->redirection[i], "<<") == 0)
             redirect_heredoc(command, path);
         i++;

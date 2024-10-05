@@ -29,10 +29,16 @@ static int is_builtin(char *cmd)
 
 static void exec_builtin(t_command *current, t_env **env_vars, t_path *path)
 {
+	int check = 0;
+	path->is_forked = 0;
 	if (current->redirection[0])
-			handle_redirection(current, path);
-	check_command(current, env_vars, path);
-	reset_fd(path);
+			check = handle_redirection(current, path);
+	if (!check)
+	{
+		check_command(current, env_vars, path);
+		reset_fd(path);
+	}
+	return ;
 }
 
 

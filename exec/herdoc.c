@@ -16,7 +16,10 @@ static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env 
     t_heredoc *heredoc;
     int     fd;
     char    *line;
+    int    will_expanded;
 
+    will_expanded = check_will_expanded(delimiter);
+    delimiter = get_right_delimeter(delimiter);
     heredoc = lst_heredoc_new(ft_strdup(delimiter), ft_rename());
     lst_heredoc_add_back(&path->heredoc, heredoc);
     fd = open(heredoc->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -36,7 +39,8 @@ static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env 
             free(line);
             break ;
         }
-        line = expanding_herdoc(*envs, line, *path); // i need the envs to expand the line
+        if (will_expanded)
+            line = expanding_herdoc(*envs, line, *path); // i need the envs to expand the line
         write(fd, line, ft_strlen(line));
         write(fd, "\n", 1);
         free(line);

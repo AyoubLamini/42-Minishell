@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 09:59:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/04 10:26:55 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/05 03:05:36 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,27 @@ char	*get_right_delimeter(char *s)
 				j++;
 			delimeter = ft_strjoin(delimeter, ft_substr(del[i], 1, j - 1));
 		}
+		else if (del[i][0] == '$' && del[i][1] == '\0' && (del[i + 1][0] == '"' || del[i + 1][0] == '\''))
+		{
+			
+		}
 		else
 			delimeter = ft_strjoin(delimeter, del[i]);
 		i++;
 	}
-		return (delimeter);
+	return (delimeter);
+}
+
+int	check_will_expanded(char *delimter)
+{
+	int i;
+
+	i = 0;
+	while (delimter[i])
+	{
+		if (delimter[i] == '"' || delimter[i] == '\'')
+			return (0);
+		i++;
 	}
+	return (1);
+}

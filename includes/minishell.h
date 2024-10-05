@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/04 10:16:21 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/05 02:46:49 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,4 +134,5 @@ int 	handle_herdoc(t_command *command, t_path *path, t_env **envs);
 t_heredoc *lst_heredoc_new(char *delimiter, char *file);
 void    lst_heredoc_add_back(t_heredoc **lst, t_heredoc *new);
 char	*get_right_delimeter(char *s);
+int	check_will_expanded(char *delimter);
 #endif

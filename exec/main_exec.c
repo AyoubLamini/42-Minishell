@@ -67,12 +67,13 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 		}
 		else
 		{
-			if (is_builtin(current->cmd[0]) && !current->next)
+			if (is_builtin(current->cmd[0]) && !current->next && path->is_forked == 0)
 			{
 				exec_builtin(current, env_vars, path);
 				return ;
 			}
-			piping(current, env_vars, &input_fd, path);
+			else
+				piping(current, env_vars, &input_fd, path);
 		}
 		current = current->next;
 	}

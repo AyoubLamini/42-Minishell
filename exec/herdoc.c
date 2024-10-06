@@ -17,18 +17,13 @@ static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env 
     int     fd;
     char    *line;
     int    will_expanded;
+    char *buffer;
 
     will_expanded = check_will_expanded(delimiter);
     delimiter = get_right_delimeter(delimiter);
     heredoc = lst_heredoc_new(ft_strdup(delimiter), ft_rename());
     lst_heredoc_add_back(&path->heredoc, heredoc);
-    fd = open(heredoc->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd == -1)
-    {
-        print_error("heredoc", NULL, strerror(errno));
-        exit_status(1, path);
-        exit(path->exit_status);
-    }
+    buffer = NULL;
     while (1)
     {
         line = readline("> ");
@@ -41,11 +36,20 @@ static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env 
         }
         if (will_expanded)
             line = expanding_cmd_herdoc(*envs, line, *path); // i need the envs to expand the line
-        write(fd, line, ft_strlen(line));
-        write(fd, "\n", 1);
+        buffer = ex_strjoin(buffer, line);
+        buffer = ex_strjoin(buffer, "\n");
         free(line);
     }
+    fd = open(heredoc->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd == -1)
+    {
+        print_error("heredoc", NULL, strerror(errno));
+        exit_status(1, path);
+        exit(path->exit_status);
+    }
+    write(fd, buffer, ex_strlen(buffer));
     command->last_file = heredoc->file;
+    free(buffer);
     close(fd);
     return ;
 }

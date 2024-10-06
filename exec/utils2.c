@@ -45,6 +45,7 @@ void clear_herdocs(t_path *path)
     {
         tmp = current;
         current = current->next;
+        unlink(tmp->file);
         free(tmp->file);
         free(tmp);
     }

@@ -85,19 +85,22 @@ void exit_shell(t_command *command, t_path *path)
     }
     if (!ft_is_numeric(command->cmd[1])) // bash: exit: dwaf468: numeric argument required
     {
-        ft_putstr_fd("exit\n", 1);
+       if (!path->is_forked)
+            ft_putstr_fd("exit\n", 1);
         print_error("exit", command->cmd[1], "numeric argument required");
         exit(255);
     }
     else if (command->cmd[2])
     {
-        ft_putstr_fd("exit\n", 1);
+        if (!path->is_forked)
+            ft_putstr_fd("exit\n", 1);
         print_error("exit", NULL, "too many arguments");
         exit_status(1, path);
     }
     else
     {
-        printf("exit\n");
+        if (!path->is_forked)
+            printf("exit\n");
         exit(ft_atoi(command->cmd[1]));
     }
 }

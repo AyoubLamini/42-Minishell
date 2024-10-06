@@ -22,8 +22,7 @@ static int child_process(t_command *command, t_env **env, int *fd, int *input_fd
         close(*input_fd); // close it, cause we longer need it
     }
     if (command->next) // iF Next Command: pipe[1] = STDOUT;
-    {
-       
+    {  
         if (dup2(fd[1], STDOUT_FILENO) < 0)
             return (perror("dup2"), 1);
         close(fd[0]);

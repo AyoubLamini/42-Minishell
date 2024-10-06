@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 08:33:12 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/03 15:36:29 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:51:02 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,21 +139,27 @@ int check_syntax(char *input)
 			}
 			if (input[i] == '>')
 			{
+				j = i;
 				i = skip_spaces(input, i + 1);
 				if ( input[i] == '\0')
 					return (-1);
 				if (j + 1 != i && input[i] == '>')
 					return (-2);
-				else if ( input[i] == '<' || input[i] == '<')
+				else if ( input[i] == '<')
 					return (-3);
 				else if (input[i] == '|')
 					return (-4);
 			}
 			if (input[i] == '<')
 			{
+				j = i;
 				i = skip_spaces(input, i + 1);
 				if (input[i] == '|')
 					return (-4);
+				else if (i != j && input[i] == '<')
+					return (-3);
+				else if (input[i] == '>')
+					return (-2);
 				else if (input[i] == '\0')
 					return (-1);
 			}

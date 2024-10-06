@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 09:59:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/05 03:05:36 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/06 22:17:32 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ char	*expanding_herdoc(t_env *envs, char *str, t_path path)
 	char	*res;
 	int		start;
 	char	*key;
+
+	key = NULL;
 	res= NULL;
 	start = 0;
 	i = 0;
-	if (str[0] == '"')
+	if (str[0] == '"' || str[0] == '\'')
 		str++;
-	while (str[i] && str[i] != '"')
+	while (str[i] && str[i] != '"' && str[i] != '\'')
 	{
 		start = i;
 		while (str[i] && str[i] != '$' && str[i] != '"')
@@ -88,6 +90,8 @@ char    *expanding_cmd_herdoc(t_env *envs, char *old_cmd, t_path path)
     char    *res;
 	int    i;
     
+	tmp = NULL;
+	res = NULL;
     i = 0;
     cmd = expanding_split(old_cmd);
     while (cmd[i])
@@ -101,7 +105,7 @@ char    *expanding_cmd_herdoc(t_env *envs, char *old_cmd, t_path path)
                 res = ft_strjoin(res, "'");
         }
         else if (cmd[i][0] == '"')
-        {
+        {	
             res = ft_strjoin(res, "\"");
             tmp = expanding_herdoc(envs, cmd[i], path);
             res = ft_strjoin(res, tmp);

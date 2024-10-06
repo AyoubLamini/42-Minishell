@@ -40,7 +40,7 @@ static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env 
             break ;
         }
         if (will_expanded)
-            line = expanding_herdoc(*envs, line, *path); // i need the envs to expand the line
+            line = expanding_cmd_herdoc(*envs, line, *path); // i need the envs to expand the line
         write(fd, line, ft_strlen(line));
         write(fd, "\n", 1);
         free(line);

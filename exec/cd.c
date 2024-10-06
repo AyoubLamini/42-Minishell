@@ -18,7 +18,7 @@ int exec_cd(t_env *env, char *var, int check)
     if (!path)
         return (print_error("cd", var, "not set"), 1); // if path not set
     if (chdir(path) == -1)
-        return (print_error("cd", path, strerror(errno)), errno);
+        return (print_error("cd", path, strerror(errno)), 1);
     else
     {
         if (get_env_key(env, "OLDPWD"))

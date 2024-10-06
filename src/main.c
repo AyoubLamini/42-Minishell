@@ -72,6 +72,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	path->exit_status = 0;
 	while ((input = readline(prompt)) != NULL)
 	{
+		path->is_forked = 0;
 		tmp = input;
 		remove_spaces(&input);
 		add_history(tmp);

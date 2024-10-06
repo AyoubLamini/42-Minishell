@@ -67,7 +67,7 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 		}
 		else
 		{
-			if (is_builtin(current->cmd[0]) && !current->next && path->is_forked == 0)
+			if (is_builtin(current->cmd[0]) && !current->next && path->is_forked == 0) // is forked might be a problem
 			{
 				exec_builtin(current, env_vars, path);
 				return ;
@@ -80,10 +80,17 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 	while (waitpid(-1, &status, 0) != -1 && errno != ECHILD)
 	{
 		if (WIFEXITED(status))
+		{
+			printf("exit status: %d\n", WEXITSTATUS(status));
 			exit_status(WEXITSTATUS(status), path);
+		}
+		if (WIFSIGNALED(status))
+		{
+			printf("signal: %d\n", WTERMSIG(status));
+			exit_status(WTERMSIG(status) + 128, path);
+		}
 	}
 		
-	
 }
 		   
    

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/05 23:46:43 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:22:18 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,8 +311,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 			if (check_is_joinable(cmd, i))
 			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
 			tmp = double_quotes(envs, cmd[i], path);
-			
-			if (tmp[0] != '\0')
+			if ((tmp[0] == '\0' && cmd[i][0] == '"') || tmp[0] != '\0')
 			{
 			// printf("cmd: |%s|\n", cmd[i]);
 			if (cmd[i][0] == '"' || (cmd[i][0] != '"' && !is_only_spaces(tmp)))

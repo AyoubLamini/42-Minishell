@@ -6,78 +6,14 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/06 01:22:18 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/07 06:28:32 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../exec/minishell_exec.h"
 
-static t_env *empty_envs(void)
-{
-	t_env *env_vars;
-	char *path;
-	char *pwd;
-	
-	
-	env_vars = NULL;
-	path = ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
-	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
-	getcwd(pwd, PATH_MAX);
-	add_env_back(&env_vars, new_variable(ft_strdup("PATH"), path));
-	add_env_back(&env_vars, new_variable(ft_strdup("PWD"), pwd));
-	add_env_back(&env_vars, new_variable(ft_strdup("SHLVL"), ft_strdup("1")));
-	add_env_back(&env_vars, new_variable(ft_strdup("OLDPWD"), NULL));
-	return (env_vars);
-}
-t_env   *full_envs(char **env)
-{
-	int		i;
-	t_env	*node;
-	t_env	*env_vars;
 
-	if (*env == NULL) // if env is empty
-		return (empty_envs());
-	env_vars = NULL;
-	i = 0;
-	while (env[i])
-	{
-		node = new_variable(get_str(env[i], "key"), get_str(env[i], "value")); // get key and value and send to node
-		add_env_back(&env_vars, node);
-		i++;
-	}
-	if (!get_env_key(env_vars ,"OLDPWD"))
-		add_env_back(&env_vars, new_variable(ft_strdup("OLDPWD"), NULL)); // I add this, by default OLDPWD var is not included in envp
-	return (env_vars);
-}
-
-// char	*expanding(t_env *envs, char *old_cmd)
-// {
-// 	char	*expanded_cmd;
-// 	char	**cmd;
-// 	int		i;
-
-// 	i = 0;
-// 	cmd = expanding_split(old_cmd);
-		
-// 	(void)envs;
-	
-// 	return (new_cmd); 
-// }
-
-int	check_quotes_existed(char *old_cmd)
-{
-	int	i;
-
-	i = 0;
-	while (old_cmd[i] && old_cmd[i] != '"' && old_cmd[i] != '\'')
-		i++;
-	if (old_cmd[i] == '\'')
-		return (1);
-	if (old_cmd[i] == '"')
-		return (2);
-	return (0);
-}
 
 int	get_last_quote_pos(char	*old_cmd)
 {
@@ -89,7 +25,7 @@ int	get_last_quote_pos(char	*old_cmd)
 	return (len);
 }
 
-char	*double_quotes(t_env *envs, char *str, t_path *path)
+char	*double_quotes_process(t_env *envs, char *str, t_path *path)
 {
 	int		i;
 	char	*res;
@@ -178,104 +114,24 @@ char	*single_quotes_process(char *str)
 	return (res);
 }
 
-int	check_is_joinable(char **cmd, int index)
+
+char	**single_quotes(char *cmd, char **res, int *index)
 {
-	int	i;
-	int	nbr;
+	char	*tmp;
 	
-	i = 0;
-	while (cmd[index][i])
-	{
-		if (cmd[index][i] == '$')
-		{
-			i++;
-			nbr = 1;
-			while (cmd[index][i] && cmd[index][i] == '$')
-			{
-				nbr++;
-				i++;
-			}
-			if (cmd[index + 1] != NULL)
-			{
-				if (nbr % 2 != 0 && cmd[index][i] == '\0' && (cmd[index + 1][0] == '"' || cmd[index + 1][0] == '\''))
-					return (1);	
-			}
-		}
-		else
-			i++;
-	}
-	return (0);
-}
-
-int	check_will_splited(t_env *envs, char *str, t_path *path)
-{
-	int	i;
-	int	check;
-	char	**tmp;
-	char	*temp;
-	
-	check = 0;
-
-	i = 0;
-	if (str[i] == '"' || str[i] == '\'')
-		return (0);
-	while (str[i] && str[i] != '"')
-	{
-		if (str[i] == '$' && ft_isalpha(str[i + 1]))
-			check = 1;
-		i++;
-	}
-	temp = double_quotes(envs, str, path);
-	tmp = ft_split(temp, ' ');
-	if (check == 1 && ft_strslen(tmp) > 1)
-		return (1);
-	return (0);
-}
-
-int	ft_check_space_in_cmd(char *str)
-{
-	int	i;
-	int	begining;
-	int	len;
-
-	if (str[0] == '\0')
-		return (0);
-	begining = 0;
-	i = 0;
-	while (str[i] && ft_isspace(str[i]))
-		i++;
-	if (i > 0)
-		begining = 1;
-	len = ft_strlen(str) - 1;
-	i = len;
-	// printf("len %d\n", len);
-	while (i && ft_isspace(str[i]))
-		i--;
-	// printf("i : %d\n", i);
-	if (len != i && begining == 1)
-	{
-		return (2);
-	}
-	else if (len != i)
-		return (1);
+	tmp = NULL;
+	tmp = single_quotes_process(cmd);
+	*index = ft_strslen(res);
+	if (!res)
+		res = join_double_strs_with_str(res, tmp);
 	else
 	{
-		// printf("yesss\n");
-		return (0);
+		res[*index - 1] = ft_strjoin(res[*index - 1], tmp);
+		res[*index] = 0;
 	}
+	return (res);
 }
 
-int	is_only_spaces(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && ft_isspace(str[i]))
-		i++;
-	if (str[i] == '\0')
-		return (1);
-	return (0);
-}
 
 char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 {
@@ -294,77 +150,59 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '\'')
-		{
-			tmp = single_quotes_process(cmd[i]);
-			index = ft_strslen(res);
-			if (!res)
-				res = join_double_strs_with_str(res, tmp);
-			else
-			{
-				res[index - 1] = ft_strjoin(res[index - 1], tmp);
-				res[index] = 0;
-			}
-			// }
-		}
+			res = single_quotes(cmd[i], res, &index);
 		else
 		{
 			if (check_is_joinable(cmd, i))
 			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
-			tmp = double_quotes(envs, cmd[i], path);
+			tmp = double_quotes_process(envs, cmd[i], path);
 			if ((tmp[0] == '\0' && cmd[i][0] == '"') || tmp[0] != '\0')
-			{
-			// printf("cmd: |%s|\n", cmd[i]);
-			if (cmd[i][0] == '"' || (cmd[i][0] != '"' && !is_only_spaces(tmp)))
-			{
-				// printf("tmp : %s\n", tmp);
-				// printf("i: %d\n", i);
-				if (i > 0)
-					tmp1 = double_quotes(envs, cmd[i - 1], path);
-				else
-					tmp1 = tmp;
-				// printf("cmd: %s\n", cmd[i]);
-				if (check_will_splited(envs, cmd[i], path) == 1 && tmp && tmp[0] != '\0')
+			{ 
+				if (cmd[i][0] == '"' || (cmd[i][0] != '"' && !is_only_spaces(tmp)))
 				{
-					// printf("here\n");
-					temp = ft_split(tmp, ' ');
-					res = join_two_double_strs(res, temp);
-				}
-				else 
-				{
-					// printf("here\n");
-					if (!res)
+					if (i > 0)
+						tmp1 = double_quotes_process(envs, cmd[i - 1], path);
+					else
+						tmp1 = tmp;
+					if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd[i], path) == 1 )
 					{
-						// printf("mra lwla\n");
-						//printf("here\n");
-						res = join_double_strs_with_str(res, tmp);
+						temp = ft_split(tmp, ' ');
+						res = join_two_double_strs(res, temp);
 					}
 					else
 					{
-						// printf("tmp: |%s|\n", tmp);
-						// printf("tmp1: |%s|\n", tmp1);
-						if (ft_check_space_in_cmd(tmp1) > 0)
-						{
-							res = join_double_strs_with_str(res, tmp);	
+						if (!res)
+						{	
+							if (!is_only_spaces(tmp) && ft_check_space_in_cmd(tmp) > 0)
+								tmp = ft_strtrim(tmp, " ");
+							res = join_double_strs_with_str(res, tmp);
 						}
 						else
 						{
-							index = ft_strslen(res);
-							res[index - 1] = ft_strjoin(res[index - 1], tmp);
-							res[index] = 0;
+							if (ft_check_space_in_cmd(tmp1) > 0)
+							{
+								if (!is_only_spaces(tmp))
+									tmp = ft_strtrim(tmp, " ");
+								res = join_double_strs_with_str(res, tmp);	
+							}
+							else
+							{
+								index = ft_strslen(res);
+								res[index - 1] = ft_strjoin(res[index - 1], tmp);
+								res[index] = 0;
+							}
 						}
 					}
 				}
-			}
-			else
-				res = join_double_strs_with_str(res, tmp);
+				else
+					res = join_double_strs_with_str(res, tmp);
 			}
 		}
 		i++;
 	}
-	// if (res[0][0] == '\0')
-	// 	res[0] = NULL;
 	return (free_strs(cmd), res);
 }
+
 
 char	**expanding_red(t_env *envs, char *old_cmd, t_path *path)
 {
@@ -398,9 +236,9 @@ char	**expanding_red(t_env *envs, char *old_cmd, t_path *path)
 		{
 			if (check_is_joinable(cmd, i))
 			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
-			tmp = double_quotes(envs, cmd[i], path);
+			tmp = double_quotes_process(envs, cmd[i], path);
 			if (i > 0)
-				tmp1 = double_quotes(envs, cmd[i - 1], path);
+				tmp1 = double_quotes_process(envs, cmd[i - 1], path);
 			else
 				tmp1 = tmp;
 			// printf("check : %d\n", check_will_splited(cmd[i]));

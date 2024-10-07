@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/05 02:46:49 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/07 05:53:58 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,12 @@ int		check_will_splited(t_env *envs, char *str, t_path *path);
 char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
 char	*normal_process(t_env *envs, char *str);
+int	check_is_joinable(char **cmd, int index);
+int	ft_check_space_in_cmd(char *str);
+char	*double_quotes_process(t_env *envs, char *str, t_path *path);
+char	*single_quotes_process(char *str);
+int	is_only_spaces(char *str);
+
 
 // execution
 void execute(t_command *command, t_env **env_vars, t_path *path);

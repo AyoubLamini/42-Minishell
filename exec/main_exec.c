@@ -81,12 +81,12 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 	{
 		if (WIFEXITED(status))
 		{
-			printf("exit status: %d\n", WEXITSTATUS(status));
+			// printf("exit status: %d\n", WEXITSTATUS(status));
 			exit_status(WEXITSTATUS(status), path);
 		}
 		if (WIFSIGNALED(status))
 		{
-			printf("signal: %d\n", WTERMSIG(status));
+			// printf("signal: %d\n", WTERMSIG(status));
 			exit_status(WTERMSIG(status) + 128, path);
 		}
 	}

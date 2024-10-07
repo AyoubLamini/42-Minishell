@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/07 06:36:53 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/07 07:22:53 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,19 +120,31 @@ char	*single_quotes_process(char *str)
 }
 
 
-char	**single_quotes(char *cmd, char **res, int *index)
+char	**single_quotes(char *cmd, char *tmp1, char **res, int *index)
 {
 	char	*tmp;
-	
+
 	tmp = NULL;
 	tmp = single_quotes_process(cmd);
 	*index = ft_strslen(res);
 	if (!res)
+	{
 		res = join_double_strs_with_str(res, tmp);
+	}
 	else
 	{
-		res[*index - 1] = ft_strjoin(res[*index - 1], tmp);
-		res[*index] = 0;
+		if (ft_check_space_in_cmd(tmp1) > 0)
+		{
+			if (!is_only_spaces(tmp))
+				tmp = ft_strtrim(tmp, " ");
+			res = join_double_strs_with_str(res, tmp);	
+		}
+		else
+		{
+			*index = ft_strslen(res);
+			res[*index - 1] = ft_strjoin(res[*index - 1], tmp);
+			res[*index] = 0;	
+		}
 	}
 	return (res);
 }
@@ -155,7 +167,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '\'')
-			res = single_quotes(cmd[i], res, &index);
+			res = single_quotes(cmd[i], tmp1 , res, &index);
 		else
 		{
 			if (check_is_joinable(cmd, i))
@@ -165,8 +177,10 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 			{ 
 				if (cmd[i][0] == '"' || (cmd[i][0] != '"' && !is_only_spaces(tmp)))
 				{
-					if (i > 0)
+					if (i > 0 && cmd[i - 1][0] != '\'')
 						tmp1 = double_quotes_process(envs, cmd[i - 1], path);
+					else if (i > 0 && cmd[i - 1][0] == '\'')
+						tmp1 = single_quotes_process(cmd[i - 1]);
 					else
 						tmp1 = tmp;
 					if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd[i], path) == 1 )
@@ -184,6 +198,8 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 						}
 						else
 						{
+							printf("tmp1: |%s|\n", tmp1);
+							printf("tmp: |%s|\n", tmp);
 							if (ft_check_space_in_cmd(tmp1) > 0)
 							{
 								if (!is_only_spaces(tmp))

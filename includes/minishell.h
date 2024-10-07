@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/07 06:31:50 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/07 07:25:04 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_command {
 	char    **cmd;
 	char    **redirection;
 	char 	*last_file;
+	
 	struct s_command *next;
 } t_command;
 

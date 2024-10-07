@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/07 05:54:27 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/07 07:07:24 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	ft_check_space_in_cmd(char *str)
 	int	begining;
 	int	len;
 
+    if (!str)
+        return (0);
 	if (str[0] == '\0')
 		return (0);
 	begining = 0;

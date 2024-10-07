@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/07 05:18:26 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/07 06:00:39 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_path
     int is_forked;
     int fd_in;
     int fd_out;
-	char *last_arg;
     struct s_heredoc *heredoc;  
 } t_path;
 

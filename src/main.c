@@ -35,7 +35,6 @@ static t_path *init_data(t_path *path)
 	path->fd_in = 0;
 	path->fd_out = 1;
 	path->heredoc = NULL;
-	path->last_arg = NULL;
 	return (path);
 }
 void set_up(struct termios *attrs, t_path *path)

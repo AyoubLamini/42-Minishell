@@ -39,6 +39,7 @@ char    **envp_array(t_env *vars);
 
 // other utils
 void exit_status(int status, t_path *path);
+void set_last_arg(t_command *command, t_env **env_vars);
 
 // comannds 
 void check_command(t_command *command, t_env **env_vars, t_path *path);

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/07 06:28:32 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/07 06:36:53 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ char	*double_quotes_process(t_env *envs, char *str, t_path *path)
 					res = ft_strjoin(res, "$");
 					start--;
 				}
-				if (str[i] == '?')
+				if (str[i] == '_')
+				{
+					res = ft_strjoin(res, get_env_value(envs, "_"));
+					i++;
+				}
+				else if (str[i] == '?')
 				{
 					res = ft_strjoin(res, ft_itoa(path->exit_status));
 					i++;

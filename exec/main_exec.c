@@ -41,8 +41,6 @@ static void exec_builtin(t_command *current, t_env **env_vars, t_path *path)
 	return ;
 }
 
-
-
 void execute(t_command *command, t_env **env_vars, t_path *path)
 {
 	t_command   *current;
@@ -56,6 +54,7 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 
 	while (current)
 	{
+        set_last_arg(current, env_vars);
 		handle_herdoc(current, path, env_vars);
 		if (!current->cmd[0])
 		{

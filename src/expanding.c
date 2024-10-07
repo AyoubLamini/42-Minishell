@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/07 07:22:53 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:23:37 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,26 +192,26 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 					{
 						if (!res)
 						{	
-							if (!is_only_spaces(tmp) && ft_check_space_in_cmd(tmp) > 0)
-								tmp = ft_strtrim(tmp, " ");
+							// if (!is_only_spaces(tmp) && ft_check_space_in_cmd(tmp1) > 0)
+							// 	tmp = ft_strtrim(tmp, " ");
 							res = join_double_strs_with_str(res, tmp);
 						}
 						else
 						{
-							printf("tmp1: |%s|\n", tmp1);
-							printf("tmp: |%s|\n", tmp);
-							if (ft_check_space_in_cmd(tmp1) > 0)
-							{
-								if (!is_only_spaces(tmp))
-									tmp = ft_strtrim(tmp, " ");
-								res = join_double_strs_with_str(res, tmp);	
-							}
-							else
-							{
+							// printf("tmp1: |%s|\n", tmp1);
+							// printf("tmp: |%s|\n", tmp);
+							// if (ft_check_space_in_cmd(tmp1) == 0)
+							// {
+							// 	if (!is_only_spaces(tmp))
+							// 		tmp = ft_strtrim(tmp, " ");
+							// 	res = join_double_strs_with_str(res, tmp);	
+							// }
+							// else
+							// {
 								index = ft_strslen(res);
 								res[index - 1] = ft_strjoin(res[index - 1], tmp);
 								res[index] = 0;
-							}
+							// }
 						}
 					}
 				}

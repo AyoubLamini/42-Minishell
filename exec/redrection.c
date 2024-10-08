@@ -116,7 +116,7 @@ int handle_redirection(t_command *command, t_path *path)
         {
             if (pos == i + 1)
             {
-                print_error(command->redirection[i + 1], NULL, "ambiguous redirect");
+                print_error(command->ambiguous_file, NULL, "ambiguous redirect");
                 if (path->is_forked)
                     exit(1);
                 else
@@ -129,7 +129,7 @@ int handle_redirection(t_command *command, t_path *path)
         {
             if (pos == i + 1)
             {
-                print_error(command->redirection[i + 1], NULL, "ambiguous redirect");
+                print_error(command->ambiguous_file, NULL, "ambiguous redirect");
                 if (path->is_forked)
                     exit(1);
                 else
@@ -142,7 +142,7 @@ int handle_redirection(t_command *command, t_path *path)
         {
             if (pos == i + 1)
             {
-                print_error(command->redirection[i + 1], NULL, "ambiguous redirect");
+                print_error(command->ambiguous_file, NULL, "ambiguous redirect");
                 if (path->is_forked)
                     exit(1);
                 else

@@ -103,21 +103,51 @@ static int     redirect_heredoc(t_command *command, t_path *path)
 int handle_redirection(t_command *command, t_path *path)
 {
     int i;
+    int pos;
+
+    if (command->is_ambiguous != -1)
+        pos = command->is_ambiguous - ft_strslen(command->cmd);
+    else
+        pos = -1;
     i = 0;
     while (command->redirection[i])
     {
         if (ex_strcmp(command->redirection[i], ">") == 0)
         {
+            if (pos == i + 1)
+            {
+                print_error(command->redirection[i + 1], NULL, "ambiguous redirect");
+                if (path->is_forked)
+                    exit(1);
+                else
+                    return (1);
+            }
             if (std_out(command, i + 1, path))
                 return (1);
         }
         else if (ex_strcmp(command->redirection[i], ">>") == 0)
         {
+            if (pos == i + 1)
+            {
+                print_error(command->redirection[i + 1], NULL, "ambiguous redirect");
+                if (path->is_forked)
+                    exit(1);
+                else
+                    return (1);
+            }
              if (std_out_append(command, i + 1, path))
                 return (1);
         }
         else if (ex_strcmp(command->redirection[i], "<") == 0)
         {
+            if (pos == i + 1)
+            {
+                print_error(command->redirection[i + 1], NULL, "ambiguous redirect");
+                if (path->is_forked)
+                    exit(1);
+                else
+                    return (1);
+            }
             if (std_in(command, i + 1, path) == 1)
                 return (1);
         }

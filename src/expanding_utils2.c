@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 06:22:32 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 06:36:36 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ int	check_will_splited(t_env *envs, char **cmd, int i, t_path *path)
 	(void)path;
 	(void)envs;
 	j = 0;
-	printf("cmd[i] : %s\n", cmd[i]);
 	if (i > 0)
 	{
 		if (cmd[i][0] != '"' && cmd[i][0] != '\'')
@@ -153,7 +152,6 @@ int	check_will_splited(t_env *envs, char **cmd, int i, t_path *path)
 		}
 		else if (cmd[i][0] == '"' || cmd[i][0] == '\'')
 		{
-			printf("here\n");
 			while (cmd[i - 1][j])
 			{
 				if (cmd[i - 1][j] == '$')

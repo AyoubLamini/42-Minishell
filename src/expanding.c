@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 04:44:51 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 06:36:30 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 					// 	tmp1 = tmp;
 					if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd, i,  path) == 1 )
 					{
-						printf("here\n");
 						temp = ft_split(tmp, ' ');
 						res = join_two_double_strs(res, temp);
 					}

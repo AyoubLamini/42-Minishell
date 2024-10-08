@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 06:35:03 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 06:55:03 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char 	*get_str(char *var, char *type);
 void	printstrs(char **map);
 void	print_envs(t_env *envs);
 char    **expanding_split(char  *old_cmd);
-int		check_will_splited(t_env *envs, char **cmd, int i, t_path *path);
+int		check_will_splited(t_env *envs, char **cmd, int i);
 char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
 char	*normal_process(t_env *envs, char *str);

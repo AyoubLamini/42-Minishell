@@ -54,7 +54,7 @@ void update_key(char *cmd, t_env **env)
 int export(t_command *cmds, t_env **env)
 {
     int i;
-
+    
     i = 1;
     if (cmds->cmd[i])
     {

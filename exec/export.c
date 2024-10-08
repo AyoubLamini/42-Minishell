@@ -20,30 +20,32 @@ static int export_syntax(char *key)
     int i;
 
     i = 0;
-    if (!ft_isalpha(key[0]) && key[0] != '_')
+    if (!key)
         return (1);
+    if (!ft_isalpha(key[0]) && key[0] != '_')
+        return (free(key), 1);
     i++;
     while (key[i])
     {
         if (!ft_isalnum(key[i]) && key[i] != '_')
-            return (1);
+            return (free(key), 1);
         i++;
     }
-    return (0);
+    return (free(key), 0);
 }
 
 void update_key(char *cmd, t_env **env)
 {
     if (ex_strcmp(get_str(cmd, "sep"), "+=") == 0) // Append mode
     {
-        //printf("Append mode:\n");
+        // Append mode
         update_var(*env, get_str(cmd, "key"), 
             ft_strjoin(get_env_value(*env, get_str(cmd, "key")),
                 get_str(cmd, "value")));
     }
-    else // Update Mode
+    else 
     {
-        //printf("Update mode:\n");
+        // Overwrite mode
         if (get_str(cmd, "value"))
             update_var(*env, get_str(cmd, "key"), 
                 get_str(cmd, "value"));
@@ -79,9 +81,11 @@ int  unset(t_command *cmds, t_env **env_vars)
 {
     int i;
     i = 1;
+    char *key;
     while (cmds->cmd[i])
     {
-        if (export_syntax(get_str(cmds->cmd[i], "key"))) // check key syntax
+        key = get_str(cmds->cmd[i], "key");
+        if (export_syntax(key))
             print_error("unset", cmds->cmd[i], ":not a valid identifier");
         else
             delete_env(env_vars, cmds->cmd[i]);

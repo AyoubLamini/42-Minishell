@@ -7,33 +7,29 @@ mkdir -p 1/2/3/4
 
 
 
-// weird behavior, when passing t_path path from main.c to execute function | but when editing in split commands it works fine
-
 
 //WIFSIGNALED WEXITSTATUS
 //
-
-
-//handle relative path    
-
-
-
-//cat << a << b << c | << a << b << c  ==> file disc leaks    cmd : lsof -p 54995
-
-
-
-
-
-bash-3.2$ cat 
-^\Quit: 3
-bash-3.2$ echo $?
-131
-
 
 $> ls | echo $?
 127
 minishell $> 
 
 
+bash-3.2$ ls | echo $_
 
-// in case of '' single quotes, you need to send NULL
+ctrl+d heredoc => exit status 0
+
+
+<<$ => segfault
+
+
+# minishell $> cat <<h
+# > '"$USER"'
+# > h
+# ''
+
+
+
+minishell $> $v
+minishell: ls           -l: command not found     tabulation

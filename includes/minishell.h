@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 22:11:46 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:37:03 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_command {
 	char    **redirection;
 	char 	*last_file;
 	int		is_ambiguous;
+	char	*ambiguous_file;
 	struct s_command *next;
 } t_command;
 

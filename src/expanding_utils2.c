@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 06:54:49 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:51:33 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,4 +210,15 @@ int	is_only_spaces(char *str)
 	if (str[i] == '\0')
 		return (1);
 	return (0);
+}
+t_vars ft_initialize_vars()
+{
+	t_vars vars;
+	vars.i = 0;
+	vars.index = 0;
+	vars.j = 0;
+	vars.tmp = NULL;
+	vars.tmp1 = NULL;
+	vars.res = NULL;
+	return (vars);
 }

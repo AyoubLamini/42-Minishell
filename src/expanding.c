@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/07 23:23:37 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 04:44:51 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 	res = NULL;
 	temp = NULL;
 	tmp = NULL;
+	tmp1 = NULL;
 	i = 0;
 	cmd = expanding_split(old_cmd);
 	while (cmd[i])
@@ -177,14 +178,15 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 			{ 
 				if (cmd[i][0] == '"' || (cmd[i][0] != '"' && !is_only_spaces(tmp)))
 				{
-					if (i > 0 && cmd[i - 1][0] != '\'')
-						tmp1 = double_quotes_process(envs, cmd[i - 1], path);
-					else if (i > 0 && cmd[i - 1][0] == '\'')
-						tmp1 = single_quotes_process(cmd[i - 1]);
-					else
-						tmp1 = tmp;
-					if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd[i], path) == 1 )
+					// if (i > 0 && cmd[i - 1][0] != '\'')
+					// 	tmp1 = double_quotes_process(envs, cmd[i - 1], path);
+					// else if (i > 0 && cmd[i - 1][0] == '\'')
+					// 	tmp1 = single_quotes_process(cmd[i - 1]);
+					// else
+					// 	tmp1 = tmp;
+					if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd, i,  path) == 1 )
 					{
+						printf("here\n");
 						temp = ft_split(tmp, ' ');
 						res = join_two_double_strs(res, temp);
 					}
@@ -268,7 +270,7 @@ char	**expanding_red(t_env *envs, char *old_cmd, t_path *path)
 				printf("Minishell : ambigous redirect\n");
 				exit(1);
 			}
-			if (check_will_splited(envs, cmd[i], path) == 1 && tmp && tmp[0] != '\0')
+			if (check_will_splited(envs, cmd, i, path) == 1 && tmp && tmp[0] != '\0')
 			{
 				// printf("cmd[]: %s\n", cmd[i + 1]);
 				//exit(1);

@@ -6,13 +6,13 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:25:03 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/29 06:55:33 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 05:55:36 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_words(const char *s, char charset)
+int	split_count_words(const char *s, char charset)
 {
 	int	i;
 	int	nbr;
@@ -86,7 +86,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	index = 0;
-	result = ft_allocate(count_words(s, c));
+	result = ft_allocate(split_count_words(s, c));
 	while (*s)
 	{
 		while (*s && *s == c)

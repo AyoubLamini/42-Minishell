@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/07 07:25:04 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 05:56:03 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void *ft_myfree(char **result, int index);
 int	ft_strslen(char **map);
 int	ft_strcmp(char *s1, char *s2);
 char	*concat_strs(char* s1, char* s2);
-
+int	split_count_words(const char *s, char charset);
 // list
 void	lstadd_back(t_command **lst, t_command *new);
 int		lstsize(t_command *lst);
@@ -117,7 +117,7 @@ char 	*get_str(char *var, char *type);
 void	printstrs(char **map);
 void	print_envs(t_env *envs);
 char    **expanding_split(char  *old_cmd);
-int		check_will_splited(t_env *envs, char *str, t_path *path);
+int		check_will_splited(t_env *envs, char **cmd, int i, t_path *path);
 char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
 char	*normal_process(t_env *envs, char *str);

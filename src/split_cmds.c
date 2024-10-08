@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/05 02:48:34 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 04:30:20 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 
 	tmp = NULL;
 	node = allocate_node();
-	
 	while (start < end && args[start])
 	{
 		if (ft_is_red(args[start]))
@@ -123,18 +122,12 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 		node->redirection = (char **)malloc(sizeof(char *));
 		node->redirection[0] = 0;
 	}
-	// printstrs(node->cmd);
 	if (node->cmd == NULL)
 	{
 		node->cmd = (char **)malloc(sizeof(char *));
 		node->cmd[0] = 0;
 	}
 	node->last_file = NULL;
-	//exit(1);
-	// printf("cmd: \n");
-	// printstrs(node->cmd);
-	// printf("red: \n");
-	// printstrs(node->redirection);
 	return (node);
 }
 

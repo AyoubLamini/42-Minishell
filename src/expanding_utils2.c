@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/07 22:48:39 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 06:22:32 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,28 +114,77 @@ int	ft_check_space_in_cmd(char *str)
 }
 
 
-int	check_will_splited(t_env *envs, char *str, t_path *path)
+int	check_will_splited(t_env *envs, char **cmd, int i, t_path *path)
 {
-	int	i;
+	int	j;
 	int	check;
-	char	**tmp;
-	char	*temp;
-	
+	int	start;
+	char	*value;
+	char *key;
+	start = 0;
 	check = 0;
-
-	i = 0;
-	if (str[i] == '"' || str[i] == '\'')
-		return (0);
-	while (str[i] && str[i] != '"')
+	(void)path;
+	(void)envs;
+	j = 0;
+	printf("cmd[i] : %s\n", cmd[i]);
+	if (i > 0)
 	{
-		if (str[i] == '$' && ft_isalpha(str[i + 1]))
-			check = 1;
-		i++;
+		if (cmd[i][0] != '"' && cmd[i][0] != '\'')
+		{
+			while (cmd[i][j])
+			{
+				if (cmd[i][j] == '$')
+				{
+					j++;
+					start = j;
+					while (cmd[i][j] && ft_isalpha(cmd[i][j]) && cmd[i][j] != '"')
+						j++;
+					key = ft_substr(cmd[i], start, j - start);
+					value = get_env_variable(envs, key);
+					if (ft_check_space_in_cmd(value) > 0 || split_count_words(value, ' ') > 1)
+						check = 1;
+				}
+				else
+					j++;
+			}
+			if (check == 1)
+				return (1);
+			
+		}
+		else if (cmd[i][0] == '"' || cmd[i][0] == '\'')
+		{
+			printf("here\n");
+			while (cmd[i - 1][j])
+			{
+				if (cmd[i - 1][j] == '$')
+				{
+					j++;
+					start = j;
+					while (cmd[i - 1][j] && ft_isalpha(cmd[i - 1][j]) && cmd[i - 1][j] != '"')
+						j++;
+					key = ft_substr(cmd[i - 1], start, j - start);
+					value = get_env_variable(envs, key);
+					if ((ft_check_space_in_cmd(value) > 0 || (split_count_words(value, ' ') > 1 && ft_check_space_in_cmd(cmd[i]) > 0 && ft_check_space_in_cmd(cmd[i - 1]) == 0)))
+						check = 1;
+				}
+				else
+					j++;
+			}
+			if (check == 1)
+				return (1);
+		}
 	}
-	temp = double_quotes_process(envs, str, path);
-	tmp = ft_split(temp, ' ');
-	if (check == 1 && ft_strslen(tmp) > 1)
-		return (1);
+	else
+	{
+		while (cmd[i][j])
+		{
+			if (cmd[i][j] == '$' && ft_isalpha(cmd[i][j + 1]))
+				check = 1;
+			j++;
+		}
+		if (check == 1)
+			return (1);
+	}
 	return (0);
 }
 

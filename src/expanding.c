@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 06:36:30 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 06:55:56 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,30 +120,31 @@ char	*single_quotes_process(char *str)
 }
 
 
-char	**single_quotes(char *cmd, char *tmp1, char **res, int *index)
+char	**single_quotes(t_env *envs, char **cmd, int i, char **res, int *index)
 {
 	char	*tmp;
+	char	**temp;
 
+	temp = NULL;
 	tmp = NULL;
-	tmp = single_quotes_process(cmd);
+	tmp = single_quotes_process(cmd[i]);
 	*index = ft_strslen(res);
-	if (!res)
+	
+	if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd, i) == 1 )
 	{
-		res = join_double_strs_with_str(res, tmp);
+		temp = ft_split(tmp, ' ');
+		res = join_two_double_strs(res, temp);
 	}
 	else
-	{
-		if (ft_check_space_in_cmd(tmp1) > 0)
+	{	
+		if (!res)
 		{
-			if (!is_only_spaces(tmp))
-				tmp = ft_strtrim(tmp, " ");
-			res = join_double_strs_with_str(res, tmp);	
+			res = join_double_strs_with_str(res, tmp);
 		}
 		else
 		{
-			*index = ft_strslen(res);
 			res[*index - 1] = ft_strjoin(res[*index - 1], tmp);
-			res[*index] = 0;	
+			res[*index] = 0;
 		}
 	}
 	return (res);
@@ -168,7 +169,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '\'')
-			res = single_quotes(cmd[i], tmp1 , res, &index);
+			res = single_quotes(envs, cmd, i , res, &index);
 		else
 		{
 			if (check_is_joinable(cmd, i))
@@ -178,13 +179,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 			{ 
 				if (cmd[i][0] == '"' || (cmd[i][0] != '"' && !is_only_spaces(tmp)))
 				{
-					// if (i > 0 && cmd[i - 1][0] != '\'')
-					// 	tmp1 = double_quotes_process(envs, cmd[i - 1], path);
-					// else if (i > 0 && cmd[i - 1][0] == '\'')
-					// 	tmp1 = single_quotes_process(cmd[i - 1]);
-					// else
-					// 	tmp1 = tmp;
-					if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd, i,  path) == 1 )
+					if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd, i) == 1 )
 					{
 						temp = ft_split(tmp, ' ');
 						res = join_two_double_strs(res, temp);
@@ -192,27 +187,12 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 					else
 					{
 						if (!res)
-						{	
-							// if (!is_only_spaces(tmp) && ft_check_space_in_cmd(tmp1) > 0)
-							// 	tmp = ft_strtrim(tmp, " ");
 							res = join_double_strs_with_str(res, tmp);
-						}
 						else
 						{
-							// printf("tmp1: |%s|\n", tmp1);
-							// printf("tmp: |%s|\n", tmp);
-							// if (ft_check_space_in_cmd(tmp1) == 0)
-							// {
-							// 	if (!is_only_spaces(tmp))
-							// 		tmp = ft_strtrim(tmp, " ");
-							// 	res = join_double_strs_with_str(res, tmp);	
-							// }
-							// else
-							// {
 								index = ft_strslen(res);
 								res[index - 1] = ft_strjoin(res[index - 1], tmp);
 								res[index] = 0;
-							// }
 						}
 					}
 				}
@@ -269,7 +249,7 @@ char	**expanding_red(t_env *envs, char *old_cmd, t_path *path)
 				printf("Minishell : ambigous redirect\n");
 				exit(1);
 			}
-			if (check_will_splited(envs, cmd, i, path) == 1 && tmp && tmp[0] != '\0')
+			if (check_will_splited(envs, cmd, i) == 1 && tmp && tmp[0] != '\0')
 			{
 				// printf("cmd[]: %s\n", cmd[i + 1]);
 				//exit(1);

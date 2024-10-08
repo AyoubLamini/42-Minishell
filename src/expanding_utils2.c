@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 06:36:36 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 06:54:49 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	ft_check_space_in_cmd(char *str)
 }
 
 
-int	check_will_splited(t_env *envs, char **cmd, int i, t_path *path)
+int	check_will_splited(t_env *envs, char **cmd, int i)
 {
 	int	j;
 	int	check;
@@ -123,8 +123,6 @@ int	check_will_splited(t_env *envs, char **cmd, int i, t_path *path)
 	char *key;
 	start = 0;
 	check = 0;
-	(void)path;
-	(void)envs;
 	j = 0;
 	if (i > 0)
 	{
@@ -132,7 +130,7 @@ int	check_will_splited(t_env *envs, char **cmd, int i, t_path *path)
 		{
 			while (cmd[i][j])
 			{
-				if (cmd[i][j] == '$')
+				if (cmd[i][j] == '$' && cmd[i][j + 1])
 				{
 					j++;
 					start = j;

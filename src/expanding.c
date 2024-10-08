@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 06:55:56 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:20:50 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 }
 
 
-char	**expanding_red(t_env *envs, char *old_cmd, t_path *path)
+char	**expanding_red(t_command *node, t_env *envs, char *old_cmd, t_path *path, int pos)
 {
 	char	**cmd;
 	char	*tmp;
@@ -246,8 +246,7 @@ char	**expanding_red(t_env *envs, char *old_cmd, t_path *path)
 			// printf("check : %d\n", check_will_splited(cmd[i]));
 			if (!ft_strcmp(cmd[i], "*") && !cmd[i + 1])
 			{
-				printf("Minishell : ambigous redirect\n");
-				exit(1);
+				node->is_ambiguous = pos;
 			}
 			if (check_will_splited(envs, cmd, i) == 1 && tmp && tmp[0] != '\0')
 			{
@@ -257,8 +256,7 @@ char	**expanding_red(t_env *envs, char *old_cmd, t_path *path)
 				//printstrs(temp);
 				if (ft_strslen(temp) > 1 || (ft_strslen(temp) == 1 && !ft_strcmp(temp[0],"*") && !cmd[i + 1]))
 				{
-					printf("Minishell : ambigous redirect\n");
-					exit(1);
+					node->is_ambiguous = pos;
 				}
 				res = join_two_double_strs(res, temp);
 			}
@@ -273,8 +271,7 @@ char	**expanding_red(t_env *envs, char *old_cmd, t_path *path)
 					// printf("cmd[i]: %s\n", cmd[i]);
 					if (tmp[0] == '\0' && !cmd[i + 1])
 					{
-						printf("Minishell : ambigous redirect\n");
-						exit(1);
+						node->is_ambiguous = pos;
 					}
 					res = join_double_strs_with_str(res, tmp);
 				}

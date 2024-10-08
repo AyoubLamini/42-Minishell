@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 04:30:20 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:11:40 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_command	*allocate_node()
 		return (printf("malloc failed!\n"), exit(1), NULL);
 	node->cmd = NULL;
 	node->redirection = NULL;
+	node->is_ambiguous = -1;
 	node->next = NULL;
 
 	return (node);
@@ -99,7 +100,7 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 		{
 			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
 			start++;
-			tmp = expanding_red(envs, args[start], path);
+			tmp = expanding_red(node, envs, args[start], path, start);
 			node->redirection = join_two_double_strs(node->redirection, tmp);
 			start++;
 		}

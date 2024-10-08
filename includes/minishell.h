@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 06:55:03 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:11:46 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_command {
 	char    **cmd;
 	char    **redirection;
 	char 	*last_file;
-	
+	int		is_ambiguous;
 	struct s_command *next;
 } t_command;
 
@@ -107,7 +107,7 @@ void	free_envs(t_env *envs);
 
 //expanding
 char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path);
-char	**expanding_red(t_env *envs, char *old_cmd, t_path *path);
+char	**expanding_red(t_command *node, t_env *envs, char *old_cmd, t_path *path, int pos);
 t_env   *full_envs(char **env);
 t_env	*new_variable(char *env_key, char *env_value);
 char	*get_env_variable(t_env *env, char *env_key);
@@ -120,7 +120,6 @@ char    **expanding_split(char  *old_cmd);
 int		check_will_splited(t_env *envs, char **cmd, int i);
 char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
-char	*normal_process(t_env *envs, char *str);
 int	check_is_joinable(char **cmd, int index);
 int	ft_check_space_in_cmd(char *str);
 char	*double_quotes_process(t_env *envs, char *str, t_path *path);

@@ -61,7 +61,7 @@ int export(t_command *cmds, t_env **env)
         while (cmds->cmd[i])
         {
             if (export_syntax(get_str(cmds->cmd[i], "key"))) // check key syntax
-                return (print_error("export", cmds->cmd[i], "not a valid identifier"), 1);
+                print_error("export", cmds->cmd[i], "not a valid identifier");
             else if (get_env_key(*env, get_str(cmds->cmd[i], "key"))) // if key alrdy existing
                 update_key(cmds->cmd[i], env);
             else // new variable mode

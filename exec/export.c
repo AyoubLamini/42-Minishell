@@ -54,19 +54,23 @@ void update_key(char *cmd, t_env **env)
 int export(t_command *cmds, t_env **env)
 {
     int i;
+    int exit_status;
 
     i = 1;
+    exit_status = 0;
     if (cmds->cmd[i])
     {
         while (cmds->cmd[i])
         {
-            if (export_syntax(get_str(cmds->cmd[i], "key"))) // check key syntax
+            if (export_syntax(get_str(cmds->cmd[i], "key"))) // Is Valid identifier
+            {
                 print_error("export", cmds->cmd[i], "not a valid identifier");
+                exit_status = 1;
+            }
             else if (get_env_key(*env, get_str(cmds->cmd[i], "key"))) // if key alrdy existing
                 update_key(cmds->cmd[i], env);
-            else // new variable mode
+            else 
             {
-                //printf("New var mode:\n");
                 add_env_back(env, new_variable(get_str(cmds->cmd[i], "key"), 
                     get_str(cmds->cmd[i], "value")));
             }
@@ -75,21 +79,26 @@ int export(t_command *cmds, t_env **env)
     }
     else
         export_display(env);
-    return (0);
+    return (exit_status);
 }
 int  unset(t_command *cmds, t_env **env_vars)
 {
     int i;
-    i = 1;
     char *key;
+    int exit_status;
+    i = 1;
+    exit_status = 0;
     while (cmds->cmd[i])
     {
         key = get_str(cmds->cmd[i], "key");
         if (export_syntax(key))
+        {
             print_error("unset", cmds->cmd[i], ":not a valid identifier");
+            exit_status = 1;
+        }
         else
             delete_env(env_vars, cmds->cmd[i]);
         i++;
     }
-    return (0);
+    return (exit_status);
 }

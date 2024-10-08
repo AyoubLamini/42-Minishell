@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expanding_utils.c                                  :+:      :+:    :+:   */
+/*   expanding_utils1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/09/15 14:17:12 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 00:07:53 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static char *get_key(char *str) // Hello=Friend  a+=  a     a=
 		key[i] = str[i];
 		i++;
 	}
+	if (str[i] == '+' && str[i+1] == '+')
+		return (free(key), NULL);
 	key[i] = '\0';
 	return (key);
 }

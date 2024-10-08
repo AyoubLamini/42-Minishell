@@ -6,11 +6,11 @@ static void execution(char *cmd, char **args, char **envp, t_path *path)
     {
         print_error(cmd, NULL, strerror(errno));
         exit_status(1, path);
-        exit(1);
+        exit(path->exit_status);
     }
 }
 
-static void absolute_path(t_command *command, char **envp, t_path *path)
+static void actual_bin_dir(t_command *command, char **envp, t_path *path)
 {
     struct stat statbuf;
     char *cmd;
@@ -29,6 +29,17 @@ static void absolute_path(t_command *command, char **envp, t_path *path)
         exit_status(126, path); 
         exit(path->exit_status);
     }
+    if (access(cmd, X_OK) != 0)
+    {
+        print_error(cmd, NULL, "Permission denied");
+        exit_status(126, path); 
+        exit(path->exit_status);
+    }
+    if (statbuf.st_size == 0)
+    {
+        exit_status(0, path); 
+        exit(path->exit_status);
+    }
     execution(cmd, command->cmd, envp, path);
 }
 
@@ -44,14 +55,10 @@ static void commands(t_command *command, t_env **env, char **envp, t_path *path)
         exit_status(127, path);
         exit(path->exit_status);
     }
-    if (occur_alpha(command->cmd[0], '/') || command->cmd[0][0] == '.') // absolute path
-        absolute_path(command, envp, path);
-    if (!get_env_key(*env, "PATH"))
-    {
-        print_error(command->cmd[0], NULL, "No such file or directory");
-        exit_status(127, path);
-        exit(127);
-    }
+    if (occur_alpha(command->cmd[0], '/') || command->cmd[0][0] == '.') // if command is a path
+        actual_bin_dir(command, envp, path);
+    if (ex_strlen(get_env_value(*env, "PATH")) < 1) // if no path
+        actual_bin_dir(command, envp, path);
     ptr = ex_split(get_env_value(*env, "PATH"), ':'); // get the path
     while (ptr[i])
     {
@@ -65,9 +72,10 @@ static void commands(t_command *command, t_env **env, char **envp, t_path *path)
     exit_status(127, path);
     exit(path->exit_status);
 }
-
 void check_command(t_command *command, t_env **env_vars, t_path *path)
 {
+    if (!command->cmd[0])
+        return ;
     if (ex_strcmp("cd", command->cmd[0]) == 0)
         exit_status(cd(command, *env_vars), path);
     else if (ex_strcmp("pwd", command->cmd[0]) == 0)

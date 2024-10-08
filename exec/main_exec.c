@@ -56,7 +56,7 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 	{
         set_last_arg(current, env_vars);
 		handle_herdoc(current, path, env_vars);
-		if (!current->cmd[0])
+		if (!current->cmd[0] && path->is_forked == 0) 
 		{
 			if (current->redirection[0])
 			{
@@ -66,7 +66,7 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 		}
 		else
 		{
-			if (is_builtin(current->cmd[0]) && !current->next && path->is_forked == 0) // is forked might be a problem
+			if (is_builtin(current->cmd[0]) && !current->next && path->is_forked == 0) 
 			{
 				exec_builtin(current, env_vars, path);
 				return ;
@@ -86,7 +86,17 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 		if (WIFSIGNALED(status))
 		{
 			// printf("signal: %d\n", WTERMSIG(status));
-			exit_status(WTERMSIG(status) + 128, path);
+			if (WTERMSIG(status) == 2)
+			{
+				exit_status(130, path);
+				printf("\n");
+			}
+			else if (WTERMSIG(status) == 3)
+			{
+			exit_status(131, path);
+				printf("Quit: 3\n");
+
+			}
 		}
 	}
 		

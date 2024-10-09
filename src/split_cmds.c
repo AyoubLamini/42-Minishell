@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 22:41:14 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:19:00 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,5 @@ t_command	*split_cmds(char **args, t_env *envs, t_path *path)
 		node = get_command(args, envs, start, i, path);
 		lstadd_back(&input, node);
 	}
-	//print_list(input);
 	return (input);
 }

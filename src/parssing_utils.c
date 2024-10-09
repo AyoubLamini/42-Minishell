@@ -6,18 +6,12 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:07:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/07/30 11:39:39 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:22:46 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int ft_isspace(char c)
-{
-	if (c == ' ' || (c >= 9 && c <= 13))
-		return (1);
-	return (0);
-}
 
 int	is_redirection(char *str, int index)
 {

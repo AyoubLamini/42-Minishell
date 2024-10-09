@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:25:03 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/09 19:49:27 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:24:47 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	split_count_words(const char *s, char charset)
 	nbr = 0;
 	while (s[i])
 	{
-		while (s[i] && s[i] == charset)
+		while (s[i] && ft_isspace(s[i]))
 			i++;
 		if (s[i] != '\0')
 			nbr++;
-		while (s[i] && s[i] != charset)
+		while (s[i] && !ft_isspace(s[i]))
 			i++;
 	}
 	return (nbr);
@@ -39,9 +39,10 @@ static char	*ft_mystrdup( const char *s, char charset)
 	int		i;
 	int		lw;
 
+	charset = ' ';
 	i = 0;
 	lw = 0;
-	while (s[lw] && s[lw] != charset)
+	while (s[lw] && !ft_isspace(s[lw]))
 		lw++;
 	r = (char *)malloc(lw + 1);
 	if (r == NULL)
@@ -91,7 +92,7 @@ char	**ft_split(char const *s, char c)
 	result = ft_allocate(split_count_words(s, c));
 	while (*s)
 	{
-		while (*s && *s == c)
+		while (*s && ft_isspace(*s))
 			s++;
 		if (*s != '\0')
 		{
@@ -101,7 +102,7 @@ char	**ft_split(char const *s, char c)
 			else
 				result[index++] = tmp;
 		}
-		while (*s && *s != c)
+		while (*s && !ft_isspace(*s))
 			s++;
 	}
 	result[index] = 0;

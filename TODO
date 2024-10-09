@@ -21,10 +21,15 @@ bash-3.2$ ls | echo $_
 ctrl+d heredoc => exit status 0
 
 
+<<$ => segfault
+
+
+# minishell $> cat <<h
+# > '"$USER"'
+# > h
+# ''
+
+
 
 minishell $> $v
 minishell: ls           -l: command not found     tabulation
-
-
-
-while true ; do lsof -c minishell  ; sleep 1 ; clear ;done ;

@@ -1,5 +1,4 @@
-#include "minishell_exec.h"
-
+#include "../includes/minishell_exec.h"
 static int create_pipe(int *fd)
 {
     if (pipe(fd) < 0)

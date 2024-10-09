@@ -1,4 +1,4 @@
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 static void execution(char *cmd, char **args, char **envp, t_path *path)
 {

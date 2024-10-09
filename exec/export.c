@@ -1,4 +1,4 @@
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 static void export_display(t_env **env_vars)
 {
     t_env *env_copy;

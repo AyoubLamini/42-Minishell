@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../includes/minishell_exec.h"
 
 t_heredoc *lst_heredoc_new(char *delimiter, char *file)
 {

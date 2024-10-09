@@ -1,4 +1,4 @@
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 
 static void reset_fd(t_path *path)
@@ -54,6 +54,7 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 
 	while (current)
 	{
+		exit_status(0, path);
         set_last_arg(current, env_vars);
 		handle_herdoc(current, path, env_vars);
 		if (!current->cmd[0] && path->is_forked == 0) 
@@ -80,7 +81,6 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 	{
 		if (WIFEXITED(status))
 		{
-			// printf("exit status: %d\n", WEXITSTATUS(status));
 			exit_status(WEXITSTATUS(status), path);
 		}
 		if (WIFSIGNALED(status))

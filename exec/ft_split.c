@@ -6,11 +6,11 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:19 by alamini           #+#    #+#             */
-/*   Updated: 2024/08/04 10:22:47 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/08 23:24:23 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 static char	**malloc_error(char **tab)
 {

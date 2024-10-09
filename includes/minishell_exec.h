@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <fcntl.h>
-#include "../includes/minishell.h"
+#include "minishell.h"
 #include <errno.h>
 #include <string.h>
 #include <limits.h>

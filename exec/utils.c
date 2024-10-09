@@ -1,4 +1,4 @@
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 int ex_strcmp(char *s1, char *s2)
 {

@@ -1,4 +1,4 @@
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 
 int exec_cd(t_env *env, char *var, int check)

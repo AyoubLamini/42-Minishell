@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 11:50:22 by ybouyzem          #+#    #+#             */
-/*   Updated: 2023/11/12 12:51:01 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:28:05 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	ft_isspace(char c)
-{
-	if (c == ' ' || (c >= 9 && c <= 13))
-	{
-		return (1);
-	}
-	return (0);
-}
 
 static int	ft_getdigit(const char *str, int *i, int *sign)
 {

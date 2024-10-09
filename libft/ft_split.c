@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:25:03 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 05:55:36 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:49:27 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	split_count_words(const char *s, char charset)
 	int	i;
 	int	nbr;
 
+	if (!s)
+		return (0);
 	i = 0;
 	nbr = 0;
 	while (s[i])

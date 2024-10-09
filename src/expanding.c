@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/09 22:06:26 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/09 23:23:13 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,13 @@ char	*double_quotes_process(t_env *envs, char *str, t_path *path)
 				}
 				else if (str[i] == '?')
 				{
-					res = ft_strjoin(res, ft_itoa(path->exit_status));
+					if (g_last_signal == 2)
+					{
+						res = ft_strjoin(res, "1");
+						g_last_signal = 0;		
+					}
+					else
+						res = ft_strjoin(res, ft_itoa(path->exit_status));
 					i++;
 				}
 				else if (ft_isdigit(str[i]))

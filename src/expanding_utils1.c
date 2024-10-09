@@ -6,12 +6,12 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 00:07:53 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/08 23:53:02 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "../exec/minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 void	syntax_error_messages(int code)
 {

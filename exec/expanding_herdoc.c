@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_herdoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 09:59:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 21:58:24 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:24:34 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/minishell_exec.h"
 
 char	*expanding_herdoc(t_env *envs, char *str, t_path path)
 {

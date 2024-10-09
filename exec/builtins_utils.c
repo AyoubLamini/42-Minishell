@@ -1,4 +1,4 @@
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 t_env *env_vars_copy(t_env **env_vars)
 {

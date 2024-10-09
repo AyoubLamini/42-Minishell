@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 06:54:49 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:53:13 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "../exec/minishell_exec.h"
+#include "../includes/minishell_exec.h"
+
 
 static t_env *empty_envs(void)
 {

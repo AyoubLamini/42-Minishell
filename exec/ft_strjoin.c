@@ -6,11 +6,11 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:39:52 by alamini           #+#    #+#             */
-/*   Updated: 2024/08/28 16:38:59 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/08 23:24:20 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 size_t	ex_strlen(const char *s)
 {

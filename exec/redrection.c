@@ -1,4 +1,4 @@
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 static int std_out(t_command *command, int pos, t_path *path)
 {

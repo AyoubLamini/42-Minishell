@@ -1,5 +1,4 @@
-#include "../includes/minishell.h"
-#include "minishell_exec.h"
+#include "../includes/minishell_exec.h"
 
 static char *ft_rename(void)
 {

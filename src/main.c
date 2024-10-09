@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
-
-
+#include "../includes/minishell_exec.h"
 void leaks() // TEMporary comment
 {
 	system("leaks minishell");
@@ -80,6 +79,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		{
 			// printf("returned value: %d\n", check_syntax(input));
 			syntax_error_messages(check_syntax(input));
+			exit_status(258, path);
 			// printf(ANSI_COLOR_RED "Syntax error\n");
 			continue;
 		}

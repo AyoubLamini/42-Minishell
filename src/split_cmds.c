@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/09 22:19:00 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:23:07 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_command	*allocate_node()
 	node->is_ambiguous = -1;
 	node->ambiguous_file = NULL;
 	node->next = NULL;
+	node->last_file = NULL;
 
 	return (node);
 }
@@ -92,6 +93,8 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 {
 	t_command	*node;
 	char		**tmp;
+	static int 		i;
+	
 
 	tmp = NULL;
 	node = allocate_node();
@@ -114,7 +117,7 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 		}
 		else
 		{
-			tmp = expanding_cmd(envs, args[start], path);
+			tmp = expanding_cmd(envs, args[start], path, i);
 			node->cmd = join_two_double_strs(node->cmd, tmp);
 			start++;
 		}
@@ -129,7 +132,9 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 		node->cmd = (char **)malloc(sizeof(char *));
 		node->cmd[0] = 0;
 	}
-	node->last_file = NULL;
+	i++;
+	if (!args[end])
+		i = 0;
 	return (node);
 }
 

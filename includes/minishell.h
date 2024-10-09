@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/09 23:03:41 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/10 00:09:52 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	free_strs(char **strs);
 void	free_envs(t_env *envs);
 
 //expanding
-char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path);
+char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe);
 char	**expanding_red(t_command *node, t_env *envs, char *old_cmd, t_path *path, int pos);
 t_env   *full_envs(char **env);
 t_env	*new_variable(char *env_key, char *env_value);
@@ -134,7 +134,7 @@ char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
 int	check_is_joinable(char **cmd, int index);
 int	ft_check_space_in_cmd(char *str);
-char	*double_quotes_process(t_env *envs, char *str, t_path *path);
+char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe);
 char	*single_quotes_process(char *str);
 int	is_only_spaces(char *str);
 

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/09 23:23:13 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:19:45 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_last_quote_pos(char	*old_cmd)
 	return (len);
 }
 
-char	*double_quotes_process(t_env *envs, char *str, t_path *path)
+char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe)
 {
 	int		i;
 	char	*res;
@@ -76,10 +76,16 @@ char	*double_quotes_process(t_env *envs, char *str, t_path *path)
 				}
 				else if (str[i] == '?')
 				{
+					printf("pipe: %d\n", is_pipe);
 					if (g_last_signal == 2)
 					{
 						res = ft_strjoin(res, "1");
 						g_last_signal = 0;		
+					}
+					else if (is_pipe > 0)
+					{
+						printf("pipe: %d\n", is_pipe);
+						res = ft_strjoin(res, "0");
 					}
 					else
 						res = ft_strjoin(res, ft_itoa(path->exit_status));
@@ -157,7 +163,7 @@ char	**single_quotes(t_env *envs, char **cmd, int i, char **res, int *index)
 }
 
 
-char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
+char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe)
 {
 	t_vars	vars;
 	
@@ -174,7 +180,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 		{
 			if (check_is_joinable(cmd, vars.i))
 			 	cmd[vars.i][ft_strlen(cmd[vars.i]) - 1] = '\0';
-			vars.tmp = double_quotes_process(envs, cmd[vars.i], path);
+			vars.tmp = double_quotes_process(envs, cmd[vars.i], path, is_pipe);
 			if ((vars.tmp[0] == '\0' && cmd[vars.i][0] == '"') || vars.tmp[0] != '\0')
 			{ 
 				if (cmd[vars.i][0] == '"' || (cmd[vars.i][0] != '"' && !is_only_spaces(vars.tmp)))
@@ -223,7 +229,7 @@ char	**expanding_red(t_command *node, t_env *envs, char *old_cmd, t_path *path, 
 		{
 			if (check_is_joinable(cmd, vars.i))
 			 	cmd[vars.i][ft_strlen(cmd[vars.i]) - 1] = '\0';
-			vars.tmp = double_quotes_process(envs, cmd[vars.i], path);
+			vars.tmp = double_quotes_process(envs, cmd[vars.i], path, -1);
 			if ((vars.tmp[0] == '\0' && cmd[vars.i][0] == '"') || vars.tmp[0] != '\0')
 			{ 
 				if (cmd[vars.i][0] == '"' || (cmd[vars.i][0] != '"' && !is_only_spaces(vars.tmp)))

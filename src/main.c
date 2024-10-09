@@ -105,9 +105,10 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		clear_herdocs(path);
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
+	exit_status(path->exit_status, path);
 	if (input)
 		free(input);
 	free_envs(env_vars);
 	// atexit(leaks);
-	return 0;
+	exit(path->exit_status);
 }

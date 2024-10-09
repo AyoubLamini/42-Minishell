@@ -2,7 +2,6 @@
 
 void    sigint_handler(int sig)
 {
-	printf("sig %d", sig);
 	(void)sig;
 	if (waitpid(-1, &sig, WNOHANG) == 0) // 
 		return ;

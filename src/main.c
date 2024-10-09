@@ -1,5 +1,8 @@
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
+
+int g_last_signal = 0;
+
 void leaks() // TEMporary comment
 {
 	system("leaks minishell");

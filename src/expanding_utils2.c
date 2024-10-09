@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 23:53:13 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/09 22:06:09 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,9 @@ int	check_will_splited(t_env *envs, char **cmd, int i)
 	int	start;
 	char	*value;
 	char *key;
+	int nbr;
+
+	nbr = 0;
 	start = 0;
 	check = 0;
 	j = 0;
@@ -134,13 +137,24 @@ int	check_will_splited(t_env *envs, char **cmd, int i)
 				if (cmd[i][j] == '$' && cmd[i][j + 1])
 				{
 					j++;
-					start = j;
-					while (cmd[i][j] && ft_isalpha(cmd[i][j]) && cmd[i][j] != '"')
+					nbr = 1;
+					while (cmd[i][j] == '$' && cmd[i][j])
+					{
+						nbr++;
 						j++;
-					key = ft_substr(cmd[i], start, j - start);
-					value = get_env_variable(envs, key);
-					if (ft_check_space_in_cmd(value) > 0 || split_count_words(value, ' ') > 1)
-						check = 1;
+					}
+					if (nbr % 2 != 0)
+					{
+						start = j;
+						while (cmd[i][j] && ft_isalpha(cmd[i][j]) && cmd[i][j] != '"')
+							j++;
+						key = ft_substr(cmd[i], start, j - start);
+						value = get_env_variable(envs, key);
+						if (ft_check_space_in_cmd(value) > 0 || split_count_words(value, ' ') > 1)
+							check = 1;
+					}
+					else
+						check = 0;
 				}
 				else
 					j++;
@@ -156,13 +170,25 @@ int	check_will_splited(t_env *envs, char **cmd, int i)
 				if (cmd[i - 1][j] == '$')
 				{
 					j++;
-					start = j;
-					while (cmd[i - 1][j] && ft_isalpha(cmd[i - 1][j]) && cmd[i - 1][j] != '"')
+					nbr = 1;
+					while (cmd[i - 1][j] == '$' && cmd[i - 1][j])
+					{
+						nbr++;
 						j++;
-					key = ft_substr(cmd[i - 1], start, j - start);
-					value = get_env_variable(envs, key);
-					if ((ft_check_space_in_cmd(value) > 0 || (split_count_words(value, ' ') > 1 && ft_check_space_in_cmd(cmd[i]) > 0 && ft_check_space_in_cmd(cmd[i - 1]) == 0)))
-						check = 1;
+					}
+					if (nbr % 2 != 0)
+					{
+						start = j;
+						while (cmd[i - 1][j] && ft_isalpha(cmd[i - 1][j]) && cmd[i - 1][j] != '"')
+							j++;
+
+						key = ft_substr(cmd[i - 1], start, j - start);
+						value = get_env_variable(envs, key);
+						if ((ft_check_space_in_cmd(value) > 0 || (split_count_words(value, ' ') > 1 && ft_check_space_in_cmd(cmd[i]) > 0 && ft_check_space_in_cmd(cmd[i - 1]) == 0)))
+							check = 1;
+					}
+					else
+						check = 0;
 				}
 				else
 					j++;
@@ -211,4 +237,15 @@ int	is_only_spaces(char *str)
 	if (str[i] == '\0')
 		return (1);
 	return (0);
+}
+t_vars ft_initialize_vars()
+{
+	t_vars vars;
+	vars.i = 0;
+	vars.index = 0;
+	vars.j = 0;
+	vars.tmp = NULL;
+	vars.tmp1 = NULL;
+	vars.res = NULL;
+	return (vars);
 }

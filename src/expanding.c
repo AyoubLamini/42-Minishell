@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 23:52:50 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/09 22:06:26 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,150 +153,109 @@ char	**single_quotes(t_env *envs, char **cmd, int i, char **res, int *index)
 
 char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path)
 {
+	t_vars	vars;
+	
+	vars = ft_initialize_vars();
 	char	**cmd;
-	char	*tmp;
-	char	**res;
 	char	**temp;
-	int		i;
-	int		index;
-	char	*tmp1;
-	res = NULL;
 	temp = NULL;
-	tmp = NULL;
-	tmp1 = NULL;
-	i = 0;
 	cmd = expanding_split(old_cmd);
-	while (cmd[i])
+	while (cmd[vars.i])
 	{
-		if (cmd[i][0] == '\'')
-			res = single_quotes(envs, cmd, i , res, &index);
+		if (cmd[vars.i][0] == '\'')
+			vars.res = single_quotes(envs, cmd, vars.i , vars.res, &vars.index);
 		else
 		{
-			if (check_is_joinable(cmd, i))
-			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
-			tmp = double_quotes_process(envs, cmd[i], path);
-			if ((tmp[0] == '\0' && cmd[i][0] == '"') || tmp[0] != '\0')
+			if (check_is_joinable(cmd, vars.i))
+			 	cmd[vars.i][ft_strlen(cmd[vars.i]) - 1] = '\0';
+			vars.tmp = double_quotes_process(envs, cmd[vars.i], path);
+			if ((vars.tmp[0] == '\0' && cmd[vars.i][0] == '"') || vars.tmp[0] != '\0')
 			{ 
-				if (cmd[i][0] == '"' || (cmd[i][0] != '"' && !is_only_spaces(tmp)))
+				if (cmd[vars.i][0] == '"' || (cmd[vars.i][0] != '"' && !is_only_spaces(vars.tmp)))
 				{
-					if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd, i) == 1 )
+					if (vars.tmp && vars.tmp[0] != '\0' && check_will_splited(envs, cmd, vars.i) == 1 )
 					{
-						temp = ft_split(tmp, ' ');
-						res = join_two_double_strs(res, temp);
+						temp = ft_split(vars.tmp, ' ');
+						vars.res = join_two_double_strs(vars.res, temp);
 					}
 					else
 					{
-						if (!res)
-							res = join_double_strs_with_str(res, tmp);
+						if (!vars.res)
+							vars.res = join_double_strs_with_str(vars.res, vars.tmp);
 						else
 						{
-								index = ft_strslen(res);
-								res[index - 1] = ft_strjoin(res[index - 1], tmp);
-								res[index] = 0;
+								vars.index = ft_strslen(vars.res);
+								vars.res[vars.index - 1] = ft_strjoin(vars.res[vars.index - 1], vars.tmp);
+								vars.res[vars.index] = 0;
 						}
 					}
 				}
 				else
-					res = join_double_strs_with_str(res, tmp);
+					vars.res = join_double_strs_with_str(vars.res, vars.tmp);
 			}
 		}
-		i++;
+		vars.i++;
 	}
-	return (free_strs(cmd), res);
+	return (free_strs(cmd), vars.res);
 }
 
 
 char	**expanding_red(t_command *node, t_env *envs, char *old_cmd, t_path *path, int pos)
 {
+	t_vars	vars;
+	
+	vars = ft_initialize_vars();
 	char	**cmd;
-	char	*tmp;
-	char	**res;
 	char	**temp;
-	int		i;
-	int		index;
-	char	*tmp1;
-	res = NULL;
 	temp = NULL;
-	tmp = NULL;
-	i = 0;
 	cmd = expanding_split(old_cmd);
-	while (cmd[i])
+	while (cmd[vars.i])
 	{
-		if (cmd[i][0] == '\'')
-		{
-			tmp = single_quotes_process(cmd[i]);
-			index = ft_strslen(res);
-			if (!res)
-				res = join_double_strs_with_str(res, tmp);
-			else
-			{
-				res[index - 1] = ft_strjoin(res[index - 1], tmp);
-				res[index] = 0;
-			}
-		}
+		if (cmd[vars.i][0] == '\'')
+			vars.res = single_quotes(envs, cmd, vars.i , vars.res, &vars.index);
 		else
 		{
-			if (check_is_joinable(cmd, i))
-			 	cmd[i][ft_strlen(cmd[i]) - 1] = '\0';
-			tmp = double_quotes_process(envs, cmd[i], path);
-			if (i > 0)
-				tmp1 = double_quotes_process(envs, cmd[i - 1], path);
-			else
-				tmp1 = tmp;
-			// printf("check : %d\n", check_will_splited(cmd[i]));
-			if (!ft_strcmp(cmd[i], "*") && !cmd[i + 1])
-			{
-				node->ambiguous_file = old_cmd;
-				node->is_ambiguous = pos;
-			}
-			if (check_will_splited(envs, cmd, i) == 1 && tmp && tmp[0] != '\0')
-			{
-				// printf("cmd[]: %s\n", cmd[i + 1]);
-				//exit(1);
-				temp = ft_split(tmp, ' ');
-				//printstrs(temp);
-				if (ft_strslen(temp) > 1 || (ft_strslen(temp) == 1 && !ft_strcmp(temp[0],"*") && !cmd[i + 1]))
+			if (check_is_joinable(cmd, vars.i))
+			 	cmd[vars.i][ft_strlen(cmd[vars.i]) - 1] = '\0';
+			vars.tmp = double_quotes_process(envs, cmd[vars.i], path);
+			if ((vars.tmp[0] == '\0' && cmd[vars.i][0] == '"') || vars.tmp[0] != '\0')
+			{ 
+				if (cmd[vars.i][0] == '"' || (cmd[vars.i][0] != '"' && !is_only_spaces(vars.tmp)))
 				{
-					node->ambiguous_file = old_cmd;
-					node->is_ambiguous = pos;
-				}
-				res = join_two_double_strs(res, temp);
-			}
-			else
-			{
-				// printf("here\n");
-				//printf("error: ambiguous!\n");
-				if (!res)
-				{
-					// printf("here\n");
-					// printf("tmp: %s\n", tmp);
-					// printf("cmd[i]: %s\n", cmd[i]);
-					if (tmp[0] == '\0' && !cmd[i + 1])
+					if (vars.tmp && vars.tmp[0] == '*' && vars.tmp[1] == '\0')
 					{
-						node->ambiguous_file = old_cmd;
 						node->is_ambiguous = pos;
+						node->ambiguous_file = old_cmd;
 					}
-					res = join_double_strs_with_str(res, tmp);
-				}
-				else
-				{
-					//printf("tmp: %s\n", tmp);
-					if (ft_check_space_in_cmd(tmp1) == 1)
+					if (vars.tmp && vars.tmp[0] != '\0' && check_will_splited(envs, cmd, vars.i) == 1 )
 					{
-						// printf("yesssss\n");
-						res = join_double_strs_with_str(res, tmp);	
+						node->is_ambiguous = pos;
+						node->ambiguous_file = old_cmd;
+						temp = ft_split(vars.tmp, ' ');
+						vars.res = join_two_double_strs(vars.res, temp);
 					}
 					else
 					{
-						index = ft_strslen(res);
-						res[index - 1] = ft_strjoin(res[index - 1], tmp);
-						res[index] = 0;
+						if (!vars.res)
+							vars.res = join_double_strs_with_str(vars.res, vars.tmp);
+						else
+						{
+								vars.index = ft_strslen(vars.res);
+								vars.res[vars.index - 1] = ft_strjoin(vars.res[vars.index - 1], vars.tmp);
+								vars.res[vars.index] = 0;
+						}
 					}
 				}
+				else
+					vars.res = join_double_strs_with_str(vars.res, vars.tmp);
+			}
+			else
+			{
+				node->is_ambiguous = pos;
+				node->ambiguous_file = old_cmd;
 			}
 		}
-		i++;
+		vars.i++;
 	}
-
-	return (free_strs(cmd), res);
+	return (free_strs(cmd), vars.res);
 }

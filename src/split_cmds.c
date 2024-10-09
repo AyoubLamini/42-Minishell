@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 22:11:40 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:41:14 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_command	*allocate_node()
 	node->cmd = NULL;
 	node->redirection = NULL;
 	node->is_ambiguous = -1;
+	node->ambiguous_file = NULL;
 	node->next = NULL;
 
 	return (node);

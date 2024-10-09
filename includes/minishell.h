@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 22:37:03 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:51:05 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,15 @@ typedef struct s_command {
 	char	*ambiguous_file;
 	struct s_command *next;
 } t_command;
+
+typedef struct s_vars {
+	int i;
+	int j;
+	int index;
+	char *tmp;
+	char *tmp1;
+	char	**res;
+} t_vars;
 
 typedef struct s_heredoc {
     char *delimiter;
@@ -142,4 +151,8 @@ t_heredoc *lst_heredoc_new(char *delimiter, char *file);
 void    lst_heredoc_add_back(t_heredoc **lst, t_heredoc *new);
 char	*get_right_delimeter(char *s);
 int	check_will_expanded(char *delimter);
+
+// utils
+t_vars ft_initialize_vars();
+
 #endif

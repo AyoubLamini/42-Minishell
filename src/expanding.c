@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/10 00:27:13 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/10 01:02:33 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe)
 				}
 				if (str[i] == '_')
 				{
-					res = ft_strjoin(res, get_env_value(envs, "_"));
+					if (is_pipe > 0)
+						res = ft_strjoin(res, "\0");
+					else if (get_env_value(envs, "_"))
+						res = ft_strjoin(res, get_env_value(envs, "_"));
+					break;
 					i++;
 				}
 				else if (str[i] == '?')

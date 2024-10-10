@@ -11,10 +11,6 @@ mkdir -p 1/2/3/4
 //WIFSIGNALED WEXITSTATUS
 //
 
-$> ls | echo $?
-127
-minishell $> 
-
 
 bash-3.2$ ls | echo $_
 

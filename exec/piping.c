@@ -53,6 +53,7 @@ static int parent_process(t_command *command, int *fd, int *input_fd)
 }
 void piping(t_command *command, t_env **env_vars, int *input_fd, t_path *path)
 {
+   
     int pid;
     int fd[2];
     if (command->next)  // iF Next Command = Create Pipe

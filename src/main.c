@@ -55,7 +55,7 @@ void set_up(struct termios *attrs, t_path *path)
 }
 int	main(int argc, char **argv, char **envp) // added envp argument
 {
-	atexit(leaks);
+	//atexit(leaks);
 	struct termios	attrs[3];
 	// if (!isatty(0))
 	// {
@@ -73,6 +73,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	t_path 	*path;
 	char 	*tmp;
 	char	**args;
+	env_vars = NULL;
 	cmds = NULL;	
 	args = NULL;
 	path = NULL;
@@ -103,8 +104,8 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		input = ft_strtrim(input, " ");
 		args = split_args(input, ' ');
 		cmds = split_cmds(args, env_vars, path);
-		print_list(cmds);
-		//execute(cmds, &env_vars, path); // I added this line
+		//print_list(cmds);
+		execute(cmds, &env_vars, path); // I added this line
 		free_str(input);
 		// process_heredocs(path);
 		clear_herdocs(path);

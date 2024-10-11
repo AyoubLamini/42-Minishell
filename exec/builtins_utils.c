@@ -114,8 +114,8 @@ char **envp_array(t_env *vars)
     envp = (char **)malloc(sizeof(char *) * (list_size(tmp) + 1));
     while (tmp)
     {
-        str = ft_strjoin("=", tmp->value);
-        envp[i] = ft_strjoin(tmp->key, str);
+        str = ex_strjoin(ft_strdup("="), tmp->value);
+        envp[i] = ex_strjoin(ft_strdup(tmp->key), str);
         i++;
         free(str);
         tmp = tmp->next;

@@ -51,7 +51,7 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 	current = command;
 	if (!current)
 		return ;
-
+	
 	while (current)
 	{
         set_last_arg(current, env_vars);

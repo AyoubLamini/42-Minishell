@@ -45,6 +45,7 @@ static void actual_bin_dir(t_command *command, char **envp, t_path *path)
 
 static void commands(t_command *command, t_env **env, char **envp, t_path *path) 
 {
+    
     char **ptr;
     int i;
     i = 0;
@@ -74,6 +75,7 @@ static void commands(t_command *command, t_env **env, char **envp, t_path *path)
 }
 void check_command(t_command *command, t_env **env_vars, t_path *path)
 {
+   
     if (!command->cmd[0])
         return ;
     if (ex_strcmp("cd", command->cmd[0]) == 0)

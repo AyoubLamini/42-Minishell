@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/10 00:23:07 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/11 06:28:14 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	ft_is_red(char *str)
 t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *path)
 {
 	t_command	*node;
-	char		**tmp;
+	static char		**tmp;
 	static int 		i;
 	
 
@@ -161,6 +161,7 @@ t_command	*split_cmds(char **args, t_env *envs, t_path *path)
 	int		i;
 	int		start;
 
+	node = NULL;
 	input = NULL;
 	i = 0;
 	start = i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/09 22:06:09 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/11 05:45:18 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ int	check_will_splited(t_env *envs, char **cmd, int i)
 	char *key;
 	int nbr;
 
+	key = NULL;
+	value = NULL;
 	nbr = 0;
 	start = 0;
 	check = 0;
@@ -208,7 +210,7 @@ int	check_will_splited(t_env *envs, char **cmd, int i)
 		if (check == 1)
 			return (1);
 	}
-	return (0);
+	return (free_str(key), free_str(value), 0);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:07:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/09 22:22:46 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/11 01:58:19 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,5 @@ char    *add_spaces(char *input)
 	if (!new)
 		return (free(input), NULL);
 	new = add_spaces_helper(input, new, 0, 0);
-	return (new);
+	return (free_str(input), new);
 }

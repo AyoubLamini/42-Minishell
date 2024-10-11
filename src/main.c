@@ -53,6 +53,7 @@ void set_up(struct termios *attrs, t_path *path)
 }
 int	main(int argc, char **argv, char **envp) // added envp argument
 {
+	atexit(leaks);
 	struct termios	attrs[3];
 	// if (!isatty(0))
 	// {
@@ -70,6 +71,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	t_path 	*path;
 	char 	*tmp;
 	char	**args;
+	cmds = NULL;	
 	args = NULL;
 	path = NULL;
 	snprintf(prompt, sizeof(prompt),  "minishell $> "  ) ;
@@ -78,44 +80,38 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	path = init_data(path); // I added this line
 	set_up(attrs, path); 
 	path->exit_status = 0;
+	int i = 0;
 	while ((input = readline(prompt)) != NULL)
 	{
+		cmds = NULL;
+		args = NULL;
+		i++;
 		path->is_forked = 0;
-		tmp = input;
+		//tmp = input;
+		// if (i == 2)
+		// 	exit(0);
+		add_history(input);
 		remove_spaces(&input);
-		add_history(tmp);
 		if (check_syntax(input) < 0)
 		{
-			// printf("returned value: %d\n", check_syntax(input));
 			syntax_error_messages(check_syntax(input));
 			exit_status(258, path);
-			// printf(ANSI_COLOR_RED "Syntax error\n");
 			continue;
 		}
 		input = add_spaces(input);
 		input = ft_strtrim(input, " ");
-		//printf("input : |%s|\n", input);
 		args = split_args(input, ' ');
-		//printstrs(args);
-		//printf ("exit : %d\n", path.exit_status);
 		cmds = split_cmds(args, env_vars, path);
-		// print_list(cmds);
-		execute(cmds, &env_vars, path); // I added this line
-//		free_strs(args);
-		if (tmp)
-			free(tmp);
-		free(input);
-		// leaks();
+		print_list(cmds);
+		//execute(cmds, &env_vars, path); // I added this line
+		free_str(input);
 		// process_heredocs(path);
 		clear_herdocs(path);
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
 	exit_status(path->exit_status, path);
-	if (input)
-		free(input);
-	free_cmds(cmds);
-	free_strs(args);
+	free_str(input);
 	free_envs(env_vars);
-	// atexit(leaks);
+	free(path);
 	exit(path->exit_status);
 }

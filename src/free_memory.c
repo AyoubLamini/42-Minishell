@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 12:46:59 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 01:52:13 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/11 06:26:31 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_strs(char **strs)
 		return ;
 	while (strs[i])
 	{
-		free(strs[i]);
+		free_str(strs[i]);
 		i++;
 	}
 	free(strs);

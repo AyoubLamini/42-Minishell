@@ -113,6 +113,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	exit_status(path->exit_status, path);
 	free_str(input);
 	free_envs(env_vars);
+	free(path->pwd);	
 	free(path);
 	exit(path->exit_status);
 }

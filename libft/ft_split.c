@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:25:03 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/09 22:24:47 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/11 05:53:57 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static char	**ft_allocate(int size)
 	return (result);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**result;
 	int		index;

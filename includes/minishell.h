@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 01:48:30 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/11 06:46:03 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ enum
 
 int g_last_signal;
 
+void	free_str(char *str);
 void	syntax_error_messages(int code);
 int		is_redirection(char *str, int index);
 int		check_syntax(char *input);

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/10 01:02:33 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/11 06:32:55 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe)
 	char	*res;
 	int		start;
 	char	*key;
+	char	*value;
+
+	value = NULL;
+	key = NULL;
 	res= NULL;
 	start = 0;
 	i = 0;
@@ -73,8 +77,12 @@ char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe)
 				{
 					if (is_pipe > 0)
 						res = ft_strjoin(res, "\0");
-					else if (get_env_value(envs, "_"))
-						res = ft_strjoin(res, get_env_value(envs, "_"));
+					else
+					{
+						value = get_env_variable(envs, "_");
+						if (value)
+							res = ft_strjoin(res, value);
+					}
 					break;
 					i++;
 				}
@@ -88,7 +96,10 @@ char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe)
 					else if (is_pipe > 0)
 						res = ft_strjoin(res, "0");
 					else
-						res = ft_strjoin(res, ft_itoa(path->exit_status));
+					{
+						value = ft_itoa(path->exit_status);
+						res = ft_strjoin(res, value);
+					}
 					i++;
 				}
 				else if (ft_isdigit(str[i]))
@@ -101,16 +112,17 @@ char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe)
 					while (ft_isalnum(str[i]) && str[i])
 						i++;
 					key = ft_substr(str, start, i - start);
-					if (get_env_variable(envs, key))
-						res = ft_strjoin(res, get_env_variable(envs, key));
+					value = get_env_variable(envs, key);
+					if (value)
+						res = ft_strjoin(res, value);
 				}
 			}
 		}
 	}
 	res = ft_strjoin(res, "\0");
-	
+	// exit(1);
 	// printf("res: %s\n", res);
-	return (res);
+	return (free_str(key), free_str(value), res);
 }
 
 char	*single_quotes_process(char *str)
@@ -126,8 +138,6 @@ char	*single_quotes_process(char *str)
 	if (str[i] == '\'')
 		str[i] = '\0';
 	res = ft_strjoin(res, str);
-	// printf("res: %s\n", res);
-	
 	return (res);
 }
 
@@ -141,7 +151,6 @@ char	**single_quotes(t_env *envs, char **cmd, int i, char **res, int *index)
 	tmp = NULL;
 	tmp = single_quotes_process(cmd[i]);
 	*index = ft_strslen(res);
-	
 	if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd, i) == 1 )
 	{
 		temp = ft_split(tmp, ' ');
@@ -159,7 +168,7 @@ char	**single_quotes(t_env *envs, char **cmd, int i, char **res, int *index)
 			res[*index] = 0;
 		}
 	}
-	return (res);
+	return (free_str(tmp), res);
 }
 
 
@@ -196,9 +205,9 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe)
 							vars.res = join_double_strs_with_str(vars.res, vars.tmp);
 						else
 						{
-								vars.index = ft_strslen(vars.res);
-								vars.res[vars.index - 1] = ft_strjoin(vars.res[vars.index - 1], vars.tmp);
-								vars.res[vars.index] = 0;
+							vars.index = ft_strslen(vars.res);
+							vars.res[vars.index - 1] = ft_strjoin(vars.res[vars.index - 1], vars.tmp);
+							vars.res[vars.index] = 0;
 						}
 					}
 				}

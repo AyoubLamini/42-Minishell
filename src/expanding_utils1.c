@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 23:53:02 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/11 06:29:32 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ char	*get_env_variable(t_env *env, char *env_key)
 {
 	t_env	*tmp;
 	tmp = env;
+	if (!env || !env_key)
+		return (NULL);
 	while (tmp)
 	{
 		if (my_strcmp(tmp->key, env_key) == 0)
-			return (tmp->value);
+			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -232,12 +234,12 @@ char	**join_double_strs_with_str(char **s1, char *s2)
 		return (NULL);
 	while (s1[i])
 	{
-		new[i]= s1[i];
+		new[i]= ft_strdup(s1[i]);
 		i++;
 	}
-	new[i++] = s2;
+	new[i++] = ft_strdup(s2);
 	new[i] = 0;
-	return (new); 
+	return (free_strs(s1), free_str(s2), new);
 }
 
 char	**join_two_double_strs(char **s1, char **s2)
@@ -248,6 +250,7 @@ char	**join_two_double_strs(char **s1, char **s2)
 	int		i;
 	int		j;
 	
+	new = NULL;
 	i = 0;
 	j = 0;
 	if (!s2)
@@ -263,11 +266,11 @@ char	**join_two_double_strs(char **s1, char **s2)
 		return (NULL);
 	while (s1[i])
 	{
-		new[i]= s1[i];
+		new[i]= ft_strdup(s1[i]);
 		i++;
 	}
 	while (s2[j])
-		new[i++] = s2[j++];
+		new[i++] = ft_strdup(s2[j++]);
 	new[i] = 0;
-	return (new); 
+	return (free_strs(s1), free_strs(s2), new); 
 }

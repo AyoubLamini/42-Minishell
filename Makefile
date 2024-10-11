@@ -6,7 +6,7 @@
 #    By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 22:26:51 by ybouyzem          #+#    #+#              #
-#    Updated: 2024/10/09 22:24:08 by ybouyzem         ###   ########.fr        #
+#    Updated: 2024/10/11 01:53:52 by ybouyzem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ CFLAGS = -I $(READLINEDIR)/include
 
 LDFLAGS = -L $(READLINEDIR)/lib -lreadline
 
-FLAG = cc -g -fsanitize=address
+FLAG = cc #-g -fsanitize=address
 
 # GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS)
 GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS) 

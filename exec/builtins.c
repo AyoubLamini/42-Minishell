@@ -67,13 +67,17 @@ int env(t_env *env_vars)
     // printf("_=/usr/bin/env\n");
 }
 
-int pwd() // pwd
+int pwd(t_path *path) // pwd
 {
-    char *cwd;
-    cwd = getcwd(NULL, 0);
-    printf("%s\n", cwd);
-    free(cwd);
-    return (0);
+    char *pwd;
+    pwd = path->pwd;
+    if (pwd)
+    {
+        printf("%s\n", pwd);
+        return (0);
+    }
+    return (1);
+   
 }
 
 void exit_shell(t_command *command, t_path *path)

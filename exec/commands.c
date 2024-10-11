@@ -77,9 +77,9 @@ void check_command(t_command *command, t_env **env_vars, t_path *path)
     if (!command->cmd[0])
         return ;
     if (ex_strcmp("cd", command->cmd[0]) == 0)
-        exit_status(cd(command, *env_vars), path);
+        exit_status(cd(command, *env_vars, path), path);
     else if (ex_strcmp("pwd", command->cmd[0]) == 0)
-        exit_status(pwd(), path);
+        exit_status(pwd(path), path);
     else if (ex_strcmp("echo", command->cmd[0]) == 0)
         exit_status(echo(command), path);
     else if (ex_strcmp("export", command->cmd[0]) == 0)

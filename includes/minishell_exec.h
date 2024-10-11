@@ -46,10 +46,10 @@ void check_command(t_command *command, t_env **env_vars, t_path *path);
 
 
 // builtins 
-int     cd(t_command *command, t_env *env_vars);
+int     cd(t_command *command, t_env *env_vars, t_path *path);
 int     echo(t_command *command);
 int     env(t_env *env_vars);
-int     pwd();
+int     pwd(t_path *path);
 int     export(t_command *cmds, t_env **env_vars);
 int     unset(t_command *cmds, t_env **env_vars);
 void    exit_shell(t_command *command, t_path *path);

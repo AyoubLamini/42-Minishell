@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/10 00:09:52 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/11 01:48:30 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_path
     int is_forked;
     int fd_in;
     int fd_out;
+	char *pwd;
     struct s_heredoc *heredoc;  
 } t_path;
 
@@ -84,7 +85,8 @@ enum //enumeration type
 enum
 {
 	SET_SIG,
-	UNSET_SIG
+	UNSET_SIG,
+	HERDOC_SIG
 };
 
 int g_last_signal;

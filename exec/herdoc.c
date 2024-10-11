@@ -10,14 +10,15 @@ static char *ft_rename(void)
     return (file);
 }
 
-static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env **envs)
+static int ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env **envs)
 {
+    setup_signals(path, HERDOC_SIG);
     t_heredoc *heredoc;
     int     fd;
     char    *line;
     int    will_expanded;
     char *buffer;
-
+    path->fd_in = dup(STDIN_FILENO);
     will_expanded = check_will_expanded(delimiter);
     delimiter = get_right_delimeter(delimiter);
     heredoc = lst_heredoc_new(ft_strdup(delimiter), ft_rename());
@@ -27,7 +28,16 @@ static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env 
     {
         line = readline("> ");
         if (!line)
+        {
+            dup2(path->fd_in, STDIN_FILENO);
+            if (g_last_signal == SIGINT)
+            {
+                g_last_signal = 0;
+                exit_status(1, path);
+                return (1);
+            }
             break ;
+        }
         if (ft_strcmp(line, heredoc->delimiter) == 0)
         {
             free(line);
@@ -50,7 +60,7 @@ static void ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env 
     command->last_file = heredoc->file;
     free(buffer);
     close(fd);
-    return ;
+    return (0);
 }
 
 int is_heredoc(char **red)
@@ -77,7 +87,8 @@ int handle_herdoc(t_command *command, t_path *path, t_env **envs)
     while (command->redirection[i])
     {
         if (ex_strcmp(command->redirection[i], "<<") == 0)
-            ft_heredoc(command, path, command->redirection[i + 1], envs);
+            if (ft_heredoc(command, path, command->redirection[i + 1], envs))
+                return (1);
         i++;
     }
     return (0);

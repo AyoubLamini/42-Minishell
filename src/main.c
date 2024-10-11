@@ -37,6 +37,8 @@ static t_path *init_data(t_path *path)
 	path->fd_in = 0;
 	path->fd_out = 1;
 	path->heredoc = NULL;
+	path->pwd = malloc(sizeof(char) * PATH_MAX);
+	path->pwd = getcwd(path->pwd, PATH_MAX);
 	return (path);
 }
 void set_up(struct termios *attrs, t_path *path)
@@ -71,7 +73,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	// print_envs(env_vars);
 	path = init_data(path); // I added this line
 	set_up(attrs, path); 
-	path->exit_status = 0;
 	while ((input = readline(prompt)) != NULL)
 	{
 		path->is_forked = 0;
@@ -109,6 +110,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	if (input)
 		free(input);
 	free_envs(env_vars);
+	setup_signals(path, SET_SIG);
 	// atexit(leaks);
 	exit(path->exit_status);
 }

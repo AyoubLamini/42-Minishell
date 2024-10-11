@@ -1,17 +1,4 @@
 
-top ---> CTRL + \
-
 env -i ./minishell (only clear shouldn't work)
 
-mkdir -p 1/2/3/4
-
-
-
-
-//WIFSIGNALED WEXITSTATUS
-//
-
-
-bash-3.2$ ls | echo $_
-
-ctrl+d heredoc => exit status 0
+// file descriptor leak in ctrl + d heredoc

@@ -29,6 +29,12 @@ static void tty_attributes(struct termios *attrs, int action)
 		tty_attributes(attrs, ATTR_SET);
 	}
 }
+void	free_str(char *str)
+{
+	if (str)
+		free(str);
+}
+
 static t_path *init_data(t_path *path)
 {
 	path = (t_path *)malloc(sizeof(t_path));
@@ -95,7 +101,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		cmds = split_cmds(args, env_vars, path);
 		// print_list(cmds);
 		execute(cmds, &env_vars, path); // I added this line
-		free_cmds(cmds);
 //		free_strs(args);
 		if (tmp)
 			free(tmp);
@@ -108,6 +113,8 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	exit_status(path->exit_status, path);
 	if (input)
 		free(input);
+	free_cmds(cmds);
+	free_strs(args);
 	free_envs(env_vars);
 	// atexit(leaks);
 	exit(path->exit_status);

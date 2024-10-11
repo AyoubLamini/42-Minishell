@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 07:57:44 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/11 20:26:31 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe)
 			{
 				if (cmd[vars.i][0] == '"' || (cmd[vars.i][0] != '"' && !is_only_spaces(vars.tmp)))
 				{
-					if (vars.tmp && vars.tmp[0] != '\0' && check_will_splited(envs, cmd, vars.i) == 1 )
+					if (vars.tmp && vars.tmp[0] != '\0' && check_will_splited(envs, cmd, vars.i) == 1 && cmd[vars.i][0] != '"')
 					{
 						temp = ft_split(vars.tmp, ' ');
 						vars.res = join_two_double_strs(vars.res, temp);

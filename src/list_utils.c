@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 18:23:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/01 10:52:14 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/12 05:36:31 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	lstsize(t_command *lst)
 {
-	int		i;
+	int			i;
 	t_command	*p;
 
 	p = lst;
@@ -30,8 +30,8 @@ int	lstsize(t_command *lst)
 t_command	*lstlast(t_command *lst)
 {
 	t_command	*p;
-	int		size;
-	int		i;
+	int			size;
+	int			i;
 
 	i = 0;
 	p = lst;
@@ -41,14 +41,13 @@ t_command	*lstlast(t_command *lst)
 		p = p->next;
 		i++;
 	}
-	
 	return (p);
 }
 
 void	lstadd_back(t_command **lst, t_command *new)
 {
 	t_command	*p;
-	
+
 	p = *lst;
 	if (*lst == NULL)
 		*lst = new;
@@ -72,13 +71,11 @@ t_command	*lstnew(char **cmd, char **red)
 	return (new);
 }
 
-
 void	print_list(t_command *lst)
 {
 	t_command	*p;
-	
-	p = lst;
 
+	p = lst;
 	while (p != NULL)
 	{
 		puts("node :\n");

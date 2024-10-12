@@ -28,15 +28,15 @@ static int export_syntax(char *key)
     if (!key)
         return (1);
     if (!ft_isalpha(key[0]) && key[0] != '_')
-        return (free(key), 1);
+        return (1);
     i++;
     while (key[i])
     {
         if (!ft_isalnum(key[i]) && key[i] != '_')
-            return (free(key), 1);
+            return (1);
         i++;
     }
-    return (free(key), 0);
+    return (0);
 }
 
 void update_key(char *cmd, t_env **env)
@@ -108,8 +108,11 @@ int  unset(t_command *cmds, t_env **env_vars)
             print_error("unset", cmds->cmd[i], ":not a valid identifier");
             exit_status = 1;
         }
-        else if (ft_strcmp(key, "_") != 0)
-            delete_env(env_vars, cmds->cmd[i]);
+        else 
+        {
+            if (ex_strcmp(key, "_") != 0)
+                delete_env(env_vars, cmds->cmd[i]);
+        }
         i++;
     }
     return (exit_status);

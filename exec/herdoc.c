@@ -18,18 +18,19 @@ static int ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env *
     char    *line;
     int    will_expanded;
     char *buffer;
-    path->fd_in = dup(STDIN_FILENO);
+    
     will_expanded = check_will_expanded(delimiter);
     delimiter = get_right_delimeter(delimiter);
     heredoc = lst_heredoc_new(ft_strdup(delimiter), ft_rename());
     lst_heredoc_add_back(&path->heredoc, heredoc);
     buffer = NULL;
+    if (path->fd_in == 0)
+        path->fd_in = dup(STDIN_FILENO); // save the current stdin
     while (1)
     {
         line = readline("> ");
         if (!line)
         {
-            dup2(path->fd_in, STDIN_FILENO);
             if (g_last_signal == SIGINT)
             {
                 g_last_signal = 0;
@@ -44,7 +45,7 @@ static int ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env *
             break ;
         }
         if (will_expanded)
-            line = expanding_cmd_herdoc(*envs, line, *path); // i need the envs to expand the line
+        line = expanding_cmd_herdoc(*envs, line, *path); // i need the envs to expand the line
         buffer = ex_strjoin(buffer, line);
         buffer = ex_strjoin(buffer, "\n");
         free(line);

@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 06:46:03 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/11 23:55:59 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_path
     int fd_in;
     int fd_out;
 	char *pwd;
+	char *main_path;
     struct s_heredoc *heredoc;  
 } t_path;
 

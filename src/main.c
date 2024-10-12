@@ -43,8 +43,11 @@ static t_path *init_data(t_path *path)
 	path->fd_in = 0;
 	path->fd_out = 1;
 	path->heredoc = NULL;
+	path->main_path = malloc(sizeof(char) * PATH_MAX);
+	path->main_path = getcwd(path->main_path, PATH_MAX);
 	path->pwd = malloc(sizeof(char) * PATH_MAX);
 	path->pwd = getcwd(path->pwd, PATH_MAX);
+	
 	return (path);
 }
 void set_up(struct termios *attrs, t_path *path)
@@ -77,6 +80,8 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	cmds = NULL;	
 	args = NULL;
 	path = NULL;
+	int exit_s;
+	exit_s = 0;
 	snprintf(prompt, sizeof(prompt),  "minishell $> "  ) ;
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
@@ -93,7 +98,12 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		// if (i == 2)
 		// 	exit(0);
 		add_history(input);
-		remove_spaces(&input);
+		if (is_only_spaces(input))
+		{
+			free_str(input);
+			continue;
+		}
+		input = ft_strtrim(input, " ");
 		if (check_syntax(input) < 0)
 		{
 			syntax_error_messages(check_syntax(input));
@@ -111,10 +121,11 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		clear_herdocs(path);
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
-	exit_status(path->exit_status, path);
+	exit_s = path->exit_status;
 	free_str(input);
 	free_envs(env_vars);
 	free(path->pwd);	
+	free(path->main_path);	
 	free(path);
-	exit(path->exit_status);
+	exit(exit_s);
 }

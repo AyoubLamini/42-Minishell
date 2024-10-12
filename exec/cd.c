@@ -25,7 +25,7 @@ int exec_cd(t_env *env, char *var, int check, t_path *path_struct)
         if (output == 0 && errno == ENOENT)
         {
            printf("cd: error retrieving current directory: getcwd:cannot access parent directories: No such file or directory\n");
-            chdir(path_struct->pwd);
+            chdir(path_struct->main_path);
         }
             if (get_env_key(env, "OLDPWD"))
                 update_var(env, "OLDPWD", old_wd);
@@ -37,6 +37,8 @@ int exec_cd(t_env *env, char *var, int check, t_path *path_struct)
                 update_var(env, "PWD", cwd);
             else
                 add_env_back(&env, new_variable(ft_strdup("PWD"), cwd));
+            free(path_struct->pwd);
+            path_struct->pwd = ft_strdup(cwd);
 
         return (0);
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_split.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:26:37 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 02:18:46 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/12 00:58:18 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ char    **expanding_split(char  *old_cmd)
 		index++;
 	}
 	res[index] = 0;
-	return (free_str(old_cmd), res);
+	return ( res);
 }

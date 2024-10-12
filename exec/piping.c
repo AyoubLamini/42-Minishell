@@ -56,6 +56,8 @@ void piping(t_command *command, t_env **env_vars, int *input_fd, t_path *path)
    
     int pid;
     int fd[2];
+    fd[0] = -1;
+    fd[1] = -1;
     if (command->next)  // iF Next Command = Create Pipe
         if (create_pipe(fd))
             return ;

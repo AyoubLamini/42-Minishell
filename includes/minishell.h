@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 23:55:59 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/12 06:21:09 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_vars {
 	int index;
 	char *tmp;
 	char *tmp1;
+	char	*new;
 	char	**res;
 } t_vars;
 
@@ -99,7 +100,7 @@ int		check_syntax(char *input);
 int		check_quotes(char	*input);
 int		ft_isspace(char c);
 void	remove_spaces(char **input);
-char	*add_spaces(char *input);
+char	*add_spaces(char *input, int single_quote, int double_quote);
 char	**split_args(char *s, char c);
 void	ft_check_quotes(int *single_quote, int *double_quote, char c);
 t_command	*split_cmds(char **args, t_env *env_vars, t_path *path);

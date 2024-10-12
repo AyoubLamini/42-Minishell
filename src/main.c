@@ -110,7 +110,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 			exit_status(258, path);
 			continue;
 		}
-		input = add_spaces(input);
+		input = add_spaces(input, 0, 0);
 		input = ft_strtrim(input, " ");
 		args = split_args(input, ' ');
 		cmds = split_cmds(args, env_vars, path);

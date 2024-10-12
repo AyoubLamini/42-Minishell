@@ -9,6 +9,12 @@ void leaks() // TEMporary comment
 }
 static void tty_attributes(struct termios *attrs, int action)
 {
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
+	{
+		printf("Not a tty\n"),
+		exit(1);
+	}
+		
 	if (action == ATTR_GET)
 	{
 		tcgetattr(STDIN_FILENO, &attrs[0]);

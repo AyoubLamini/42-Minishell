@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 06:21:18 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/12 06:25:16 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static t_env *empty_envs(void)
 	add_env_back(&env_vars, new_variable(ft_strdup("PWD"), pwd));
 	add_env_back(&env_vars, new_variable(ft_strdup("SHLVL"), ft_strdup("1")));
 	add_env_back(&env_vars, new_variable(ft_strdup("OLDPWD"), NULL));
+	add_env_back(&env_vars, new_variable(ft_strdup("_"), ft_strdup("PATH")));
 	return (env_vars);
 }
 t_env   *full_envs(char **env)
@@ -47,6 +48,7 @@ t_env   *full_envs(char **env)
 		add_env_back(&env_vars, node);
 		i++;
 	}
+ 	update_var(env_vars, "_", ft_strdup("PATH"));
 	if (!get_env_key(env_vars ,"OLDPWD"))
 		add_env_back(&env_vars, new_variable(ft_strdup("OLDPWD"), NULL)); // I add this, by default OLDPWD var is not included in envp
 	return (env_vars);

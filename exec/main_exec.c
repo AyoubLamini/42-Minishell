@@ -88,7 +88,6 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
 		}
 		if (WIFSIGNALED(status))
 		{
-			// printf("signal: %d\n", WTERMSIG(status));
 			if (WTERMSIG(status) == 2)
 			{
 				exit_status(130, path);

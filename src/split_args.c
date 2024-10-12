@@ -6,40 +6,41 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:02:21 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/08/09 13:58:56 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/12 07:36:34 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int count_words(const char *s, char charset)
+static int	count_words(const char *s)
 {
-	int i;
-	int nbr;
+	int	i;
+	int	nbr;
 	int	single_quote;
 	int	double_quote;
+
 	i = 0;
-	
 	single_quote = 0;
 	double_quote = 0;
 	nbr = 0;
 	while (s[i])
 	{
 		ft_check_quotes(&single_quote, &double_quote, s[i]);
-		while (s[i] && s[i] == charset && !single_quote && !double_quote)
+		while (s[i] && ft_isspace(s[i]) && !single_quote && !double_quote)
 			i++;
 		if (s[i])
 			nbr++;
-		while (s[i] != charset && !single_quote && !double_quote && s[i])
+		while (!ft_isspace(s[i]) && !single_quote && !double_quote && s[i])
 			i++;
 	}
 	return (nbr);
 }
 
-void *ft_myfree(char **result, int index)
+void	*ft_myfree(char **result, int index)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (i < index)
 	{
 		free(result[i]);
@@ -49,17 +50,17 @@ void *ft_myfree(char **result, int index)
 	return (NULL);
 }
 
-static char **ft_allocate(int size)
+static char	**ft_allocate(int size)
 {
-	char **result;
+	char	**result;
 
 	result = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!result)
-		return (NULL);
+		exit(1);
 	return (result);
 }
 
-void	ft_strndup(char **r, char	*s, int start, int end, int *index)
+char	*ft_strndup(char **r, char *s, int start, int end)
 {
 	char	*tmp;
 	int		i;
@@ -67,66 +68,42 @@ void	ft_strndup(char **r, char	*s, int start, int end, int *index)
 	i = 0;
 	tmp = (char *)malloc(sizeof(char) * (end - start + 1));
 	if (!tmp)
-		return ;
-	while(start < end)
+		exit(1);
+	while (start < end)
 	{
 		tmp[i] = s[start];
 		i++;
 		start++;
 	}
 	tmp[i] = '\0';
-	if (!tmp)
-	{
-		ft_myfree(r, *index);
-		return ;
-	}
-	r[*index] = tmp;
-	*index += 1;
+	return (tmp);
 }
 
-void	split_helper(char	**r, char *s,char token, int *index)
+char	**split_args(char *s)
 {
-	int i;
-	int start;
-	int single_quote;
-	int double_quote;
+	t_vars	vars;
 
-	i = 0;
-	start = 0;
-	single_quote = 0;
-	double_quote = 0;
-	while (s[i] && s[i] == token)
-		i++;
-	while (s[i])
+	if (!s)
+		return (NULL);
+	vars = ft_initialize_vars();
+	vars.res = ft_allocate(count_words(s) + 1);
+	while (s[vars.i])
 	{
-		ft_check_quotes(&single_quote, &double_quote, s[i]);
-		if (s[i] == token && !single_quote && !double_quote)
+		ft_check_quotes(&vars.single_quote, &vars.double_quote, s[vars.i]);
+		if (ft_isspace(s[vars.i]) && !vars.single_quote && !vars.double_quote)
 		{
-			if (start < i)
-				ft_strndup(r, s, start, i, index);
-			while (s[i] && s[i] == token)
-				i++;
-			start = i;
+			if (vars.start < vars.i)
+				vars.res[vars.index++]
+					= ft_strndup(vars.res, s, vars.start, vars.i);
+			while (s[vars.i] && ft_isspace(s[vars.i]))
+				vars.i++;
+			vars.start = vars.i;
 		}
 		else
-			i++;
+			vars.i++;
 	}
-	if (start < i)
-		ft_strndup(r, s, start, i , index);
-	r[*index] = NULL;
-}
-
-char	**split_args(char *s, char c)
-{
-	char **result;
-	int index;
-	
-	index = 0;
-	if (!s)
-		return NULL;
-	result = ft_allocate(count_words(s, c)  + 1);
-	if (!result)
-		return NULL;
-	split_helper(result, s, c, &index);
-	return (result);
+	if (vars.start < vars.i)
+		vars.res[vars.index++] = ft_strndup(vars.res, s, vars.start, vars.i);
+	vars.res[vars.index] = NULL;
+	return (vars.res);
 }

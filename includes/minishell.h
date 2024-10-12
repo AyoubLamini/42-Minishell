@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 06:21:09 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/12 07:02:33 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ typedef struct s_command {
 typedef struct s_vars {
 	int i;
 	int j;
+	int start;
 	int index;
+	int single_quote;
+	int double_quote;
 	char *tmp;
 	char *tmp1;
 	char	*new;
@@ -101,7 +104,7 @@ int		check_quotes(char	*input);
 int		ft_isspace(char c);
 void	remove_spaces(char **input);
 char	*add_spaces(char *input, int single_quote, int double_quote);
-char	**split_args(char *s, char c);
+char	**split_args(char *s);
 void	ft_check_quotes(int *single_quote, int *double_quote, char c);
 t_command	*split_cmds(char **args, t_env *env_vars, t_path *path);
 void *ft_myfree(char **result, int index);

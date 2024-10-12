@@ -118,20 +118,19 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		}
 		input = add_spaces(input, 0, 0);
 		input = ft_strtrim(input, " ");
-		args = split_args(input, ' ');
+		args = split_args(input);
 		cmds = split_cmds(args, env_vars, path);
-		//print_list(cmds);
+		print_list(cmds);
 		execute(cmds, &env_vars, path); // I added this line
-		free_str(input);
 		// process_heredocs(path);
 		clear_herdocs(path);
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
 	exit_s = path->exit_status;
-	free_str(input);
-	free_envs(env_vars);
-	free(path->pwd);	
-	free(path->main_path);	
-	free(path);
+	// free_str(input);
+	// free_envs(env_vars);
+	// free(path->pwd);	
+	// free(path->main_path);	
+	// free(path);
 	exit(exit_s);
 }

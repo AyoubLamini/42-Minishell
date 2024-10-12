@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 05:45:18 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/12 05:29:17 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,8 @@ int	check_will_splited(t_env *envs, char **cmd, int i)
 						start = j;
 						while (cmd[i][j] && ft_isalpha(cmd[i][j]) && cmd[i][j] != '"')
 							j++;
-						key = ft_substr(cmd[i], start, j - start);
-						value = get_env_variable(envs, key);
+						key = ft_substr(cmd[i], start - 1, j - start);
+						value = double_quotes_process(envs, key, NULL, 0);
 						if (ft_check_space_in_cmd(value) > 0 || split_count_words(value, ' ') > 1)
 							check = 1;
 					}

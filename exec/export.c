@@ -7,6 +7,11 @@ static void export_display(t_env **env_vars)
     sort_vars(&env_copy); // sorted the copy
     while (env_copy) // printing the sorted copy
     {
+        if (ex_strcmp(env_copy->key, "_") == 0)
+        {
+            env_copy = env_copy->next;
+            continue;
+        }
         if (env_copy->value)
             printf("declare -x %s=\"%s\"\n", env_copy->key, env_copy->value);
         else
@@ -36,6 +41,11 @@ static int export_syntax(char *key)
 
 void update_key(char *cmd, t_env **env)
 {
+    if (ft_strcmp(get_str(cmd, "key"), "_") == 0) // if key is _
+        update_var(*env, get_str(cmd, "key"), // handle _ case
+                ft_strdup("_"));
+    else
+    {
     if (ex_strcmp(get_str(cmd, "sep"), "+=") == 0) // Append mode
     {
         // Append mode
@@ -47,9 +57,11 @@ void update_key(char *cmd, t_env **env)
     {
         // Overwrite mode
         if (get_str(cmd, "value"))
-            update_var(*env, get_str(cmd, "key"), 
+            update_var(*env, get_str(cmd, "key"), // handle _ case
                 get_str(cmd, "value"));
     } 
+    }
+   
 }
 int export(t_command *cmds, t_env **env)
 {
@@ -90,7 +102,7 @@ int  unset(t_command *cmds, t_env **env_vars)
     exit_status = 0;
     while (cmds->cmd[i])
     {
-        key = get_str(cmds->cmd[i], "key");
+        key = ft_strdup(cmds->cmd[i]);
         if (export_syntax(key))
         {
             print_error("unset", cmds->cmd[i], ":not a valid identifier");

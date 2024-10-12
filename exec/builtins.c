@@ -64,7 +64,6 @@ int env(t_env *env_vars)
         env_vars = env_vars->next;
     }
     return (0);
-    // printf("_=/usr/bin/env\n");
 }
 
 int pwd(t_path *path) // pwd

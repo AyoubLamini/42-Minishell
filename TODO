@@ -12,6 +12,6 @@ bash: unset: `d=': not a valid identifier
 unset _ :   should not unset in env
 unset __ :  should not unset in env
 cd ~  
-minishell $> cat << a | << b
+
 
 ./minishell | ./minishell

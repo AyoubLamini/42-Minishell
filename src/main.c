@@ -120,7 +120,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		input = ft_strtrim(input, " ");
 		args = split_args(input);
 		cmds = split_cmds(args, env_vars, path);
-		print_list(cmds);
+		//print_list(cmds);
 		execute(cmds, &env_vars, path); // I added this line
 		// process_heredocs(path);
 		clear_herdocs(path);

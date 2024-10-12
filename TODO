@@ -2,16 +2,3 @@
 env -i ./minishell (only clear shouldn't work)
 
 // file descriptor leak in ctrl + d heredoc
-
-bash-3.2$ export a=var1 b=var2 c=var3 d=var4
-bash-3.2$ unset a b c= d=
-bash: unset: `c=': not a valid identifier
-bash: unset: `d=': not a valid identifier
-
-====================
-unset _ :   should not unset in env
-unset __ :  should not unset in env
-cd ~  
-
-
-./minishell | ./minishell

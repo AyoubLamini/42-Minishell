@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:02:21 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 07:36:34 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:39:32 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	*ft_myfree(char **result, int index)
 	return (NULL);
 }
 
-static char	**ft_allocate(int size)
+char	**ft_allocate(int size)
 {
 	char	**result;
 

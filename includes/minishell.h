@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 07:02:33 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:39:42 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_vars {
 	int j;
 	int start;
 	int index;
+	int len;
 	int single_quote;
 	int double_quote;
 	char *tmp;
@@ -164,5 +165,5 @@ int	check_will_expanded(char *delimter);
 
 // utils
 t_vars ft_initialize_vars();
-
+char	**ft_allocate(int size);
 #endif

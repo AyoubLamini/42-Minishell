@@ -16,7 +16,7 @@ void set_last_arg(t_command *command, t_env **env_vars)
         return ;
     while (current->cmd[i])
             i++;
-    if (!current->cmd[i] && i == 1 && ft_strcmp(current->cmd[i - 1], "env") != 0)
+    if (!current->cmd[i] && i == 1 && ex_strcmp(current->cmd[i - 1], "echo") == 0)
         update_var(*env_vars, "_", ft_strdup("\0"));
     else
         update_var(*env_vars, "_", ft_strdup(current->cmd[i - 1]));

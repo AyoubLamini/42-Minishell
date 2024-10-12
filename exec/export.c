@@ -108,7 +108,7 @@ int  unset(t_command *cmds, t_env **env_vars)
             print_error("unset", cmds->cmd[i], ":not a valid identifier");
             exit_status = 1;
         }
-        else
+        else if (ft_strcmp(key, "_") != 0)
             delete_env(env_vars, cmds->cmd[i]);
         i++;
     }

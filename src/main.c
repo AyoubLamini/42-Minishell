@@ -9,11 +9,11 @@ void leaks() // TEMporary comment
 }
 static void tty_attributes(struct termios *attrs, int action)
 {
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
-	{
-		printf("Not a tty\n"),
-		exit(1);
-	}
+	// if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
+	// {
+	// 	printf("Not a tty\n"),
+	// 	exit(1);
+	// }
 		
 	if (action == ATTR_GET)
 	{
@@ -35,11 +35,7 @@ static void tty_attributes(struct termios *attrs, int action)
 		tty_attributes(attrs, ATTR_SET);
 	}
 }
-void	free_str(char *str)
-{
-	if (str)
-		free(str);
-}
+
 
 static t_path *init_data(t_path *path)
 {

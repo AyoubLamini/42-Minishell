@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 12:46:59 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 06:26:31 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/12 07:40:12 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,11 @@ void	free_cmds(t_command *cmds)
 		current = tmp;
 	}
 	cmds = NULL;
+}
+
+void	free_str(char *str)
+{
+	if (str)
+		free(str);
+	str = NULL;
 }

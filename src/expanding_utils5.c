@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 04:25:42 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 06:40:02 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 07:33:35 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	check_will_splited(t_env *envs, char **cmd, int i)
 	}
 	else
 	{
-		if (check_will_splited_helper3(envs, vars, cmd, i))
+		if (check_will_splited_helper1(envs, vars, cmd, i))
 			return (1);
 	}
 	return (0);

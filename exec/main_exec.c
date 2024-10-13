@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:44:49 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 03:44:02 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/13 05:05:30 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	exec_builtin(t_command *current, t_env **env, t_path *path)
 {
-	int check;
+	int	check;
 
 	check = 0;
 	path->is_forked = 0;
@@ -28,9 +28,9 @@ static void	exec_builtin(t_command *current, t_env **env, t_path *path)
 	return ;
 }
 
-static void waiting_processes(t_path *path)
+static void	waiting_processes(t_path *path)
 {
-	int status;
+	int	status;
 
 	while (waitpid(-1, &status, 0) != -1 && errno != ECHILD)
 	{
@@ -41,7 +41,7 @@ static void waiting_processes(t_path *path)
 			if (WTERMSIG(status) == 2)
 			{
 				exit_status(130, path);
-				printf("\n");
+				printf("\n"); // maybe this cause new line after CTRL + C
 			}
 			else if (WTERMSIG(status) == 3)
 			{
@@ -52,15 +52,16 @@ static void waiting_processes(t_path *path)
 	}
 }
 
-static void no_command(t_command *current, t_path *path)
+static void	no_command(t_command *current, t_path *path)
 {
 	if (current->redirection[0])
 	{
 		handle_redirection(current, path);
 		reset_fd(path);
-	}		
+	}
 }
-void    execute(t_command *command, t_env **env, t_path *path)
+
+void	execute(t_command *command, t_env **env, t_path *path)
 {
 	t_command	*current;
 	int			input_fd;
@@ -76,7 +77,7 @@ void    execute(t_command *command, t_env **env, t_path *path)
 		set_last_arg(current, env);
 		if (handle_herdoc(current, path, env))
 			return ;
-		if (!cmd && path->is_forked == 0) 
+		if (!cmd && path->is_forked == 0)
 			no_command(current, path);
 		else if (is_builtin(cmd) && !current->next && path->is_forked == 0)
 			exec_builtin(current, env, path);
@@ -84,7 +85,5 @@ void    execute(t_command *command, t_env **env, t_path *path)
 			piping(current, env, &input_fd, path);
 		current = current->next;
 	}
-	waiting_processes(path);   
+	waiting_processes(path);
 }
-		   
-   

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 03:26:51 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 09:01:15 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct s_vars {
 typedef struct s_heredoc {
     char *delimiter;
     char *file;
+	char *buffer;
+	int will_expand;
     struct s_heredoc *next;
 } t_heredoc;
 
@@ -164,10 +166,11 @@ int 	handle_herdoc(t_command *command, t_path *path, t_env **envs);
 t_heredoc *lst_heredoc_new(char *delimiter, char *file);
 void    lst_heredoc_add_back(t_heredoc **lst, t_heredoc *new);
 char	*get_right_delimeter(char *s);
-int	check_will_expanded(char *delimter);
+int		check_will_expanded(char *delimter);
+int		is_any_heredoc(char **red);
 
 // utils
-t_vars ft_initialize_vars();
+t_vars 	ft_initialize_vars();
 char	**ft_allocate(int size);
-int	skip_spaces(char *str, int index, int *j);
+int		skip_spaces(char *str, int index, int *j);
 #endif

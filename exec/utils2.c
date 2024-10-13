@@ -9,6 +9,8 @@ t_heredoc *lst_heredoc_new(char *delimiter, char *file)
         return (NULL);
     new->delimiter = delimiter;
     new->file = file;
+    new->buffer = NULL;
+    new->will_expand = 0;
     new->next = NULL;
     return (new);
 }

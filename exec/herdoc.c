@@ -6,7 +6,7 @@ static char *ft_rename(void)
     char *file;
 
     id++;
-    file = ex_strjoin(ft_strdup("./herdoc"), ft_itoa(id));
+    file = ex_strjoin(ft_strdup("/tmp/.herdoc"), ft_itoa(id));
     return (file);
 }
 
@@ -90,7 +90,12 @@ int handle_herdoc(t_command *command, t_path *path, t_env **envs)
         if (ex_strcmp(command->redirection[i], "<<") == 0)
         {
             if (ft_heredoc(command, path, command->redirection[i + 1], envs))
+            {
+                setup_signals(path, SET_SIG);
+                reset_fd(path);
+                close(path->fd_in);
                 return (1);
+            }
             else
                 close(path->fd_in);
         }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/13 11:03:00 by alamini           #+#    #+#             */
+/*   Updated: 2024/10/13 11:04:59 by alamini          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell_exec.h"
 
 int exec_cd(t_env *env, char *var, int check, t_path *path_struct)
@@ -17,9 +29,7 @@ int exec_cd(t_env *env, char *var, int check, t_path *path_struct)
     if (!path)
         return (print_error("cd", var, "not set"), 1); // if path not set
     if ((output = chdir(path)) == -1)
-    {
          return (print_error("cd", path, strerror(errno)), 1);
-    }
     else
     {
         if (output == 0 && errno == ENOENT)
@@ -39,7 +49,6 @@ int exec_cd(t_env *env, char *var, int check, t_path *path_struct)
                 add_env_back(&env, new_variable(ft_strdup("PWD"), cwd));
             free(path_struct->pwd);
             path_struct->pwd = ft_strdup(cwd);
-
         return (0);
     }
     return (0);

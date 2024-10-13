@@ -22,8 +22,6 @@ int     ex_strcmp(char *s1, char *s2);
 char	*ex_strjoin(char *s1, char *s2);
 size_t	ex_strlen(const char *s);
 char	*ex_strdup(const char *s1);
-void    print_double_pointer(char **double_ptr);
-void	ex_putstr_fd(char *s, int fd);
 void    print_error(char *cmd, char *path, char *error);
 int	    ft_strstr(char *haystack, char *needle);
 int     ft_is_numeric(char *s);
@@ -57,6 +55,7 @@ int     unset(t_command *cmds, t_env **env_vars);
 void    exit_shell(t_command *command, t_path *path);
 // redirections 
 int     handle_redirection(t_command *command, t_path *path);
+int	    ambigous_case(t_command *command, t_path *path, int i);
 // piping 
 void piping(t_command *command, t_env **env_vars, int *input_fd, t_path *path);
 

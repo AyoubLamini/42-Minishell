@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 09:04:49 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/13 09:14:51 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_command {
 	char    **cmd;
 	char    **redirection;
 	char 	*last_file;
+	int 	pipe[2];
 	int		is_ambiguous;
 	char	*ambiguous_file;
 	struct s_command *next;

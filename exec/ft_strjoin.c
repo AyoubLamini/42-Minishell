@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 11:39:52 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/08 23:24:20 by alamini          ###   ########.fr       */
+/*   Created: 2024/10/13 10:08:19 by alamini           #+#    #+#             */
+/*   Updated: 2024/10/13 10:08:54 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ size_t	ex_strlen(const char *s)
 		i++;
 	return (i);
 }
+
 char	*ex_strdup(const char *s1)
 {
 	char	*ptr;
@@ -42,6 +43,7 @@ char	*ex_strdup(const char *s1)
 	ptr[i] = '\0';
 	return (ptr);
 }
+
 char	*ex_strjoin(char *s1, char *s2)
 {
 	char	*res;

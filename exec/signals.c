@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/13 09:42:53 by alamini           #+#    #+#             */
+/*   Updated: 2024/10/13 09:44:00 by alamini          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell_exec.h"
 
-void    sigint_handler(int sig)
+void	sigint_handler(int sig)
 {
 	(void)sig;
-	if (waitpid(-1, &sig, WNOHANG) == 0) // 
+	if (waitpid(-1, &sig, WNOHANG) == 0)
 		return ;
 	printf("\n");
 	rl_on_new_line();
@@ -11,16 +23,17 @@ void    sigint_handler(int sig)
 	rl_redisplay();
 	g_last_signal = SIGINT;
 }
-void    herdoc_sig_handler(int sig)
+
+void	herdoc_sig_handler(int sig)
 {
 	(void)sig;
-	if (waitpid(-1, &sig, WNOHANG) == 0) // 
+	if (waitpid(-1, &sig, WNOHANG) == 0)
 		return ;
 	close(0);
 	g_last_signal = SIGINT;
 }
 
-void setup_signals(t_path *path, int action)
+void	setup_signals(t_path *path, int action)
 {
 	if (action == SET_SIG)
 	{

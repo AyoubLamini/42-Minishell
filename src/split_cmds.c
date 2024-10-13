@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 04:50:12 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 09:15:16 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ t_command	*allocate_node()
 	node->ambiguous_file = NULL;
 	node->next = NULL;
 	node->last_file = NULL;
-
+	node->pipe[0] = -1;
+	node->pipe[1] = -1;
 	return (node);
 }
 

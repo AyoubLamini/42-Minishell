@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:05:44 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 07:38:34 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/13 10:20:42 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,4 @@ void	set_last_arg(t_command *command, t_env **env_vars)
 	}
 	else
 		update_var(*env_vars, "_", ft_strdup(current->cmd[i - 1]));
-}
-
-int	is_any_heredoc(char **red)
-{
-	int	i;
-
-	i = 0;
-	if (!red || !red[0])
-		return (0);
-	while (red[i])
-	{
-		if (ex_strcmp(red[i], "<<") == 0)
-			return (1);
-		i++;
-	}
-	return (0);
 }

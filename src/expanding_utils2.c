@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 23:28:20 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:58:37 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static t_env *empty_envs(void)
 	t_env *env_vars;
 	char *path;
 	char *pwd;
-	
-	
+
 	env_vars = NULL;
 	path = ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
 	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
@@ -216,45 +215,6 @@ int	check_will_splited(t_env *envs, char **cmd, int i)
 }
 
 
-int	check_quotes_existed(char *old_cmd)
-{
-	int	i;
-
-	i = 0;
-	while (old_cmd[i] && old_cmd[i] != '"' && old_cmd[i] != '\'')
-		i++;
-	if (old_cmd[i] == '\'')
-		return (1);
-	if (old_cmd[i] == '"')
-		return (2);
-	return (0);
-}
 
 
-int	is_only_spaces(char *str)
-{
-	int	i;
 
-	i = 0;
-	while (str[i] && ft_isspace(str[i]))
-		i++;
-	if (str[i] == '\0')
-		return (1);
-	return (0);
-}
-t_vars ft_initialize_vars()
-{
-	t_vars vars;
-	vars.i = 0;
-	vars.index = 0;
-	vars.j = 0;
-	vars.start = 0;
-	vars.len = 0;
-	vars.single_quote = 0;
-	vars.double_quote = 0;
-	vars.tmp = NULL;
-	vars.tmp1 = NULL;
-	vars.new = NULL;
-	vars.res = NULL;
-	return (vars);
-}

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 01:37:54 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:41:22 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 #define AMBIGOUS_INDEX -1
-
 typedef struct s_env {
 	char	*key;
 	char	*value;

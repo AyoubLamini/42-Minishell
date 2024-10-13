@@ -57,7 +57,9 @@ void execute(t_command *command, t_env **env_vars, t_path *path)
         set_last_arg(current, env_vars);
 		if (handle_herdoc(current, path, env_vars))
 		{
+			setup_signals(path, SET_SIG);
 			reset_fd(path);
+			close(path->fd_in);
 			return ;
 		}
 		if (!current->cmd[0] && path->is_forked == 0) 

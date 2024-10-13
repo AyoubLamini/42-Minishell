@@ -9,7 +9,7 @@ void    sigint_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_last_signal = sig;
+	g_last_signal = SIGINT;
 }
 void    herdoc_sig_handler(int sig)
 {
@@ -17,7 +17,7 @@ void    herdoc_sig_handler(int sig)
 	if (waitpid(-1, &sig, WNOHANG) == 0) // 
 		return ;
 	close(0);
-	g_last_signal = 2;
+	g_last_signal = SIGINT;
 }
 
 void setup_signals(t_path *path, int action)

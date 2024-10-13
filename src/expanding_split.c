@@ -3,87 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_split.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:26:37 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 00:58:18 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/12 23:45:10 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_count_word(char  *old_cmd)
+void	count_words_helper(char *old_cmd, int *i, int *len, char c)
 {
-	int	lw;
-	int	i;
-
-	lw = 0;
-	i = 0;
-	while (old_cmd[i])
-	{
-		if (old_cmd[i] == '"')
-		{
-			lw++;
-			i++;
-			while (old_cmd[i] && old_cmd[i] != '"')
-				i++;
-			i++;
-		}
-		else if (old_cmd[i] == '\'')
-		{
-			lw++;
-			i++;
-			while (old_cmd[i] && old_cmd[i] != '\'')
-				i++;
-			i++;
-		}
-		else
-		{
-			lw++;
-			while (old_cmd[i] && old_cmd[i] != '\'' && old_cmd[i] != '"')
-				i++;
-		}
-	}
-	return (lw);
+	*len = *len + 1;
+	*i = *i + 1;
+	while (old_cmd[*i] && old_cmd[*i] != c)
+		*i = *i + 1;
+	*i = *i + 1;
 }
 
-char    **expanding_split(char  *old_cmd)
+int	ft_count_word(char *old_cmd)
 {
-	char    **res;
-	int		i;
-	int		index;
-	int		start;
-	
-	index = 0;
-	i = 0;
-	res = (char **)malloc(sizeof(char *) * (ft_count_word(old_cmd) + 1));
-	if (!res)
-		return (NULL);
-	while (old_cmd[i])
+	t_vars	vars;
+
+	vars = ft_initialize_vars();
+	while (old_cmd[vars.i])
 	{
-		start = i;
-		if (old_cmd[i] == '"')
-		{
-			i++;
-			while (old_cmd[i] && old_cmd[i] != '"')
-				i++;
-			i++;
-		}
-		else if (old_cmd[i] == '\'')
-		{
-			i++;
-			while (old_cmd[i] && old_cmd[i] != '\'')
-				i++;
-			i++;
-		}
+		if (old_cmd[vars.i] == '"')
+			count_words_helper(old_cmd, &vars.i, &vars.len, '"');
+		else if (old_cmd[vars.i] == '\'')
+			count_words_helper(old_cmd, &vars.i, &vars.len, '\'');
 		else
 		{
-			while (old_cmd[i] && old_cmd[i] != '\'' && old_cmd[i] != '"')
-				i++;
+			vars.len++;
+			while (old_cmd[vars.i] && old_cmd[vars.i] != '\''
+				&& old_cmd[vars.i] != '"')
+				vars.i++;
 		}
-		res[index] = ft_substr(old_cmd, start, i - start);
-		index++;
 	}
-	res[index] = 0;
-	return ( res);
+	return (vars.len);
+}
+
+void	expanding_split_helper(char *old_cmd, int *i, char c)
+{
+	*i = *i + 1;
+	while (old_cmd[*i] && old_cmd[*i] != c)
+		*i = *i + 1;
+	*i = *i + 1;
+}
+
+char	**expanding_split(char *old_cmd)
+{
+	t_vars	vars;
+
+	vars = ft_initialize_vars();
+	vars.res = ft_allocate(ft_count_word(old_cmd));
+	while (old_cmd[vars.i])
+	{
+		vars.start = vars.i;
+		if (old_cmd[vars.i] == '"')
+			expanding_split_helper(old_cmd, &vars.i, '"');
+		else if (old_cmd[vars.i] == '\'')
+			expanding_split_helper(old_cmd, &vars.i, '\'');
+		else
+		{
+			while (old_cmd[vars.i] && old_cmd[vars.i] != '\''
+				&& old_cmd[vars.i] != '"')
+				vars.i++;
+		}
+		vars.res[vars.index]
+			= ft_substr(old_cmd, vars.start, vars.i - vars.start);
+		vars.index++;
+	}
+	vars.res[vars.index] = 0;
+	return (vars.res);
 }

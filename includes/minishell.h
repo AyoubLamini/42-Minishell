@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 03:26:51 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 04:28:46 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,4 +170,9 @@ int	check_will_expanded(char *delimter);
 t_vars ft_initialize_vars();
 char	**ft_allocate(int size);
 int	skip_spaces(char *str, int index, int *j);
+int	check_will_splited_helper3(t_env *envs, t_vars vars, char **cmd, int i);
+int	check_will_splited_helper2(t_env *envs, t_vars vars, char **cmd, int i);
+void	check_helper2_1(t_env *envs, t_vars *vars, char **cmd, int i);
+int	check_will_splited_helper1(t_env *envs, t_vars vars, char **cmd, int i);
+
 #endif

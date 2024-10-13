@@ -6,21 +6,22 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:51:44 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 03:27:02 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 04:34:49 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
 
-int my_strcmp(char *s1, char *s2)
+int	my_strcmp(char *s1, char *s2)
 {
 	int	i;
 
 	if (!s1 || !s2)
 		return (-1);
 	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0' && s2[i] != '\'' && s2[i] != '"')
+	while (s1[i] == s2[i] && s1[i] != '\0'
+		&& s2[i] != '\0' && s2[i] != '\'' && s2[i] != '"')
 		i++;
 	return (s1[i] - s2[i]);
 }
@@ -28,6 +29,7 @@ int my_strcmp(char *s1, char *s2)
 char	*get_env_variable(t_env *env, char *env_key)
 {
 	t_env	*tmp;
+
 	tmp = env;
 	if (!env || !env_key)
 		return (NULL);
@@ -40,9 +42,10 @@ char	*get_env_variable(t_env *env, char *env_key)
 	return (NULL);
 }
 
-t_vars ft_initialize_vars()
+t_vars	ft_initialize_vars(void)
 {
-	t_vars vars;
+	t_vars	vars;
+
 	vars.i = 0;
 	vars.index = 0;
 	vars.j = 0;
@@ -72,7 +75,6 @@ int	is_only_spaces(char *str)
 		return (1);
 	return (0);
 }
-
 
 int	check_quotes_existed(char *old_cmd)
 {

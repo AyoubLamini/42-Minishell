@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 06:28:14 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 04:50:12 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 	t_command	*node;
 	static char		**tmp;
 	static int 		i;
-	
 
 	tmp = NULL;
 	node = allocate_node();

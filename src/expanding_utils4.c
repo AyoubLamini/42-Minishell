@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:52:45 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 01:54:06 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 04:46:57 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,74 +15,62 @@
 
 char	**join_two_double_strs(char **s1, char **s2)
 {
-	char	**new;
-	int		len1;
-	int		len2;
-	int		i;
-	int		j;
-	
-	new = NULL;
-	i = 0;
-	j = 0;
+	t_vars	vars;
+
+	vars = ft_initialize_vars();
 	if (!s2)
 		return (s1);
 	if (!s1)
 		return (s2);
 	if (!s1 && !s2)
 		return (NULL);
-	len1 = ft_strslen(s1);
-	len2 = ft_strslen(s2);
-	new = (char **)malloc(sizeof(char *) * (len1 + len2 + 1));
-	if (!new)
-		return (NULL);
-	while (s1[i])
+	vars.len = ft_strslen(s1) + ft_strslen(s2);
+	vars.res = ft_allocate(vars.len);
+	while (s1[vars.i])
 	{
-		new[i]= ft_strdup(s1[i]);
-		i++;
+		vars.res[vars.i] = ft_strdup(s1[vars.i]);
+		vars.i++;
 	}
-	while (s2[j])
-		new[i++] = ft_strdup(s2[j++]);
-	new[i] = 0;
-	return (free_strs(s1), free_strs(s2), new); 
+	while (s2[vars.j])
+		vars.res[vars.i++] = ft_strdup(s2[vars.j++]);
+	vars.res[vars.i] = 0;
+	return (free_strs(s1), free_strs(s2), vars.res);
 }
 
 char	**join_double_strs_with_str(char **s1, char *s2)
 {
-	char	**new;
-	int		len;
-	int		i;
+	t_vars	vars;
 
-	i = 0;
+	vars = ft_initialize_vars();
 	if (!s2)
 		return (s1);
 	if (!s1 || !*s1)
 	{
-		new = (char **)malloc(sizeof(char *) * 2);
-		if (!new)
+		vars.res = (char **)malloc(sizeof(char *) * 2);
+		if (!vars.res)
 			return (NULL);
-		new[0] = s2;
-		new[1] = NULL;
-		return (new);
+		vars.res[0] = s2;
+		vars.res[1] = NULL;
+		return (vars.res);
 	}
-	len = ft_strslen(s1);
-	new = (char **)malloc(sizeof(char *) * (len + 2));
-	if (!new)
+	vars.res = (char **)malloc(sizeof(char *) * (ft_strslen(s1) + 2));
+	if (!vars.res)
 		return (NULL);
-	while (s1[i])
+	while (s1[vars.i])
 	{
-		new[i]= ft_strdup(s1[i]);
-		i++;
+		vars.res[vars.i] = ft_strdup(s1[vars.i]);
+		vars.i++;
 	}
-	new[i++] = ft_strdup(s2);
-	new[i] = 0;
-	return (free_strs(s1), free_str(s2), new);
+	vars.res[vars.i++] = ft_strdup(s2);
+	vars.res[vars.i] = 0;
+	return (free_strs(s1), free_str(s2), vars.res);
 }
 
 void	print_envs(t_env *envs)
 {
-	t_env *p;	
-	p = envs;
+	t_env	*p;
 
+	p = envs;
 	while (p != NULL)
 	{
 		printf("%s", p->key);
@@ -91,14 +79,15 @@ void	print_envs(t_env *envs)
 	}
 }
 
-void delete_env(t_env **env, char *env_key)
+void	delete_env(t_env **env, char *env_key)
 {
-	t_env *temp;
-	t_env *del;
-	t_env *prev;
+	t_env	*temp;
+	t_env	*del;
+	t_env	*prev;
+
 	temp = *env;
 	if (!env || !env_key)
-        return ;
+		return ;
 	prev = NULL;
 	while (temp)
 	{

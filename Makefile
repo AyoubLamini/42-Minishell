@@ -6,7 +6,7 @@
 #    By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 22:26:51 by ybouyzem          #+#    #+#              #
-#    Updated: 2024/10/13 02:03:04 by ybouyzem         ###   ########.fr        #
+#    Updated: 2024/10/13 04:28:05 by ybouyzem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIB_FILES	:= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_i
 
 
 FILE = src/main.c src/check_syntax.c src/parssing_utils.c src/split_args.c src/split_cmds.c src/list_utils.c src/expanding.c \
-	src/expanding_utils1.c  src/expanding_utils2.c src/expanding_utils3.c src/expanding_utils4.c  src/expanding_split.c src/add_spaces.c\
+	src/expanding_utils1.c  src/expanding_utils2.c src/expanding_utils3.c src/expanding_utils4.c  src/expanding_utils5.c src/expanding_split.c src/add_spaces.c \
 	exec/commands.c exec/builtins.c exec/builtins_utils.c exec/ft_split.c exec/ft_strjoin.c exec/redrection.c exec/utils.c exec/main_exec.c\
 	src/free_memory.c exec/piping.c exec/export.c exec/cd.c exec/exec_utils.c exec/signals.c exec/herdoc.c exec/utils2.c exec/expanding_herdoc.c $(LIB_FILES)
 	

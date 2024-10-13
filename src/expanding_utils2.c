@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 05:46:27 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 04:33:00 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 06:46:51 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ int	check_will_splited_helper1(t_env *envs, t_vars vars, char **cmd, int i)
 					&& cmd[i][vars.j] != '"')
 					vars.j++;
 				vars.key = ft_substr(cmd[i],
-						vars.start - 1, vars.j - vars.start);
+						vars.start - 1, vars.j - vars.start + 1);
 				vars.value = double_quotes_process(envs, vars.key, NULL, 0);
 				if (ft_check_space_in_cmd(vars.value) > 0
 					|| split_count_words(vars.value, ' ') > 1)
+					{
 					vars.check = 1;
+					}
 			}
 			else
 				vars.check = 0;
@@ -62,7 +64,7 @@ void	check_helper2_1(t_env *envs, t_vars *vars, char **cmd, int i)
 		while (cmd[i - 1][vars->j] && ft_isalpha(cmd[i - 1][vars->j]) &&
 			cmd[i - 1][vars->j] != '"')
 			vars->j++;
-		vars->key = ft_substr(cmd[i - 1], vars->start, vars->j - vars->start);
+		vars->key = ft_substr(cmd[i - 1], vars->start, vars->j - vars->start + 1);
 		vars->value = get_env_variable(envs, vars->key);
 		if ((ft_check_space_in_cmd(vars->value) > 0
 				|| (split_count_words(vars->value, ' ') > 1

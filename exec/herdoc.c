@@ -88,10 +88,12 @@ int handle_herdoc(t_command *command, t_path *path, t_env **envs)
     while (command->redirection[i])
     {
         if (ex_strcmp(command->redirection[i], "<<") == 0)
+        {
             if (ft_heredoc(command, path, command->redirection[i + 1], envs))
                 return (1);
             else
                 close(path->fd_in);
+        }
         i++;
     }
     return (0);

@@ -6,54 +6,11 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 08:33:12 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 01:04:05 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:37:22 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	check_quotes(char	*input)
-{
-	int		i;
-	int		single_quote;
-	int		double_quote;
-
-	single_quote = 0;
-	double_quote = 0;
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '\'' && !single_quote)
-			double_quote = !double_quote;
-		else if (input[i] == '"' && !double_quote)
-			single_quote = !single_quote;
-		i++;
-	}
-	if (single_quote || double_quote)
-		return (-1);
-	return (1);
-}
-
-void	remove_spaces(char **input)
-{
-	char	*res;
-	int		start;
-	int		end;
-	int		i;
-
-	res = *input;
-	start = 0;
-	i = 0;
-	if (!res)
-		return ;
-	while (ft_isspace(*res))
-		res++;
-	end = ft_strlen(res) - 1;
-	while (end >= start && ft_isspace(res[end]))
-		end--;
-	res[end + 1] = '\0';
-	*input = res;
-}
 
 int	check_redirections_helper(char *input, int *i, int *j, char c)
 {
@@ -80,7 +37,7 @@ int	check_redirections_helper(char *input, int *i, int *j, char c)
 	return (0);
 }
 
-int	check_directions(char *input)
+int	check_redirections(char *input)
 {
 	t_vars	vars;
 
@@ -108,24 +65,73 @@ int	check_directions(char *input)
 	return (1);
 }
 
-int	skip_spaces(char *str, int index, int *j)
+int	check_syntax_helper(char *input, int i, int j, char c)
 {
-	*j = index;
-	while (ft_isspace(str[index]) && str[index])
-		index++;
-	return (index);
+	if (c == '>')
+	{
+		if (input[i] == '\0')
+			return (-1);
+		if (j + 1 != i && input[i] == '>')
+			return (-2);
+		else if (input[i] == '<')
+			return (-3);
+		else if (input[i] == '|')
+			return (-4);
+	}
+	else if (c == '<')
+	{
+		if (input[i] == '|')
+			return (-4);
+		else if (i != j && input[i] == '<')
+			return (-3);
+		else if (input[i] == '>')
+			return (-2);
+		else if (input[i] == '\0')
+			return (-1);
+	}
+	return (1);
+}
+
+int	check_syntax_helper1(char *input, int *i, int j)
+{
+	if (is_redirection(input, *i) == 2)
+	{
+		*i = skip_spaces(input, *i + 1, &j);
+		if (input[*i] == '|')
+			return (-1);
+	}
+	if (input[*i] == '>')
+	{
+		*i = skip_spaces(input, *i + 1, &j);
+		if (check_syntax_helper(input, *i, j, '>') < 0)
+			return (check_syntax_helper(input, *i, j, '>'));
+	}
+	if (input[*i] == '<')
+	{
+		*i = skip_spaces(input, *i + 1, &j);
+		if (check_syntax_helper(input, *i, j, '<') < 0)
+			return (check_syntax_helper(input, *i, j, '<'));
+	}
+	if (input[*i] == '|')
+	{
+		*i = skip_spaces(input, *i + 1, &j);
+		if (input[*i] == '|' || input[*i] == '\0')
+			return (-4);
+	}
+	return (1);
 }
 
 int	check_syntax(char *input)
 {
 	t_vars	vars;
-	
+
 	vars = ft_initialize_vars();
-	if (check_directions(input) == -1 || check_quotes(input) == -1)
+	if (check_redirections(input) == -1 || check_quotes(input) == -1)
 		return (-1);
-	if (check_directions(input) == -2)
+	if (check_redirections(input) == -2)
 		return (-2);
-	if ((is_redirection(input, 0) == 2 && input[vars.i + 2] == '\0') || (is_redirection(input, 0) && input[vars.i + 1] == '\0'))
+	if ((is_redirection(input, 0) == 2 && input[vars.i + 2] == '\0')
+		|| (is_redirection(input, 0) && input[vars.i + 1] == '\0'))
 		return (-2);
 	while (input[vars.i])
 	{
@@ -133,42 +139,9 @@ int	check_syntax(char *input)
 		ft_check_quotes(&vars.single_quote, &vars.double_quote, input[vars.i]);
 		if (!vars.single_quote && !vars.double_quote)
 		{
-			if (is_redirection(input, vars.i) == 2)
-			{
-				vars.i = skip_spaces(input, vars.i + 1, &vars.j);
-				if (input[vars.i] == '|')
-					return (-1);
-			}
-			if (input[vars.i] == '>')
-			{
-				vars.i = skip_spaces(input, vars.i + 1, &vars.j);
-				if ( input[vars.i] == '\0')
-					return (-1);
-				if (vars.j + 1 != vars.i && input[vars.i] == '>')
-					return (-2);
-				else if ( input[vars.i] == '<')
-					return (-3);
-				else if (input[vars.i] == '|')
-					return (-4);
-			}
-			if (input[vars.i] == '<')
-			{
-				vars.i = skip_spaces(input, vars.i + 1, &vars.j);
-				if (input[vars.i] == '|')
-					return (-4);
-				else if (vars.i != vars.j && input[vars.i] == '<')
-					return (-3);
-				else if (input[vars.i] == '>')
-					return (-2);
-				else if (input[vars.i] == '\0')
-					return (-1);
-			}
-			if (input[vars.i] == '|')
-			{
-				vars.i = skip_spaces(input, vars.i + 1, &vars.j);
-				if (input[vars.i] == '|' || input[vars.i] == '\0')
-					return (-4);
-			}
+			vars.start = check_syntax_helper1(input, &vars.i, vars.j);
+			if (vars.start < 0)
+				return (vars.start);
 		}
 		vars.i = vars.j;
 		vars.i++;

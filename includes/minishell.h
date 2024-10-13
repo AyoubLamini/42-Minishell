@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 00:46:28 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:37:54 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,4 +166,5 @@ int	check_will_expanded(char *delimter);
 // utils
 t_vars ft_initialize_vars();
 char	**ft_allocate(int size);
+int	skip_spaces(char *str, int index, int *j);
 #endif

@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:44:49 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 05:05:30 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/13 11:51:14 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static void	waiting_processes(t_path *path)
 			exit_status(WEXITSTATUS(status), path);
 		if (WIFSIGNALED(status))
 		{
-			if (WTERMSIG(status) == 2)
+			if (WTERMSIG(status) == SIGINT)
 			{
 				exit_status(130, path);
-				printf("\n"); // maybe this cause new line after CTRL + C
+				printf("\n");
 			}
 			else if (WTERMSIG(status) == 3)
 			{

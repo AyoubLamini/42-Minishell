@@ -28,6 +28,8 @@ void    print_error(char *cmd, char *path, char *error);
 int	    ft_strstr(char *haystack, char *needle);
 int     ft_is_numeric(char *s);
 int     occur_alpha(char *str, int c);
+void    reset_fd(t_path *path);
+int     is_builtin(char *cmd);
 // list utils
 t_env   *env_vars_copy(t_env **env_vars);
 int	    list_size(t_env *lst);

@@ -6,14 +6,12 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 00:46:47 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 07:34:46 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
-
-
 
 int	get_last_quote_pos(char	*old_cmd)
 {
@@ -141,7 +139,6 @@ char	*single_quotes_process(char *str)
 	return (res);
 }
 
-
 char	**single_quotes(t_env *envs, char **cmd, int i, char **res, int *index)
 {
 	char	*tmp;
@@ -217,7 +214,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe)
 		}
 		vars.i++;
 	}
-	return (free_strs(cmd), vars.res);
+	return (vars.res);
 }
 
 
@@ -243,17 +240,15 @@ char	**expanding_red(t_command *node, t_env *envs, char *old_cmd, t_path *path, 
 			{ 
 				if (cmd[vars.i][0] == '"' || (cmd[vars.i][0] != '"' && !is_only_spaces(vars.tmp)))
 				{
-					if (vars.tmp && vars.tmp[0] == '*' && vars.tmp[1] == '\0')
+					if (vars.tmp && vars.tmp[0] == '*' && cmd[vars.i][0] != '"' && vars.tmp[1] == '\0')
 					{
 						node->is_ambiguous = pos;
 						node->ambiguous_file = old_cmd;
 					}
-					if (vars.tmp && vars.tmp[0] != '\0' && check_will_splited(envs, cmd, vars.i) == 1 )
+					else if (vars.tmp && vars.tmp[0] != '\0' && check_will_splited_ambg(envs, cmd, vars.i) == 1 && cmd[vars.i][0] != '"')
 					{
 						node->is_ambiguous = pos;
 						node->ambiguous_file = old_cmd;
-						temp = ft_split(vars.tmp, ' ');
-						vars.res = join_two_double_strs(vars.res, temp);
 					}
 					else
 					{

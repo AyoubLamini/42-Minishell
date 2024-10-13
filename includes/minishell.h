@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 09:01:15 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/13 09:04:49 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,5 +172,12 @@ int		is_any_heredoc(char **red);
 // utils
 t_vars 	ft_initialize_vars();
 char	**ft_allocate(int size);
-int		skip_spaces(char *str, int index, int *j);
+int	skip_spaces(char *str, int index, int *j);
+int	check_will_splited_helper3(t_env *envs, t_vars vars, char **cmd, int i);
+int	check_will_splited_helper2(t_env *envs, t_vars vars, char **cmd, int i);
+void	check_helper2_1(t_env *envs, t_vars *vars, char **cmd, int i);
+int	check_will_splited_helper1(t_env *envs, t_vars vars, char **cmd, int i);
+int	check_will_splited_ambg(t_env *envs, char **cmd, int i);
+int	check_will_splited_helper_ambg1(t_env *envs, t_vars vars, char **cmd, int i);
+void	skip_dollars(char **cmd, int i, int *j, int *nbr);
 #endif

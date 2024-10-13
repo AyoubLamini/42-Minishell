@@ -6,56 +6,17 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:51:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 06:29:32 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:57:30 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
 
-void	syntax_error_messages(int code)
-{
-	if (code == -1)
-		write(2, "Minishell: syntax error \n", 26);
-	else if (code == -2)
-		write(2, "Minishell: syntax error near unexpected token `>'\n", 51);
-	else if (code == -3)
-		write(2, "Minishell: syntax error near unexpected token `<'\n", 51);
-	else if (code == -4)
-		write(2, "bash: syntax error near unexpected token `|'\n", 46); 
-}
-
-int	my_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	if (!s1 || !s2)
-		return (-1);
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0' && s2[i] != '\'' && s2[i] != '"')
-		i++;
-	return (s1[i] - s2[i]);
-}
-
-char	*get_env_variable(t_env *env, char *env_key)
-{
-	t_env	*tmp;
-	tmp = env;
-	if (!env || !env_key)
-		return (NULL);
-	while (tmp)
-	{
-		if (my_strcmp(tmp->key, env_key) == 0)
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-static char *get_key(char *str) // Hello=Friend  a+=  a     a=
+static char	*get_key(char *str)
 {
 	char	*key;
-	int 	i;
+	int		i;
 
 	i = 0;
 	key = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
@@ -66,31 +27,31 @@ static char *get_key(char *str) // Hello=Friend  a+=  a     a=
 		key[i] = str[i];
 		i++;
 	}
-	if (str[i] == '+' && str[i+1] == '+')
+	if (str[i] == '+' && str[i + 1] == '+')
 		return (free(key), NULL);
 	key[i] = '\0';
 	return (key);
 }
 
-static char *get_value(char *str)  // OLDPWD   | OLDPWD=  | OLDPWD=hello
+static char	*get_value(char *str)
 {
 	char	*value;
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
 	value = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
 	if (!value)
 		return (NULL);
-	while (str[j] && str[j] != '=') // skip the key
-			j++;
-	if (str[j] != '=') // if no seperator after key
+	while (str[j] && str[j] != '=')
+		j++;
+	if (str[j] != '=')
 		return (free(value), NULL);
-	j++; // skip '=' 
-	while (str[j]) // fill the value
+	j++;
+	while (str[j])
 	{
-		value[i] = str[j]; 
+		value[i] = str[j];
 		i++;
 		j++;
 	}
@@ -98,11 +59,11 @@ static char *get_value(char *str)  // OLDPWD   | OLDPWD=  | OLDPWD=hello
 	return (value);
 }
 
-static char *get_sep(char *str)
+static char	*get_sep(char *str)
 {
 	char	*sep;
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -110,13 +71,13 @@ static char *get_sep(char *str)
 	if (!sep)
 		return (NULL);
 	while (str[j] && str[j] != '=' && str[j] != '+')
-			j++;
+		j++;
 	if (str[j] == '=')
 	{
 		sep[i++] = '=';
 		sep[i++] = '\0';
 	}
-	else if (str[j] == '+' && str[j+1] == '=')
+	else if (str[j] == '+' && str[j + 1] == '=')
 	{
 		sep[i++] = '+';
 		sep[i++] = '=';
@@ -127,8 +88,8 @@ static char *get_sep(char *str)
 	return (sep);
 }
 
-char *get_str(char *var, char *type) // allocate memory and returns key or value or sep
-{ 
+char	*get_str(char *var, char *type)
+{
 	if (!var || !type)
 		return (NULL);
 	if (ex_strcmp(type, "key") == 0)
@@ -151,126 +112,4 @@ t_env	*new_variable(char *env_key, char *env_value)
 	node->value = env_value;
 	node->next = NULL;
 	return (node);
-}
-
-
-void	add_env_back(t_env **envs, t_env *new)
-{
-	t_env	*p;
-
-	p = *envs;
-	if (*envs == NULL)
-		*envs = new;
-	else
-	{
-		while (p->next != NULL)
-			p = p->next;
-		p->next = new;
-	}
-}
-void delete_env(t_env **env, char *env_key)
-{
-	t_env *temp;
-	t_env *del;
-	t_env *prev;
-	temp = *env;
-	if (!env || !env_key)
-        return ;
-	prev = NULL;
-	while (temp)
-	{
-		if (ex_strcmp(temp->key, env_key) == 0)
-		{
-			del = temp;
-			if (prev)
-				prev->next = temp->next;
-			else
-				*env = temp->next;
-			free(del->key);
-			free(del->value);
-			free(del);
-			return ;
-		}
-		prev = temp;
-		temp = temp->next;
-	}
-	return ;
-}
-
-void	print_envs(t_env *envs)
-{
-	t_env *p;	
-	p = envs;
-
-	while (p != NULL)
-	{
-		printf("%s", p->key);
-		printf("=%s\n", p->value);
-		p = p->next;
-	}
-}
-
-char	**join_double_strs_with_str(char **s1, char *s2)
-{
-	char	**new;
-	int		len;
-	int		i;
-
-	i = 0;
-	if (!s2)
-		return (s1);
-	if (!s1 || !*s1)
-	{
-		new = (char **)malloc(sizeof(char *) * 2);
-		if (!new)
-			return (NULL);
-		new[0] = s2;
-		new[1] = NULL;
-		return (new);
-	}
-	len = ft_strslen(s1);
-	new = (char **)malloc(sizeof(char *) * (len + 2));
-	if (!new)
-		return (NULL);
-	while (s1[i])
-	{
-		new[i]= ft_strdup(s1[i]);
-		i++;
-	}
-	new[i++] = ft_strdup(s2);
-	new[i] = 0;
-	return (free_strs(s1), free_str(s2), new);
-}
-
-char	**join_two_double_strs(char **s1, char **s2)
-{
-	char	**new;
-	int		len1;
-	int		len2;
-	int		i;
-	int		j;
-	
-	new = NULL;
-	i = 0;
-	j = 0;
-	if (!s2)
-		return (s1);
-	if (!s1)
-		return (s2);
-	if (!s1 && !s2)
-		return (NULL);
-	len1 = ft_strslen(s1);
-	len2 = ft_strslen(s2);
-	new = (char **)malloc(sizeof(char *) * (len1 + len2 + 1));
-	if (!new)
-		return (NULL);
-	while (s1[i])
-	{
-		new[i]= ft_strdup(s1[i]);
-		i++;
-	}
-	while (s2[j])
-		new[i++] = ft_strdup(s2[j++]);
-	new[i] = 0;
-	return (free_strs(s1), free_strs(s2), new); 
 }

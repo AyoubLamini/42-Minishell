@@ -6,12 +6,24 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 06:36:26 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 01:38:31 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:49:37 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
+
+void	syntax_error_messages(int code)
+{
+	if (code == -1)
+		write(2, "Minishell: syntax error \n", 26);
+	else if (code == -2)
+		write(2, "Minishell: syntax error near unexpected token `>'\n", 51);
+	else if (code == -3)
+		write(2, "Minishell: syntax error near unexpected token `<'\n", 51);
+	else if (code == -4)
+		write(2, "bash: syntax error near unexpected token `|'\n", 46);
+}
 
 int	is_redirection(char *str, int index)
 {

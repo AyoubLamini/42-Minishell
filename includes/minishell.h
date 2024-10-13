@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 01:41:22 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 03:26:51 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,15 @@ typedef struct s_vars {
 	int start;
 	int index;
 	int len;
+	int nbr;
+	int check;
 	int single_quote;
 	int double_quote;
 	char *tmp;
 	char *tmp1;
 	char	*new;
+	char	*key;
+	char	*value;
 	char	**res;
 } t_vars;
 

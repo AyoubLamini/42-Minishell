@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 07:02:33 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 00:43:14 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 #define AMBIGOUS_INDEX -1
-
 typedef struct s_env {
 	char	*key;
 	char	*value;

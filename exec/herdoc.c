@@ -24,8 +24,7 @@ static int ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env *
     heredoc = lst_heredoc_new(ft_strdup(delimiter), ft_rename());
     lst_heredoc_add_back(&path->heredoc, heredoc);
     buffer = NULL;
-    if (path->fd_in == 0)
-        path->fd_in = dup(STDIN_FILENO); // save the current stdin
+    path->fd_in = dup(STDIN_FILENO); // save the current stdin
     while (1)
     {
         line = readline("> ");
@@ -61,6 +60,7 @@ static int ft_heredoc(t_command *command, t_path *path, char *delimiter, t_env *
     command->last_file = heredoc->file;
     free(buffer);
     close(fd);
+    setup_signals(path, SET_SIG);
     return (0);
 }
 
@@ -90,6 +90,8 @@ int handle_herdoc(t_command *command, t_path *path, t_env **envs)
         if (ex_strcmp(command->redirection[i], "<<") == 0)
             if (ft_heredoc(command, path, command->redirection[i + 1], envs))
                 return (1);
+            else
+                close(path->fd_in);
         i++;
     }
     return (0);

@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:13:23 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/14 01:33:23 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 16:41:59 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ int	handle_herdoc(t_command *command, t_path *path, t_env **envs)
 				return (1);
 			}
 			else
+			{
 				close(path->fd_in);
+				path->fd_in = 0;
+			}
 		}
 		i++;
 	}

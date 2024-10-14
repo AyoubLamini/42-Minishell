@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:44:49 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 11:51:14 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 18:31:19 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ static void	exec_builtin(t_command *current, t_env **env, t_path *path)
 	if (!check)
 	{
 		check_command(current, env, path);
-		reset_fd(path);
 	}
+	if (current->redirection[0])
+		reset_fd(path);
 	return ;
 }
 
@@ -69,6 +70,8 @@ void	execute(t_command *command, t_env **env, t_path *path)
 
 	current = command;
 	input_fd = -1;
+	path->fd_in = 0;
+	path->fd_out = 1;
 	cmd = current->cmd[0];
 	if (!current)
 		return ;

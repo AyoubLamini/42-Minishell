@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:30:36 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/14 02:45:09 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 17:46:44 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,17 @@
 
 void	reset_fd(t_path *path)
 {
-	dup2(path->fd_in, STDIN_FILENO);
-	dup2(path->fd_out, STDOUT_FILENO);
+	if (path->fd_in != 0)
+	{
+		dup2(path->fd_in, STDIN_FILENO);
+		close(path->fd_in);
+	}
+	if (path->fd_out != 1)
+	{
+		dup2(path->fd_out, STDOUT_FILENO);
+		close(path->fd_out);
+	}
+	
 }
 
 int	is_builtin(char *cmd)

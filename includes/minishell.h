@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 12:27:31 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:47:14 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ char	**join_double_strs_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
 int	check_is_joinable(char **cmd, int index);
 int	ft_check_space_in_cmd(char *str);
-char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe);
+char	*double_quotes_p(t_env *envs, char *str, t_path *path, int is_pipe);
 char	*single_quotes_process(char *str);
 int	is_only_spaces(char *str);
 
@@ -182,6 +182,10 @@ int	check_will_splited_helper1(t_env *envs, t_vars vars, char **cmd, int i);
 int	check_will_splited_ambg(t_env *envs, char **cmd, int i);
 int	check_will_splited_helper_ambg1(t_env *envs, t_vars vars, char **cmd, int i);
 void	skip_dollars(char **cmd, int i, int *j, int *nbr);
+void	add_dollars(t_vars *vars, int c);
+void	double_quotes_helper2(t_env *envs, t_vars *vars, t_path *path, char *str);
+void	add_string(t_vars *vars, char *str);
+void	count_dollars(t_vars *vars, char *str);
 
 // garbage collector
 void *my_malloc(size_t size, int mode);

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:29:13 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 15:29:43 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:48:18 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*single_quotes_process(char *str)
 {
 	int		i;
 	char	*res;
-	
+
 	res = NULL;
 	i = 0;
 	str++;
@@ -39,30 +39,30 @@ char	*single_quotes_process(char *str)
 	return (res);
 }
 
-
-char	**single_quotes(t_env *envs, char **cmd, int i, char **res, int *index)
+char	**single_quotes(t_env *envs, t_vars vars, int *index)
 {
 	char	*tmp;
 	char	**temp;
 
 	temp = NULL;
 	tmp = NULL;
-	tmp = single_quotes_process(cmd[i]);
-	*index = ft_strslen(res);
-	if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd, i) == 1 )
+	tmp = single_quotes_process(vars.cmd[vars.i]);
+	*index = ft_strslen(vars.res);
+	if (tmp && tmp[0] != '\0'
+		&& check_will_splited(envs, vars.cmd, vars.i) == 1)
 	{
 		temp = ft_split(tmp, ' ');
-		res = join_two_double_strs(res, temp);
+		vars.res = join_two_double_strs(vars.res, temp);
 	}
 	else
-	{	
-		if (!res)
-			res = join_double_strs_with_str(res, tmp);
+	{
+		if (!vars.res)
+			vars.res = join_double_strs_with_str(vars.res, tmp);
 		else
 		{
-			res[*index - 1] = ft_strjoin(res[*index - 1], tmp);
-			res[*index] = 0;
+			vars.res[*index - 1] = ft_strjoin(vars.res[*index - 1], tmp);
+			vars.res[*index] = 0;
 		}
 	}
-	return (res);
+	return (vars.res);
 }

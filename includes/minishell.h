@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 15:38:38 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:46:21 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	add_dollars(t_vars *vars, int c);
 void	double_quotes_hlp2(t_env *envs, t_vars *vars, t_path *path, char *str);
 void	add_string(t_vars *vars, char *str);
 void	count_dollars(t_vars *vars, char *str);
-char	**single_quotes(t_env *envs, char **cmd, int i, char **res, int *index);
+char	**single_quotes(t_env *envs, t_vars vars, int *index);
 
 
 // garbage collector

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 15:38:49 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:47:23 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe)
 	{
 		if (vars.cmd[vars.i][0] == '\'')
 			vars.res
-				= single_quotes(envs, vars.cmd, vars.i, vars.res, &vars.index);
+				= single_quotes(envs, vars, &vars.index);
 		else
 		{
 			if (check_is_joinable(vars.cmd, vars.i))
@@ -124,7 +124,7 @@ char	**expanding_red(t_command *node, t_env *envs, t_path *path, t_vars v)
 	{
 		if (vars.cmd[vars.i][0] == '\'')
 			vars.res
-				= single_quotes(envs, vars.cmd, vars.i, vars.res, &vars.index);
+				= single_quotes(envs, vars, &vars.index);
 		else
 		{
 			if (check_is_joinable(vars.cmd, vars.i))

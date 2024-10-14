@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 15:47:23 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:09:56 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	expanding_cmd_helper(t_env *envs, t_vars *vars, t_path *path)
 		else
 		{
 			if (!vars->res)
-				vars->res = join_double_strs_with_str(vars->res, vars->tmp);
+				vars->res = join_double_with_str(vars->res, vars->tmp);
 			else
 			{
 				vars->index = ft_strslen(vars->res);
@@ -39,7 +39,7 @@ void	expanding_cmd_helper(t_env *envs, t_vars *vars, t_path *path)
 		}
 	}
 	else
-		vars->res = join_double_strs_with_str(vars->res, vars->tmp);
+		vars->res = join_double_with_str(vars->res, vars->tmp);
 }
 
 char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe)
@@ -85,7 +85,7 @@ void	expanding_red_hlp(t_env *envs, t_vars *vars, t_command *node, t_vars v)
 	else
 	{
 		if (!vars->res)
-			vars->res = join_double_strs_with_str(vars->res, vars->tmp);
+			vars->res = join_double_with_str(vars->res, vars->tmp);
 		else
 		{
 			vars->index = ft_strslen(vars->res);
@@ -105,7 +105,7 @@ void	expanding_red_hlp2(t_command *node, t_env *envs, t_vars *vars, t_vars v)
 			&& !is_only_spaces(vars->tmp)))
 			expanding_red_hlp(envs, vars, node, v);
 		else
-			vars->res = join_double_strs_with_str(vars->res, vars->tmp);
+			vars->res = join_double_with_str(vars->res, vars->tmp);
 	}
 	else
 	{

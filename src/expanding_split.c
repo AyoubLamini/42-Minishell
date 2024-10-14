@@ -6,11 +6,23 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:26:37 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 23:45:10 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:51:52 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_strslen(char **map)
+{
+	int	i;
+
+	if (map == NULL)
+		return (0);
+	i = 0;
+	while (map[i])
+		i++;
+	return (i);
+}
 
 void	count_words_helper(char *old_cmd, int *i, int *len, char c)
 {

@@ -6,12 +6,26 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 07:33:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 13:48:24 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:52:05 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	if (!s1 || !s2)
+		return (-1);
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+	{
+		i++;
+	}
+	return (s1[i] - s2[i]);
+}
 
 int	check_will_splited_helper_ambg1(t_env *envs, t_vars vars, char **cmd, int i)
 {

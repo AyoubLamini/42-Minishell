@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:02:21 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 23:39:32 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:20:03 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,5 @@ char	**split_args(char *s)
 	if (vars.start < vars.i)
 		vars.res[vars.index++] = ft_strndup(vars.res, s, vars.start, vars.i);
 	vars.res[vars.index] = NULL;
-	return (vars.res);
+	return (free_str(s), vars.res);
 }

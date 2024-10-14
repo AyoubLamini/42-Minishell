@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:07:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 06:57:21 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:19:50 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ char	*add_spaces(char *input, int single_quote, int double_quote)
 			add_spaces_helper1(&vars.new, input, &vars.i, &vars.j);
 	}
 	vars.new[vars.j] = '\0';
-	return (free(input), vars.new);
+	return (free_str(input), vars.new);
 }

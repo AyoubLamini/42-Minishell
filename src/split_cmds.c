@@ -3,125 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 09:15:16 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 17:22:46 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*concat_strs(char* s1, char* s2)
+int	get_command_helper(t_command *node, t_env *envs, t_vars *vars, t_path *path)
 {
-    int		len1;
-    int		len2;
-    int		i;
-    int		j;
-    char	*result; 
-	
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	i = 0;
-	j = 0;
-	result = (char*)malloc((len1 + len2 + 1) * sizeof(char));
-    if (!result)
-		return (NULL);
-    while (s1[i] != '\0') {
-        result[i] = s1[i];
-        i++;
-    }
-    while (s2[j] != '\0') {
-        result[i + j] = s2[j];
-        j++;
-    }
-    result[i + j] = '\0';
-    return (result);
-}
-
-int	ft_strslen(char **map)
-{
-	int	i;
-
-	if (map == NULL)
-		return (0);
-	i = 0;
-	while (map[i])
-		i++;
-	return (i);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	if (!s1 || !s2)
-		return (-1);
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+	if (ft_is_red(vars->res[vars->start]))
 	{
-		i++;
-	}
-	return (s1[i] - s2[i]);
-}
-
-t_command	*allocate_node()
-{
-	t_command	*node;
-	
-	node = (t_command *)malloc(sizeof(t_command));
-	if (!node)
-		return (printf("malloc failed!\n"), exit(1), NULL);
-	node->cmd = NULL;
-	node->redirection = NULL;
-	node->is_ambiguous = -1;
-	node->ambiguous_file = NULL;
-	node->next = NULL;
-	node->last_file = NULL;
-	node->pipe[0] = -1;
-	node->pipe[1] = -1;
-	return (node);
-}
-
-int	ft_is_red(char *str)
-{
-	if (!ft_strcmp(str, ">") || !ft_strcmp(str, ">>") || !ft_strcmp(str, "<"))
+		node->redirection
+			= join_double_with_str(node->redirection, vars->res[vars->start]);
+		vars->start++;
+		vars->temp = expanding_red(node, envs, path, *vars);
+		node->redirection = join_two_double_strs(node->redirection, vars->temp);
+		vars->start++;
 		return (1);
-	return (0);
+	}
+	else if (!ft_strcmp(vars->res[vars->start], "<<"))
+	{
+		node->redirection
+			= join_double_with_str(node->redirection, vars->res[vars->start]);
+		vars->start++;
+		node->redirection
+			= join_double_with_str(node->redirection, vars->res[vars->start]);
+		vars->start++;
+		return (1);
+	}
+	else
+		return (0);
 }
 
-t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *path)
+void	get_command_helper2(t_command *node)
 {
-	t_command	*node;
-	static char		**tmp;
-	static int 		i;
-
-	tmp = NULL;
-	node = allocate_node();
-	while (start < end && args[start])
-	{
-		if (ft_is_red(args[start]))
-		{
-			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
-			start++;
-			tmp = expanding_red(node, envs, args[start], path, start);
-			node->redirection = join_two_double_strs(node->redirection, tmp);
-			start++;
-		}
-		else if (!ft_strcmp(args[start], "<<"))
-		{
-			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
-			start++;
-			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
-			start++;
-		}
-		else
-		{
-			tmp = expanding_cmd(envs, args[start], path, i);
-			node->cmd = join_two_double_strs(node->cmd, tmp);
-			start++;
-		}
-	}
 	if (node->redirection == NULL)
 	{
 		node->redirection = (char **)malloc(sizeof(char *));
@@ -132,57 +50,61 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 		node->cmd = (char **)malloc(sizeof(char *));
 		node->cmd[0] = 0;
 	}
+}
+
+t_command	*get_command(char **args, t_env *envs, t_vars vars, t_path *path)
+{
+	t_command	*node;
+	static int	i;
+
+	node = allocate_node();
+	vars.res = args;
+	while (vars.start < vars.i && args[vars.start])
+	{
+		if (!get_command_helper(node, envs, &vars, path))
+		{
+			vars.temp = expanding_cmd(envs, vars.res[vars.start], path, i);
+			node->cmd = join_two_double_strs(node->cmd, vars.temp);
+			vars.start++;
+		}
+	}
+	get_command_helper2(node);
 	i++;
-	if (!args[end])
+	if (!args[vars.i])
 		i = 0;
 	return (node);
 }
 
-void	printstrs(char **map)
+void	split_cmd_helper(t_vars *vars)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (!map)
-		return ;
-	while (map[i])
-	{
-		printf("|%s|\n", map[i]);
-		i++;
-	}
+	vars->i++;
+	vars->start = vars->i;
 }
 
 t_command	*split_cmds(char **args, t_env *envs, t_path *path)
 {
 	t_command	*input;
-	t_command *node;
-	int		i;
-	int		start;
+	t_command	*node;
+	t_vars		vars;
 
-	node = NULL;
-	input = NULL;
-	i = 0;
-	start = i;
-	while (args[i])
+	vars = ft_initialize_vars();
+	while (args[vars.i])
 	{
-		if (ft_strcmp(args[i], "|") == 0 || !args[i])
+		if (ft_strcmp(args[vars.i], "|") == 0 || !args[vars.i])
 		{
-			if (start < i)
+			if (vars.start < vars.i)
 			{
-				node = get_command(args, envs, start, i, path);
+				node = get_command(args, envs, vars, path);
 				lstadd_back(&input, node);
 			}
-			i++;
-			start = i;
+			split_cmd_helper(&vars);
 		}
 		else
-			i++;
+			vars.i++;
 	}
-	if (start < i)
+	if (vars.start < vars.i)
 	{
-		node = get_command(args, envs, start, i, path);
+		node = get_command(args, envs, vars, path);
 		lstadd_back(&input, node);
 	}
 	return (input);

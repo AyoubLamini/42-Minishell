@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 22:12:42 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 16:08:25 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_vars {
 	int len;
 	int nbr;
 	int check;
+	int is_pipe;
 	int single_quote;
 	int double_quote;
 	char *tmp;
@@ -66,6 +67,8 @@ typedef struct s_vars {
 	char	*key;
 	char	*value;
 	char	**res;
+	char	**cmd;
+	char	**temp;
 } t_vars;
 
 typedef struct s_heredoc {
@@ -134,7 +137,7 @@ void	free_envs(t_env *envs);
 
 //expanding
 char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe);
-char	**expanding_red(t_command *node, t_env *envs, char *old_cmd, t_path *path, int pos);
+char	**expanding_red(t_command *node, t_env *envs, t_path *path, t_vars vars);
 t_env   *full_envs(char **env);
 t_env	*new_variable(char *env_key, char *env_value);
 char	*get_env_variable(t_env *env, char *env_key);
@@ -145,11 +148,11 @@ void	printstrs(char **map);
 void	print_envs(t_env *envs);
 char    **expanding_split(char  *old_cmd);
 int		check_will_splited(t_env *envs, char **cmd, int i);
-char	**join_double_strs_with_str(char **s1, char *s2);
+char	**join_double_with_str(char **s1, char *s2);
 char	**join_two_double_strs(char **s1, char **s2);
 int	check_is_joinable(char **cmd, int index);
 int	ft_check_space_in_cmd(char *str);
-char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe);
+char	*double_quotes_p(t_env *envs, char *str, t_path *path, int is_pipe);
 char	*single_quotes_process(char *str);
 int	is_only_spaces(char *str);
 
@@ -181,6 +184,14 @@ int	check_will_splited_helper1(t_env *envs, t_vars vars, char **cmd, int i);
 int	check_will_splited_ambg(t_env *envs, char **cmd, int i);
 int	check_will_splited_helper_ambg1(t_env *envs, t_vars vars, char **cmd, int i);
 void	skip_dollars(char **cmd, int i, int *j, int *nbr);
+void	add_dollars(t_vars *vars, int c);
+void	double_quotes_hlp2(t_env *envs, t_vars *vars, t_path *path, char *str);
+void	add_string(t_vars *vars, char *str);
+void	count_dollars(t_vars *vars, char *str);
+char	**single_quotes(t_env *envs, t_vars vars, int *index);
+t_command	*allocate_node();
+int	ft_is_red(char *str);
+
 
 // garbage collector
 void *my_malloc(size_t size, int mode);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:01:44 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 01:02:03 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 17:20:12 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ char	*ft_strtrim(char *s1, char const *set)
 		j++;
 	}
 	r[i] = '\0';
-	return (r);
+	return (free_str(s1), r);
 }

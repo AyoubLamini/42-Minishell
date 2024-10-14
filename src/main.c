@@ -109,15 +109,18 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		{
 			syntax_error_messages(check_syntax(input));
 			exit_status(258, path);
+			free_str(input);
 			continue;
 		}
 		input = add_spaces(input, 0, 0);
 		input = ft_strtrim(input, " ");
 		args = split_args(input);
 		cmds = split_cmds(args, env_vars, path);
+		print_list(cmds);
 		execute(cmds, &env_vars, path); // I added this line
+		//free_strs(args);
 		// process_heredocs(path);
-		clear_herdocs(path);
+		//clear_herdocs(path);
 		// my_malloc(0, 0);
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}

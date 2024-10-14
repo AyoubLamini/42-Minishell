@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:09:45 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 10:20:25 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 02:58:49 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	export_display(t_env **env_vars)
 			printf("declare -x %s\n", env_copy->key);
 		env_copy = env_copy->next;
 	}
+	free_envs(env_copy);
 }
 
 static int	export_syntax(char *key)
@@ -54,24 +55,23 @@ static int	export_syntax(char *key)
 
 void	update_key(char *cmd, t_env **env)
 {
-	if (ft_strcmp(get_str(cmd, "key"), "_") == 0)
-		update_var(*env, get_str(cmd, "key"),
-			ft_strdup("_"));
+	char	*value;
+
+	value = NULL;
+	if (ft_strcmp(my_get_key(cmd), "_") == 0)
+		value = ft_strdup("_");
 	else
 	{
-		if (ex_strcmp(get_str(cmd, "sep"), "+=") == 0)
+		if (ex_strcmp(my_get_sep(cmd), "+=") == 0)
 		{
-			update_var(*env, get_str(cmd, "key"),
-				ft_strjoin(get_env_value(*env, get_str(cmd, "key")),
-					get_str(cmd, "value")));
+			value = get_env_value(*env, my_get_key(cmd));
+			value = special_join(value, get_str(cmd, "value"));
 		}
-		else
-		{
-			if (get_str(cmd, "value"))
-				update_var(*env, get_str(cmd, "key"),
-					get_str(cmd, "value"));
-		}
+		else if (my_get_value(cmd))
+			value = get_str(cmd, "value");
 	}
+	if (value)
+		update_var(*env, get_str(cmd, "key"), value);
 }
 
 int	export(t_command *cmds, t_env **env)
@@ -85,12 +85,12 @@ int	export(t_command *cmds, t_env **env)
 	{
 		while (cmds->cmd[i])
 		{
-			if (export_syntax(get_str(cmds->cmd[i], "key")))
+			if (export_syntax(my_get_key(cmds->cmd[i])))
 			{
 				print_error("export", cmds->cmd[i], "not a valid identifier");
 				exit_status = 1;
 			}
-			else if (get_env_key(*env, get_str(cmds->cmd[i], "key")))
+			else if (get_env_key(*env, my_get_key(cmds->cmd[i])))
 				update_key(cmds->cmd[i], env);
 			else
 				add_env_back(env, new_variable(get_str(cmds->cmd[i], "key"),
@@ -113,7 +113,7 @@ int	unset(t_command *cmds, t_env **env_vars)
 	exit_status = 0;
 	while (cmds->cmd[i])
 	{
-		key = ft_strdup(cmds->cmd[i]);
+		key = my_strdup(cmds->cmd[i]);
 		if (export_syntax(key))
 		{
 			print_error("unset", cmds->cmd[i], ":not a valid identifier");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils5.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 04:25:42 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 07:33:35 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/13 23:25:06 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,12 @@ t_env	*full_envs(char	**env)
 	while (env[i])
 	{
 		node = new_variable(get_str(env[i], "key"), get_str(env[i], "value"));
+		if (!node)
+			error_exit(&env_vars);
 		add_env_back(&env_vars, node);
 		i++;
 	}
-	update_var(env_vars, "_", ft_strdup("PATH"));
+	// update_var(env_vars, "_", ft_strdup("PATH"));
 	if (!get_env_key(env_vars, "OLDPWD"))
 		add_env_back(&env_vars, new_variable(ft_strdup("OLDPWD"), NULL));
 	return (env_vars);

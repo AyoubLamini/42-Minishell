@@ -47,7 +47,7 @@ static t_path *init_data(t_path *path)
 	path->heredoc = NULL;
 	path->main_path = malloc(sizeof(char) * PATH_MAX);
 	path->main_path = getcwd(path->main_path, PATH_MAX);
-	path->pwd = malloc(sizeof(char) * PATH_MAX);
+	path->pwd = my_malloc(sizeof(char) * PATH_MAX, 1);
 	path->pwd = getcwd(path->pwd, PATH_MAX);
 	
 	return (path);
@@ -125,7 +125,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	exit_s = path->exit_status;
 	// free_str(input);
 	// free_envs(env_vars);
-	// free(path->pwd);	
 	// free(path->main_path);	
 	// free(path);
 	exit(exit_s);

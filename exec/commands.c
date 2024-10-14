@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:21:54 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 10:33:39 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 01:47:25 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ static void	commands(t_command *command, t_env **env, char **envp, t_path *path)
 	if (occur_alpha(command->cmd[0], '/') || command->cmd[0][0] == '.'
 		|| ex_strlen(get_env_value(*env, "PATH")) < 1)
 		actual_bin_dir(command, envp, path);
-	ptr = ex_split(get_env_value(*env, "PATH"), ':');
+	ptr = my_split(get_env_value(*env, "PATH"), ':');
 	while (ptr[i])
 	{
-		ptr[i] = ex_strjoin(ptr[i], "/");
-		ptr[i] = ex_strjoin(ptr[i], command->cmd[0]);
+		ptr[i] = my_strjoin(ptr[i], "/");
+		ptr[i] = my_strjoin(ptr[i], command->cmd[0]);
 		if (access(ptr[i], X_OK) == 0)
 			execution(ptr[i], command->cmd, envp, path);
 		i++;

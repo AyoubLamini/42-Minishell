@@ -6,22 +6,11 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:09:11 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 10:09:15 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 01:46:43 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell_exec.h"
-
-static char	**malloc_error(char **tab)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-	return (NULL);
-}
 
 static int	word_count(const char *str, char c)
 {
@@ -59,7 +48,7 @@ static char	*get_word(const char *s1, int *index, char c)
 		word_len++;
 		i++;
 	}
-	copy = malloc(sizeof(char) * (word_len + 1));
+	copy = my_malloc(sizeof(char) * (word_len + 1), 1);
 	if (!copy)
 		return (NULL);
 	i = 0;
@@ -69,7 +58,7 @@ static char	*get_word(const char *s1, int *index, char c)
 	return (copy);
 }
 
-char	**ex_split(char const *s, char c)
+char	**my_split(char const *s, char c)
 {
 	char	**arr;
 	int		index;
@@ -81,14 +70,14 @@ char	**ex_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	wc = word_count(s, c);
-	arr = malloc(sizeof(char *) * (wc + 1));
+	arr = my_malloc(sizeof(char *) * (wc + 1), 1);
 	if (!arr)
 		return (NULL);
 	while (i < wc)
 	{
 		arr[i] = get_word(s, &index, c);
 		if (!arr[i])
-			return (malloc_error(arr));
+			return (my_malloc(0, 0));
 		i++;
 	}
 	arr[i] = 0;

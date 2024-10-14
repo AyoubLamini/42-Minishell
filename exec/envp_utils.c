@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:58:31 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 11:01:14 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 01:57:56 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	update_var(t_env *env, char *env_key, char *new_value)
 	{
 		if (ex_strcmp(tmp->key, env_key) == 0)
 		{
-			// if (tmp->value)
-			// 	free(tmp->value);
+			if (tmp->value)
+				free(tmp->value);
 			tmp->value = new_value;
 			return ;
 		}
@@ -68,13 +68,12 @@ char	**envp_array(t_env *vars)
 
 	i = 0;
 	tmp = vars;
-	envp = (char **)malloc(sizeof(char *) * (list_size(tmp) + 1));
+	envp = (char **)my_malloc(sizeof(char *) * (list_size(tmp) + 1), 1);
 	while (tmp)
 	{
-		str = ex_strjoin(ft_strdup("="), tmp->value);
-		envp[i] = ex_strjoin(ft_strdup(tmp->key), str);
+		str = my_strjoin(my_strdup("="), my_strdup(tmp->value));
+		envp[i] = my_strjoin(my_strdup(tmp->key), str);
 		i++;
-		free(str);
 		tmp = tmp->next;
 	}
 	envp[i] = NULL;

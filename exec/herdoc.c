@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:13:23 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 08:40:27 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 01:33:23 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*ft_rename(void)
 	char		*file;
 
 	id++;
-	file = ex_strjoin(ft_strdup("/tmp/.herdoc"), ft_itoa(id));
+	file = my_strjoin(my_strdup("/tmp/.herdoc"), my_itoa(id));
 	return (file);
 }
 
@@ -28,7 +28,7 @@ t_heredoc	*init_herdoc(char *delimiter, t_path *path)
 
 	setup_signals(path, HERDOC_SIG);
 	delimiter = get_right_delimeter(delimiter);
-	heredoc = lst_heredoc_new(ft_strdup(delimiter), ft_rename());
+	heredoc = lst_heredoc_new(my_strdup(delimiter), ft_rename());
 	heredoc->will_expand = check_will_expanded(delimiter);
 	lst_heredoc_add_back(&path->heredoc, heredoc);
 	path->fd_in = dup(STDIN_FILENO);
@@ -56,8 +56,8 @@ int	read_loop(t_path *path, t_env **envs, t_heredoc *hdoc)
 		}
 		if (hdoc->will_expand)
 			line = expanding_cmd_herdoc(*envs, line, *path);
-		hdoc->buffer = ex_strjoin(hdoc->buffer, line);
-		hdoc->buffer = ex_strjoin(hdoc->buffer, "\n");
+		hdoc->buffer = my_strjoin(hdoc->buffer, line);
+		hdoc->buffer = my_strjoin(hdoc->buffer, "\n");
 		free(line);
 	}
 	return (0);
@@ -79,7 +79,7 @@ static int	heredoc(t_command *cmd, t_path *path, char *delimiter, t_env **envs)
 		exit(path->exit_status);
 	}
 	write(fd, heredoc->buffer, ex_strlen(heredoc->buffer));
-	cmd->last_file = heredoc->file;
+	cmd->last_file = my_strdup(heredoc->file);
 	close(fd);
 	setup_signals(path, SET_SIG);
 	return (0);

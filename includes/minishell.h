@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 09:14:51 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/13 22:12:42 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,4 +181,7 @@ int	check_will_splited_helper1(t_env *envs, t_vars vars, char **cmd, int i);
 int	check_will_splited_ambg(t_env *envs, char **cmd, int i);
 int	check_will_splited_helper_ambg1(t_env *envs, t_vars vars, char **cmd, int i);
 void	skip_dollars(char **cmd, int i, int *j, int *nbr);
+
+// garbage collector
+void *my_malloc(size_t size, int mode);
 #endif

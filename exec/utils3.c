@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:30:36 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 10:06:16 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 02:45:09 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,136 @@ int	ambigous_case(t_command *command, t_path *path, int i)
 	}
 	return (0);
 }
+static void env_dataclear(t_env **head)
+{
+    t_env *tmp;
+    t_env *ptr;
+    tmp = *head;
+    while(tmp)
+    {
+        ptr = tmp;
+        tmp = tmp->next;
+        free(ptr->key);
+		free(ptr->value);
+        free(ptr);
+    }
+    head = NULL;
+}
+void error_exit(t_env **head)
+{
+	env_dataclear(head);
+	write(2, "Allocation Error\n", 17);
+	exit(1);
+}
+
+void ex_malloc_error(void)
+{
+	write(2, "Allocation Error\n", 17);
+	exit(10);
+}
+
+char	*special_join(char *s1, char *s2)
+{
+	char	*res;
+	int		length;
+	int		i;
+	int		j;
+
+	if (!s1)
+		return (ex_strdup(s2));
+	if (!s2)
+		return (s1);
+	length = ex_strlen(s1) + ex_strlen(s2);
+	res = (char *)malloc(sizeof(char) * length + 1);
+	if (!res)
+		return (0);
+	i = 0;
+	while (s1[i])
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+		res[i++] = s2[j++];
+	res[i] = '\0';
+	return (res);
+}
+
+char	*my_get_key(char *str)
+{
+	char	*key;
+	int		i;
+
+	i = 0;
+	key = (char *)my_malloc(sizeof(char) * ft_strlen(str) + 1, 1);
+	if (!key)
+		return (NULL);
+	while (str[i] && str[i] != '=' && str[i] != '+')
+	{
+		key[i] = str[i];
+		i++;
+	}
+	if (str[i] == '+' && str[i + 1] == '+')
+		return (free(key), NULL);
+	key[i] = '\0';
+	return (key);
+}
+char	*my_get_value(char *str)
+{
+	char	*value;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	value = (char *)my_malloc(sizeof(char) * ft_strlen(str) + 1, 1);
+	if (!value)
+		return (NULL);
+	while (str[j] && str[j] != '=')
+		j++;
+	if (str[j] != '=')
+		return (free(value), NULL);
+	j++;
+	while (str[j])
+	{
+		value[i] = str[j];
+		i++;
+		j++;
+	}
+	value[i] = '\0';
+	return (value);
+}
+
+char	*my_get_sep(char *str)
+{
+	char	*sep;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	sep = (char *)my_malloc(sizeof(char) * ft_strlen(str) + 1, 1);
+	if (!sep)
+		return (NULL);
+	while (str[j] && str[j] != '=' && str[j] != '+')
+		j++;
+	if (str[j] == '=')
+	{
+		sep[i++] = '=';
+		sep[i++] = '\0';
+	}
+	else if (str[j] == '+' && str[j + 1] == '=')
+	{
+		sep[i++] = '+';
+		sep[i++] = '=';
+		sep[i] = '\0';
+	}
+	else
+		return (NULL);
+	return (sep);
+}
+
+
+
+

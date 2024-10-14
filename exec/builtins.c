@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:34:00 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 10:47:27 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/13 22:17:14 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	env(t_env *env_vars)
 	return (0);
 }
 
-int	pwd(t_path *path) // pwd
+int	pwd(t_path *path)
 {
 	char	*pwd;
 

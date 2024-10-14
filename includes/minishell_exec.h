@@ -14,20 +14,25 @@
 
 
 
-
-
 // utils
-char	**ex_split(char const *s, char c);
+char	**my_split(char const *s, char c);
 int     ex_strcmp(char *s1, char *s2);
 char	*ex_strjoin(char *s1, char *s2);
+char	*special_join(char *s1, char *s2);
 size_t	ex_strlen(const char *s);
 char	*ex_strdup(const char *s1);
+char	*my_strdup(const char *s1);
+char	*my_strjoin(char *s1, char *s2);
+char	*my_itoa(int n);
 void    print_error(char *cmd, char *path, char *error);
-int	    ft_strstr(char *haystack, char *needle);
 int     ft_is_numeric(char *s);
 int     occur_alpha(char *str, int c);
 void    reset_fd(t_path *path);
 int     is_builtin(char *cmd);
+void    ex_malloc_error(void);
+char	*my_get_key(char *str);
+char	*my_get_value(char *str);
+char	*my_get_sep(char *str);
 // list utils
 t_env   *env_vars_copy(t_env **env_vars);
 int	    list_size(t_env *lst);
@@ -36,6 +41,8 @@ void	update_var(t_env *env, char *env_key, char *new_value);
 char	*get_env_value(t_env *env, char *env_key);
 char	*get_env_key(t_env *env, char *env_key);
 char    **envp_array(t_env *vars);
+void    error_exit(t_env **head);
+
 
 // other utils
 void exit_status(int status, t_path *path);

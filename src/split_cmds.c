@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 09:15:16 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/14 15:13:50 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	ft_is_red(char *str)
 	return (0);
 }
 
-t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *path)
+t_command	*get_command(char **args, t_env *envs, t_vars vars, t_path *path)
 {
 	t_command	*node;
 	static char		**tmp;
@@ -98,28 +98,30 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 
 	tmp = NULL;
 	node = allocate_node();
-	while (start < end && args[start])
+	vars.res = args;
+	while (vars.start < vars.i && args[vars.start])
 	{
-		if (ft_is_red(args[start]))
+		
+		if (ft_is_red(args[vars.start]))
 		{
-			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
-			start++;
-			tmp = expanding_red(node, envs, args[start], path, start);
+			node->redirection = join_double_strs_with_str(node->redirection, args[vars.start]);
+			vars.start++;
+			tmp = expanding_red(node, envs, path, vars);
 			node->redirection = join_two_double_strs(node->redirection, tmp);
-			start++;
+			vars.start++;
 		}
-		else if (!ft_strcmp(args[start], "<<"))
+		else if (!ft_strcmp(args[vars.start], "<<"))
 		{
-			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
-			start++;
-			node->redirection = join_double_strs_with_str(node->redirection, args[start]);
-			start++;
+			node->redirection = join_double_strs_with_str(node->redirection, args[vars.start]);
+			vars.start++;
+			node->redirection = join_double_strs_with_str(node->redirection, args[vars.start]);
+			vars.start++;
 		}
 		else
 		{
-			tmp = expanding_cmd(envs, args[start], path, i);
+			tmp = expanding_cmd(envs, args[vars.start], path, i);
 			node->cmd = join_two_double_strs(node->cmd, tmp);
-			start++;
+			vars.start++;
 		}
 	}
 	if (node->redirection == NULL)
@@ -133,7 +135,7 @@ t_command	*get_command(char **args, t_env *envs, int start, int end, t_path *pat
 		node->cmd[0] = 0;
 	}
 	i++;
-	if (!args[end])
+	if (!args[vars.i])
 		i = 0;
 	return (node);
 }
@@ -158,31 +160,27 @@ t_command	*split_cmds(char **args, t_env *envs, t_path *path)
 {
 	t_command	*input;
 	t_command *node;
-	int		i;
-	int		start;
+	t_vars	vars;
 
-	node = NULL;
-	input = NULL;
-	i = 0;
-	start = i;
-	while (args[i])
+	vars = ft_initialize_vars();
+	while (args[vars.i])
 	{
-		if (ft_strcmp(args[i], "|") == 0 || !args[i])
+		if (ft_strcmp(args[vars.i], "|") == 0 || !args[vars.i])
 		{
-			if (start < i)
+			if (vars.start < vars.i)
 			{
-				node = get_command(args, envs, start, i, path);
+				node = get_command(args, envs, vars, path);
 				lstadd_back(&input, node);
 			}
-			i++;
-			start = i;
+			vars.i++;
+			vars.start = vars.i;
 		}
 		else
-			i++;
+			vars.i++;
 	}
-	if (start < i)
+	if (vars.start < vars.i)
 	{
-		node = get_command(args, envs, start, i, path);
+		node = get_command(args, envs, vars, path);
 		lstadd_back(&input, node);
 	}
 	return (input);

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:51:44 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 12:27:44 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:45:31 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_vars	ft_initialize_vars(void)
 	vars.key = NULL;
 	vars.value = NULL;
 	vars.res = NULL;
+	vars.cmd = NULL;
+	vars.temp = NULL;
 	return (vars);
 }
 

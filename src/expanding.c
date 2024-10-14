@@ -6,174 +6,133 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 13:47:48 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:38:49 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
 
-int	get_last_quote_pos(char	*old_cmd)
+void	expanding_cmd_helper(t_env *envs, t_vars *vars, t_path *path)
 {
-	int	len;
-
-	len = ft_strlen(old_cmd);
-	while (len && old_cmd[len] != '"')
-		len--;
-	return (len);
-}
-
-
-
-char	*single_quotes_process(char *str)
-{
-	int		i;
-	char	*res;
-	
-	res = NULL;
-	i = 0;
-	str++;
-	while (str[i] && str[i] != '\'')
-		i++;
-	if (str[i] == '\'')
-		str[i] = '\0';
-	res = ft_strjoin(res, str);
-	return (res);
-}
-
-char	**single_quotes(t_env *envs, char **cmd, int i, char **res, int *index)
-{
-	char	*tmp;
-	char	**temp;
-
-	temp = NULL;
-	tmp = NULL;
-	tmp = single_quotes_process(cmd[i]);
-	*index = ft_strslen(res);
-	if (tmp && tmp[0] != '\0' && check_will_splited(envs, cmd, i) == 1 )
+	if (vars->cmd[vars->i][0] == '"' || (vars->cmd[vars->i][0] != '"'
+		&& !is_only_spaces(vars->tmp)))
 	{
-		temp = ft_split(tmp, ' ');
-		res = join_two_double_strs(res, temp);
-	}
-	else
-	{	
-		if (!res)
+		if (vars->tmp && vars->tmp[0] != '\0'
+			&& check_will_splited(envs, vars->cmd, vars->i)
+			&& vars->cmd[vars->i][0] != '"')
 		{
-			res = join_double_strs_with_str(res, tmp);
+			vars->temp = ft_split(vars->tmp, ' ');
+			vars->res = join_two_double_strs(vars->res, vars->temp);
 		}
 		else
 		{
-			res[*index - 1] = ft_strjoin(res[*index - 1], tmp);
-			res[*index] = 0;
+			if (!vars->res)
+				vars->res = join_double_strs_with_str(vars->res, vars->tmp);
+			else
+			{
+				vars->index = ft_strslen(vars->res);
+				vars->res[vars->index - 1]
+					= ft_strjoin(vars->res[vars->index - 1], vars->tmp);
+				vars->res[vars->index] = 0;
+			}
 		}
 	}
-	return (res);
+	else
+		vars->res = join_double_strs_with_str(vars->res, vars->tmp);
 }
-
 
 char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe)
 {
 	t_vars	vars;
-	
+
 	vars = ft_initialize_vars();
-	char	**cmd;
-	char	**temp;
-	temp = NULL;
-	cmd = expanding_split(old_cmd);
-	while (cmd[vars.i])
+	vars.cmd = expanding_split(old_cmd);
+	while (vars.cmd[vars.i])
 	{
-		if (cmd[vars.i][0] == '\'')
-			vars.res = single_quotes(envs, cmd, vars.i , vars.res, &vars.index);
+		if (vars.cmd[vars.i][0] == '\'')
+			vars.res
+				= single_quotes(envs, vars.cmd, vars.i, vars.res, &vars.index);
 		else
 		{
-			if (check_is_joinable(cmd, vars.i))
-			 	cmd[vars.i][ft_strlen(cmd[vars.i]) - 1] = '\0';
-			vars.tmp = double_quotes_p(envs, cmd[vars.i], path, is_pipe);
-			if ((vars.tmp[0] == '\0' && cmd[vars.i][0] == '"') || vars.tmp[0] != '\0')
-			{
-				if (cmd[vars.i][0] == '"' || (cmd[vars.i][0] != '"' && !is_only_spaces(vars.tmp)))
-				{
-					if (vars.tmp && vars.tmp[0] != '\0' && check_will_splited(envs, cmd, vars.i) == 1 && cmd[vars.i][0] != '"')
-					{
-						temp = ft_split(vars.tmp, ' ');
-						vars.res = join_two_double_strs(vars.res, temp);
-					}
-					else
-					{
-						if (!vars.res)
-							vars.res = join_double_strs_with_str(vars.res, vars.tmp);
-						else
-						{
-							vars.index = ft_strslen(vars.res);
-							vars.res[vars.index - 1] = ft_strjoin(vars.res[vars.index - 1], vars.tmp);
-							vars.res[vars.index] = 0;
-						}
-					}
-				}
-				else
-					vars.res = join_double_strs_with_str(vars.res, vars.tmp);
-			}
+			if (check_is_joinable(vars.cmd, vars.i))
+				vars.cmd[vars.i][ft_strlen(vars.cmd[vars.i]) - 1] = '\0';
+			vars.tmp = double_quotes_p(envs, vars.cmd[vars.i], path, is_pipe);
+			if ((vars.tmp[0] == '\0' && vars.cmd[vars.i][0] == '"')
+				|| vars.tmp[0] != '\0')
+				expanding_cmd_helper(envs, &vars, path);
 		}
 		vars.i++;
 	}
 	return (vars.res);
 }
 
-
-char	**expanding_red(t_command *node, t_env *envs, char *old_cmd, t_path *path, int pos)
+void	expanding_red_hlp(t_env *envs, t_vars *vars, t_command *node, t_vars v)
 {
-	t_vars	vars;
-	
-	vars = ft_initialize_vars();
-	char	**cmd;
-	char	**temp;
-	temp = NULL;
-	cmd = expanding_split(old_cmd);
-	while (cmd[vars.i])
+	if (vars->tmp && vars->tmp[0] == '*'
+		&& vars->cmd[vars->i][0] != '"' && vars->tmp[1] == '\0')
 	{
-		if (cmd[vars.i][0] == '\'')
-			vars.res = single_quotes(envs, cmd, vars.i , vars.res, &vars.index);
+		node->is_ambiguous = v.start;
+		node->ambiguous_file = v.res[v.start];
+	}
+	else if (vars->tmp && vars->tmp[0] != '\0'
+		&& check_will_splited_ambg(envs, vars->cmd, vars->i)
+		&& vars->cmd[vars->i][0] != '"')
+	{
+		node->is_ambiguous = v.start;
+		node->ambiguous_file = v.res[v.start];
+	}
+	else
+	{
+		if (!vars->res)
+			vars->res = join_double_strs_with_str(vars->res, vars->tmp);
 		else
 		{
-			if (check_is_joinable(cmd, vars.i))
-			 	cmd[vars.i][ft_strlen(cmd[vars.i]) - 1] = '\0';
-			vars.tmp = double_quotes_p(envs, cmd[vars.i], path, -1);
-			if ((vars.tmp[0] == '\0' && cmd[vars.i][0] == '"') || vars.tmp[0] != '\0')
-			{ 
-				if (cmd[vars.i][0] == '"' || (cmd[vars.i][0] != '"' && !is_only_spaces(vars.tmp)))
-				{
-					if (vars.tmp && vars.tmp[0] == '*' && cmd[vars.i][0] != '"' && vars.tmp[1] == '\0')
-					{
-						node->is_ambiguous = pos;
-						node->ambiguous_file = old_cmd;
-					}
-					else if (vars.tmp && vars.tmp[0] != '\0' && check_will_splited_ambg(envs, cmd, vars.i) == 1 && cmd[vars.i][0] != '"')
-					{
-						node->is_ambiguous = pos;
-						node->ambiguous_file = old_cmd;
-					}
-					else
-					{
-						if (!vars.res)
-							vars.res = join_double_strs_with_str(vars.res, vars.tmp);
-						else
-						{
-								vars.index = ft_strslen(vars.res);
-								vars.res[vars.index - 1] = ft_strjoin(vars.res[vars.index - 1], vars.tmp);
-								vars.res[vars.index] = 0;
-						}
-					}
-				}
-				else
-					vars.res = join_double_strs_with_str(vars.res, vars.tmp);
-			}
-			else
-			{
-				node->is_ambiguous = pos;
-				node->ambiguous_file = old_cmd;
-			}
+			vars->index = ft_strslen(vars->res);
+			vars->res[vars->index - 1]
+				= ft_strjoin(vars->res[vars->index - 1], vars->tmp);
+			vars->res[vars->index] = 0;
+		}
+	}
+}
+
+void	expanding_red_hlp2(t_command *node, t_env *envs, t_vars *vars, t_vars v)
+{
+	if ((vars->tmp[0] == '\0' && vars->cmd[vars->i][0] == '"')
+		|| vars->tmp[0] != '\0')
+	{
+		if (vars->cmd[vars->i][0] == '"' || (vars->cmd[vars->i][0] != '"'
+			&& !is_only_spaces(vars->tmp)))
+			expanding_red_hlp(envs, vars, node, v);
+		else
+			vars->res = join_double_strs_with_str(vars->res, vars->tmp);
+	}
+	else
+	{
+		node->is_ambiguous = v.start;
+		node->ambiguous_file = v.res[v.start];
+	}
+}
+
+char	**expanding_red(t_command *node, t_env *envs, t_path *path, t_vars v)
+{
+	t_vars	vars;
+
+	vars = ft_initialize_vars();
+	vars.cmd = expanding_split(v.res[v.start]);
+	while (vars.cmd[vars.i])
+	{
+		if (vars.cmd[vars.i][0] == '\'')
+			vars.res
+				= single_quotes(envs, vars.cmd, vars.i, vars.res, &vars.index);
+		else
+		{
+			if (check_is_joinable(vars.cmd, vars.i))
+				vars.cmd[vars.i][ft_strlen(vars.cmd[vars.i]) - 1] = '\0';
+			vars.tmp = double_quotes_p(envs, vars.cmd[vars.i], path, -1);
+			expanding_red_hlp2(node, envs, &vars, v);
 		}
 		vars.i++;
 	}
-	return (free_strs(cmd), vars.res);
+	return (free_strs(vars.cmd), vars.res);
 }

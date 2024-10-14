@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 07:34:46 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:34:19 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,104 +23,138 @@ int	get_last_quote_pos(char	*old_cmd)
 	return (len);
 }
 
+static void	count_dollars(t_vars *vars, char *str)
+{
+	vars->i += 1;
+	vars->start = 1;
+	while (str[vars->i] == '$' && str[vars->i])
+	{
+		vars->start++;
+		vars->i++;
+	}
+}
+
+static void	add_string(t_vars *vars, char *str)
+{
+	vars->start = vars->i;
+	while (str[vars->i] && str[vars->i] != '$' && str[vars->i] != '"')
+			vars->i++;
+	vars->key = ft_substr(str, vars->start, vars->i - vars->start);
+	vars->new = ft_strjoin(vars->new, vars->key);
+}
+
+// static void add_expanded(t_vars *vars, t_env *envs, char *str)
+// {
+// 	if (!ft_isalpha(str[vars->i]) && str[vars->i] != '_' && str[vars->i] != '-')
+// 		vars->new = ft_strjoin(vars->new, "$");
+// 	vars->start = vars->i;
+// 	while ((ft_isalnum(str[vars->i]) || str[vars->i] == '_' || str[vars->i] == '-') && str[vars->i])
+// 		vars->i++;
+// 	vars->key = ft_substr(str, vars->start, vars->i - vars->start);
+// 	vars->value = get_env_variable(envs, vars->key);
+// 	if (vars->value)
+// 		vars->new = ft_strjoin(vars->new, vars->value);
+// }
+
+static void exit_status_case(t_vars *vars, t_path *path, int is_pipe)
+{
+	if (g_last_signal == SIGINT)
+	{
+		vars->new = ft_strjoin(vars->new, "1");
+		g_last_signal = 0;
+	}
+	else if (is_pipe > 0)
+		vars->new = ft_strjoin(vars->new, "0");
+	else
+	{
+		vars->value = ft_itoa(path->exit_status);
+		vars->new = ft_strjoin(vars->new, vars->value);
+	}
+	vars->i++;
+}
+
+static void last_command_case(t_vars *vars, t_env *envs, t_path *path, int is_pipe)
+{
+	if (is_pipe > 0)
+		vars->new = ft_strjoin(vars->new, "\0");
+	else
+	{
+		vars->value = get_env_variable(envs, "_");
+		if (vars->value)
+			vars->new = ft_strjoin(vars->new, vars->value);
+	}
+}
+
+void	add_dollars(t_vars *vars, int c)
+{
+	vars->start = vars->start / 2;
+	if (c == 1)
+	{
+		while (vars->start)
+		{
+			vars->new = ft_strjoin(vars->new, "$");
+			vars->start--;
+		}
+	}
+	else if (c == 2)
+	{
+		while (vars->start >= 1)
+		{
+			vars->new = ft_strjoin(vars->new, "$");
+			vars->start--;
+		}
+	}
+}
+
+void double_quotes_helper2(t_env *envs, t_vars *vars, t_path *path, char *str)
+{
+	if (str[vars->i] == '?')
+		exit_status_case(vars, path, vars->is_pipe);
+	else if (ft_isdigit(str[vars->i]))
+		vars->i++;
+	else if (str[vars->i] == '_' && !ft_isalnum(str[vars->i + 1]))
+	{
+		last_command_case(vars, envs, path, vars->is_pipe);
+		vars->i++;
+	}
+	else
+	{
+		if (!ft_isalnum(str[vars->i]) && str[vars->i] != '_')
+			vars->new = ft_strjoin(vars->new, "$");
+		vars->start = vars->i;
+		while ((ft_isalnum(str[vars->i]) || str[vars->i] == '_') && str[vars->i])
+			vars->i++;
+		vars->key = ft_substr(str, vars->start, vars->i - vars->start);
+		vars->value = get_env_variable(envs, vars->key);
+		if (vars->value)
+			vars->new = ft_strjoin(vars->new, vars->value);
+	}
+}
+
 char	*double_quotes_process(t_env *envs, char *str, t_path *path, int is_pipe)
 {
-	int		i;
-	char	*res;
-	int		start;
-	char	*key;
-	char	*value;
-
-	value = NULL;
-	key = NULL;
-	res= NULL;
-	start = 0;
-	i = 0;
+	t_vars	vars;
+	vars = ft_initialize_vars();
+	vars.is_pipe = is_pipe;
 	if (str[0] == '"')
 		str++;
-	while (str[i] && str[i] != '"')
+	while (str[vars.i] && str[vars.i] != '"')
 	{
-		start = i;
-		while (str[i] && str[i] != '$' && str[i] != '"')
-			i++;
-		key = ft_substr(str, start, i - start);
-		res = ft_strjoin(res, key);
-		if (str[i] == '$')
+		add_string(&vars, str);
+		if (str[vars.i] == '$')
 		{
-			i++;
-			start = 1;
-			while (str[i] == '$' && str[i])
-			{
-				start++;
-				i++;
-			}
-			if (start % 2 == 0)
-			{
-				start = start / 2;
-				while (start)
-				{
-					res = ft_strjoin(res, "$");
-					start--;
-				}
-			}
+			count_dollars(&vars, str);
+			if (vars.start % 2 == 0)
+				add_dollars(&vars, 1);
 			else
 			{
-				start = start / 2;
-				while (start >= 1)
-				{
-					res = ft_strjoin(res, "$");
-					start--;
-				}
-				if (str[i] == '_')
-				{
-					if (is_pipe > 0)
-						res = ft_strjoin(res, "\0");
-					else
-					{
-						value = get_env_variable(envs, "_");
-						if (value)
-							res = ft_strjoin(res, value);
-					}
-					break;
-					i++;
-				}
-				else if (str[i] == '?')
-				{
-					if (g_last_signal == SIGINT)
-					{
-						res = ft_strjoin(res, "1");
-						g_last_signal = 0;
-					}
-					else if (is_pipe > 0)
-						res = ft_strjoin(res, "0");
-					else
-					{
-						value = ft_itoa(path->exit_status);
-						res = ft_strjoin(res, value);
-					}
-					i++;
-				}
-				else if (ft_isdigit(str[i]))
-					i++;
-				else
-				{
-					if (!ft_isalpha(str[i]))
-						res = ft_strjoin(res, "$");
-					start = i;
-					while (ft_isalnum(str[i]) && str[i])
-						i++;
-					key = ft_substr(str, start, i - start);
-					value = get_env_variable(envs, key);
-					if (value)
-						res = ft_strjoin(res, value);
-				}
+				add_dollars(&vars, 2);
+				double_quotes_helper2(envs, &vars, path, str);
 			}
 		}
 	}
-	res = ft_strjoin(res, "\0");
-	// exit(1);
-	// printf("res: %s\n", res);
-	return (free_str(key), free_str(value), res);
+	vars.new = ft_strjoin(vars.new, "\0");
+	return (free_str(vars.key), free_str(vars.value), vars.new);
 }
 
 char	*single_quotes_process(char *str)

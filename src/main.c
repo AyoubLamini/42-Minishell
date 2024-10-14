@@ -84,13 +84,12 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	path = NULL;
 	int exit_s;
 	exit_s = 0;
-	snprintf(prompt, sizeof(prompt),  "minishell $> "  ) ;
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
 	path = init_data(path); // I added this line
 	set_up(attrs, path); 
 	int i = 0;
-	while ((input = readline(prompt)) != NULL)
+	while ((input = readline("minishell $> ")) != NULL)
 	{
 		cmds = NULL;
 		args = NULL;
@@ -116,7 +115,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		input = ft_strtrim(input, " ");
 		args = split_args(input);
 		cmds = split_cmds(args, env_vars, path);
-		//print_list(cmds);
 		execute(cmds, &env_vars, path); // I added this line
 		// process_heredocs(path);
 		clear_herdocs(path);

@@ -120,6 +120,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		execute(cmds, &env_vars, path); // I added this line
 		// process_heredocs(path);
 		clear_herdocs(path);
+		// my_malloc(0, 0);
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
 	exit_s = path->exit_status;

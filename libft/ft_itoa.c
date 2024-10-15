@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 15:34:54 by ybouyzem          #+#    #+#             */
-/*   Updated: 2023/11/13 12:26:06 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:11:01 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "../includes/minishell.h"
+#include "../includes/minishell_exec.h"
 
 static int	ft_size(long n)
 {
@@ -41,9 +43,9 @@ char	*ft_itoa(int n)
 	size = ft_size(n);
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	str = (char *)malloc(size + 1);
+	str = (char *)my_malloc(size + 1, 1);
 	if (str == NULL)
-		return (NULL);
+		return (my_malloc(0, 0), exit(10), NULL);
 	str[size] = '\0';
 	size -= 1;
 	if (n < 0)

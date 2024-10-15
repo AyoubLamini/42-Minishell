@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:53:06 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 16:23:14 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:12:30 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ t_command	*allocate_node(void)
 {
 	t_command	*node;
 
-	node = (t_command *)malloc(sizeof(t_command));
+	node = (t_command *)my_malloc(sizeof(t_command), 1);
 	if (!node)
-		return (printf("malloc failed!\n"), exit(1), NULL);
+		return (my_malloc(0, 0), exit(10), NULL);
 	node->cmd = NULL;
 	node->redirection = NULL;
 	node->is_ambiguous = -1;

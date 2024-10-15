@@ -6,11 +6,13 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:25:03 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/11 05:53:57 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:11:24 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "../includes/minishell.h"
+#include "../includes/minishell_exec.h"
 
 int	split_count_words(const char *s, char charset)
 {
@@ -44,9 +46,9 @@ static char	*ft_mystrdup( const char *s, char charset)
 	lw = 0;
 	while (s[lw] && !ft_isspace(s[lw]))
 		lw++;
-	r = (char *)malloc(lw + 1);
+	r = (char *)my_malloc(lw + 1, 1);
 	if (r == NULL)
-		return (NULL);
+		return (my_malloc(0, 0), exit(10), NULL);
 	while (i < lw)
 	{
 		r[i] = s[i];
@@ -54,30 +56,6 @@ static char	*ft_mystrdup( const char *s, char charset)
 	}
 	r[i] = '\0';
 	return (r);
-}
-
-static void	*ft_myfree(char **result, int index)
-{
-	int	i;
-
-	i = 0;
-	while (i < index)
-	{
-		free(result[i]);
-		i++;
-	}
-	free(result);
-	return (NULL);
-}
-
-static char	**ft_allocate(int size)
-{
-	char	**result;
-
-	result = (char **)malloc(sizeof(char *) * (size + 1));
-	if (!result)
-		return (NULL);
-	return (result);
 }
 
 char	**ft_split(char *s, char c)
@@ -98,7 +76,7 @@ char	**ft_split(char *s, char c)
 		{
 			tmp = ft_mystrdup(s, c);
 			if (!tmp)
-				return (ft_myfree(result, index));
+				return (NULL);
 			else
 				result[index++] = tmp;
 		}

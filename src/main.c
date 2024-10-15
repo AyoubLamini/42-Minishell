@@ -47,9 +47,8 @@ static t_path *init_data(t_path *path)
 	path->heredoc = NULL;
 	path->main_path = malloc(sizeof(char) * PATH_MAX);
 	path->main_path = getcwd(path->main_path, PATH_MAX);
-	path->pwd = my_malloc(sizeof(char) * PATH_MAX, 1);
+	path->pwd = malloc(sizeof(char) * PATH_MAX);
 	path->pwd = getcwd(path->pwd, PATH_MAX);
-	
 	return (path);
 }
 void set_up(struct termios *attrs, t_path *path)
@@ -88,44 +87,36 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	// print_envs(env_vars);
 	path = init_data(path); // I added this line
 	set_up(attrs, path); 
-	int i = 0;
 	while ((input = readline("minishell $> ")) != NULL)
 	{
-		cmds = NULL;
-		args = NULL;
-		i++;
+		atexit(leaks);
 		path->is_forked = 0;
-		//tmp = input;
-		// if (i == 2)
-		// 	exit(0);
 		add_history(input);
 		if (is_only_spaces(input))
 		{
-			free_str(input);
+			free(input);
 			continue;
 		}
-		input = ft_strtrim(input, " ");
-		if (check_syntax(input) < 0)
+		tmp = ft_strtrim(input, " ");
+		free(input);
+		if (check_syntax(tmp) < 0)
 		{
-			syntax_error_messages(check_syntax(input));
+			syntax_error_messages(check_syntax(tmp));
 			exit_status(258, path);
-			free_str(input);
+			
 			continue;
 		}
-		input = add_spaces(input, 0, 0);
-		input = ft_strtrim(input, " ");
-		args = split_args(input);
+		tmp = add_spaces(tmp, 0, 0);
+		tmp = ft_strtrim(tmp, " ");
+		args = split_args(tmp);
 		cmds = split_cmds(args, env_vars, path);
-		print_list(cmds);
+		//print_list(cmds);
 		execute(cmds, &env_vars, path); // I added this line
-		//free_strs(args);
-		// process_heredocs(path);
-		//clear_herdocs(path);
-		// my_malloc(0, 0);
+		clear_herdocs(path);
+		my_malloc(0, 0);
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
 	exit_s = path->exit_status;
-	// free_str(input);
 	// free_envs(env_vars);
 	// free(path->main_path);	
 	// free(path);

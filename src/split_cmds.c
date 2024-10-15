@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:47:16 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 17:22:46 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:12:43 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,16 @@ void	get_command_helper2(t_command *node)
 {
 	if (node->redirection == NULL)
 	{
-		node->redirection = (char **)malloc(sizeof(char *));
+		node->redirection = (char **)my_malloc(sizeof(char *), 1);
+		if (!node->redirection)
+			(my_malloc(0, 0), exit(10));
 		node->redirection[0] = 0;
 	}
 	if (node->cmd == NULL)
 	{
-		node->cmd = (char **)malloc(sizeof(char *));
+		node->cmd = (char **)my_malloc(sizeof(char *), 1);
+		if (!node->cmd)
+			(my_malloc(0, 0), exit(10));
 		node->cmd[0] = 0;
 	}
 }

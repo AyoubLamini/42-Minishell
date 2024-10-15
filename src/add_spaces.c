@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:07:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 17:19:50 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:11:55 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ char	*add_spaces(char *input, int single_quote, int double_quote)
 	t_vars	vars;
 
 	vars = ft_initialize_vars();
-	vars.new = (char *)malloc(((ft_strlen(input) * 2) + 1) * sizeof(char));
+	vars.new = (char *)my_malloc(((ft_strlen(input) * 2) + 1) * sizeof(char), 1);
 	if (!vars.new)
-		(free(input), exit(1));
+		(my_malloc(0, 0), exit(10));
 	while (input[vars.i])
 	{
 		ft_check_quotes(&single_quote, &double_quote, input[vars.i]);
@@ -77,5 +77,5 @@ char	*add_spaces(char *input, int single_quote, int double_quote)
 			add_spaces_helper1(&vars.new, input, &vars.i, &vars.j);
 	}
 	vars.new[vars.j] = '\0';
-	return (free_str(input), vars.new);
+	return (vars.new);
 }

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:36:56 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 13:49:09 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 08:40:44 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,5 @@ char	*double_quotes_p(t_env *envs, char *str, t_path *path, int is_pipe)
 		}
 	}
 	vars.new = ft_strjoin(vars.new, "\0");
-	return (free_str(vars.key), free_str(vars.value), vars.new);
+	return (vars.new);
 }

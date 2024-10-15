@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:32:24 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/14 01:07:57 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 11:08:12 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,11 @@ void	process_heredocs(t_path *path)
 void	clear_herdocs(t_path *path)
 {
 	t_heredoc	*current;
-	t_heredoc	*tmp;
 
 	current = path->heredoc;
 	while (current)
 	{
-		tmp = current;
+		unlink(current->file);
 		current = current->next;
-		unlink(tmp->file);
 	}
-	path->heredoc = NULL;
 }

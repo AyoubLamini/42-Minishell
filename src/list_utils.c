@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 18:23:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/12 05:36:31 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 08:54:25 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,18 @@ void	lstadd_back(t_command **lst, t_command *new)
 	}
 }
 
-t_command	*lstnew(char **cmd, char **red)
-{
-	t_command	*new;
+// t_command	*lstnew(char **cmd, char **red)
+// {
+// 	t_command	*new;
 
-	new = (t_command *)malloc(sizeof(t_command));
-	if (!new)
-		return (NULL);
-	new->cmd = cmd;
-	new->redirection = red;
-	new->next = NULL;
-	return (new);
-}
+// 	new = (t_command *)my_malloc(sizeof(t_command), 1);
+// 	if (!new)
+// 		return (my_malloc(0, 0), exit(10), NULL);
+// 	new->cmd = cmd;
+// 	new->redirection = red;
+// 	new->next = NULL;
+// 	return (new);
+// }
 
 void	print_list(t_command *lst)
 {

@@ -6,18 +6,14 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:01:44 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 17:20:12 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:11:40 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "../includes/minishell.h"
+#include "../includes/minishell_exec.h"
 
-static void	*free_str(char *str)
-{
-	if (str)
-		free(str);
-	return (NULL);
-}
 
 static size_t	ft_mysize(const char *start, const char *end)
 {
@@ -39,6 +35,7 @@ char	*ft_strtrim(char *s1, char const *set)
 	size_t		i;
 	size_t		j;
 
+	r = NULL;
 	if (!s1 || !set)
 		return (NULL);
 	i = 0;
@@ -49,9 +46,9 @@ char	*ft_strtrim(char *s1, char const *set)
 	while (end >= s1 && ft_isspace(*end))
 		end--;
 	end += 1;
-	r = (char *)malloc(ft_mysize(s1, end) + 1);
+	r = (char *)my_malloc(ft_mysize(s1, end) + 1, 1);
 	if (r == NULL)
-		return (NULL);
+		return (my_malloc(0, 0), exit(10), NULL);
 	while (j < ft_mysize(s1, end))
 	{
 		r[i] = s1[j];
@@ -59,5 +56,5 @@ char	*ft_strtrim(char *s1, char const *set)
 		j++;
 	}
 	r[i] = '\0';
-	return (free_str(s1), r);
+	return (r);
 }

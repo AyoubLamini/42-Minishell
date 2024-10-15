@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 15:40:11 by ybouyzem          #+#    #+#             */
-/*   Updated: 2023/11/13 15:28:39 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:11:47 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+#include "../includes/minishell.h"
+#include "../includes/minishell_exec.h"
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	size_t			i;
 	char			*p;
@@ -22,13 +23,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	if (start >= ft_strlen(s))
 	{
-		return (ft_strdup(""));
+		return (my_strdup(""));
 	}
 	if (len > ft_strlen(s) - start)
 		len = ft_strlen(s) - start;
-	p = (char *)malloc(len + 1);
+	p = (char *)my_malloc(len + 1, 1);
 	if (p == NULL)
-		return (NULL);
+		return (my_malloc(0, 0), exit(10), NULL);
 	while (i < len)
 	{
 		p[i] = s[start];

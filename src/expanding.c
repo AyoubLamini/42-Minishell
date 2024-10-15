@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 16:09:56 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 08:49:46 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,5 @@ char	**expanding_red(t_command *node, t_env *envs, t_path *path, t_vars v)
 		}
 		vars.i++;
 	}
-	return (free_strs(vars.cmd), vars.res);
+	return (vars.res);
 }

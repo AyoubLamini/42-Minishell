@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 09:59:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/08 23:24:34 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 12:15:09 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char    *expanding_cmd_herdoc(t_env *envs, char *old_cmd, t_path path)
 	i = 0;
 	tmp = expanding_herdoc(envs, old_cmd, path);
 	res = ft_strjoin(res, tmp);
-	return ( res);
+	return (free(old_cmd), res);
 }
 
 char	*get_right_delimeter(char *s)

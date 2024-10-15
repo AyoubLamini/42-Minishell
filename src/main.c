@@ -59,7 +59,7 @@ void set_up(struct termios *attrs, t_path *path)
 }
 int	main(int argc, char **argv, char **envp) // added envp argument
 {
-		atexit(leaks);
+		// atexit(leaks);
 	//atexit(leaks);
 	struct termios	attrs[3];
 	// if (!isatty(0))
@@ -114,6 +114,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		execute(cmds, &env_vars, path); // I added this line
 		clear_herdocs(path);
 		my_malloc(0, 0);
+		path->heredoc = NULL;
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
 	exit_s = path->exit_status;

@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:09:45 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/14 02:58:49 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 12:06:41 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static void	export_display(t_env **env_vars)
 {
 	t_env	*env_copy;
+	t_env	*tmp;
 
 	env_copy = env_vars_copy(env_vars);
+	tmp = env_copy;
 	sort_vars(&env_copy);
 	while (env_copy)
 	{
@@ -31,7 +33,7 @@ static void	export_display(t_env **env_vars)
 			printf("declare -x %s\n", env_copy->key);
 		env_copy = env_copy->next;
 	}
-	free_envs(env_copy);
+	free_envs(tmp);
 }
 
 static int	export_syntax(char *key)
@@ -65,13 +67,13 @@ void	update_key(char *cmd, t_env **env)
 		if (ex_strcmp(my_get_sep(cmd), "+=") == 0)
 		{
 			value = get_env_value(*env, my_get_key(cmd));
-			value = special_join(value, get_str(cmd, "value"));
+			value = special_join(value, my_get_value(cmd));
 		}
 		else if (my_get_value(cmd))
 			value = get_str(cmd, "value");
 	}
 	if (value)
-		update_var(*env, get_str(cmd, "key"), value);
+		update_var(*env, my_get_key(cmd), value);
 }
 
 int	export(t_command *cmds, t_env **env)

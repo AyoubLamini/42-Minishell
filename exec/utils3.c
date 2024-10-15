@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:30:36 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/14 17:46:44 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 12:02:03 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char	*my_get_key(char *str)
 		i++;
 	}
 	if (str[i] == '+' && str[i + 1] == '+')
-		return (free(key), NULL);
+		return (NULL);
 	key[i] = '\0';
 	return (key);
 }
@@ -149,7 +149,7 @@ char	*my_get_value(char *str)
 	while (str[j] && str[j] != '=')
 		j++;
 	if (str[j] != '=')
-		return (free(value), NULL);
+		return (NULL);
 	j++;
 	while (str[j])
 	{

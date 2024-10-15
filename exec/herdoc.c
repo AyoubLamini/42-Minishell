@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:13:23 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/14 16:41:59 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 12:32:22 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	read_loop(t_path *path, t_env **envs, t_heredoc *hdoc)
 			line = expanding_cmd_herdoc(*envs, line, *path);
 		hdoc->buffer = my_strjoin(hdoc->buffer, line);
 		hdoc->buffer = my_strjoin(hdoc->buffer, "\n");
-		free(line);
 	}
 	return (0);
 }

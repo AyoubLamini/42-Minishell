@@ -9,12 +9,11 @@ void leaks() // TEMporary comment
 }
 static void tty_attributes(struct termios *attrs, int action)
 {
-	// if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
-	// {
-	// 	printf("Not a tty\n"),
-	// 	exit(1);
-	// }
-		
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
+	{
+		printf("Not a tty\n"),
+		exit(1);
+	}
 	if (action == ATTR_GET)
 	{
 		tcgetattr(STDIN_FILENO, &attrs[0]);
@@ -40,16 +39,34 @@ static void tty_attributes(struct termios *attrs, int action)
 static t_path *init_data(t_path *path)
 {
 	path = (t_path *)malloc(sizeof(t_path));
+	if (!path)
+		ex_malloc_error();
 	path->exit_status = 0;
 	path->is_forked = 0;
 	path->fd_in = 0;
 	path->fd_out = 1;
 	path->heredoc = NULL;
 	path->main_path = malloc(sizeof(char) * PATH_MAX);
+	if (!path->main_path)
+		ex_malloc_error();
 	path->main_path = getcwd(path->main_path, PATH_MAX);
 	path->pwd = malloc(sizeof(char) * PATH_MAX);
+	if (!path->pwd)
+		ex_malloc_error();
 	path->pwd = getcwd(path->pwd, PATH_MAX);
 	return (path);
+}
+
+void free_and_exit(t_path *path, t_env *env_vars)
+{
+	int exit_state;
+
+	exit_state = path->exit_status;
+	free_envs(env_vars);
+	free(path->pwd);
+	free(path->main_path);	
+	free(path);
+	exit(exit_state);
 }
 void set_up(struct termios *attrs, t_path *path)
 {
@@ -62,12 +79,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		// atexit(leaks);
 	//atexit(leaks);
 	struct termios	attrs[3];
-	// if (!isatty(0))
-	// {
-	// 	printf("erorr\n");
-	// 	exit(1);
-	// }
-	// printstrs(envp);
 	(void)argc; 
 	(void)argv;
 	char	*input;
@@ -82,8 +93,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	cmds = NULL;	
 	args = NULL;
 	path = NULL;
-	int exit_s;
-	exit_s = 0;
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
 	path = init_data(path); // I added this line
@@ -117,9 +126,5 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		path->heredoc = NULL;
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
-	exit_s = path->exit_status;
-	free_envs(env_vars);
-	free(path->main_path);	
-	free(path);
-	exit(exit_s);
+	free_and_exit(path, env_vars);
 }

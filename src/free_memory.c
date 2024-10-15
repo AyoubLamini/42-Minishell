@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 12:46:59 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 09:00:22 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:36:29 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	free_envs(t_env *envs)
 		free(current);
 		current = tmp;
 	}
+	envs = NULL;
 }
 
 // void	free_cmds(t_command *cmds)

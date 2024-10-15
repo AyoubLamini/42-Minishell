@@ -42,6 +42,7 @@ char	*get_env_value(t_env *env, char *env_key);
 char	*get_env_key(t_env *env, char *env_key);
 char    **envp_array(t_env *vars);
 void    error_exit(t_env **head);
+void    env_dataclear(t_env **head);
 
 
 // other utils

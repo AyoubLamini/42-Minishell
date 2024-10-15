@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:32:24 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 12:37:07 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 14:30:13 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,6 @@ int	is_any_heredoc(char **red)
 		i++;
 	}
 	return (0);
-}
-
-void	process_heredocs(t_path *path)
-{
-	t_heredoc	*current;
-
-	current = path->heredoc;
-	while (current)
-	{
-		printf("Heredoc file: %s\n", current->file);
-		printf("Heredoc delimiter: %s\n", current->delimiter);
-		current = current->next;
-	}
 }
 
 void	clear_herdocs(t_path *path)

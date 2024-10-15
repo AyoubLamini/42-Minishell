@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:08:19 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/14 01:23:59 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 15:26:49 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ex_strdup(const char *s1)
 	size = ex_strlen(s1);
 	ptr = malloc((sizeof(char) * (size + 1)));
 	if (!ptr)
-		return (0);
+		return (ex_malloc_error(), NULL);
 	i = 0;
 	while (i < size)
 	{
@@ -53,7 +53,7 @@ char	*my_strdup(const char *s1)
 	size = ex_strlen(s1);
 	ptr = my_malloc((sizeof(char) * (size + 1)), 1);
 	if (!ptr)
-		return (0);
+		return (exit(10), NULL);
 	i = 0;
 	while (i < size)
 	{

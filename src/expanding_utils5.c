@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils5.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 04:25:42 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 16:20:40 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:15:38 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static t_env	*empty_envs(void)
 	char	*pwd;
 
 	env_vars = NULL;
-	path = ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	path = ex_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
 	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
 	getcwd(pwd, PATH_MAX);
-	add_env_back(&env_vars, new_variable(ft_strdup("PATH"), path));
-	add_env_back(&env_vars, new_variable(ft_strdup("PWD"), pwd));
-	add_env_back(&env_vars, new_variable(ft_strdup("SHLVL"), ft_strdup("1")));
-	add_env_back(&env_vars, new_variable(ft_strdup("OLDPWD"), NULL));
-	add_env_back(&env_vars, new_variable(ft_strdup("_"), ft_strdup("PATH")));
+	add_env_back(&env_vars, new_variable(ex_strdup("PATH"), path));
+	add_env_back(&env_vars, new_variable(ex_strdup("PWD"), pwd));
+	add_env_back(&env_vars, new_variable(ex_strdup("SHLVL"), ex_strdup("1")));
+	add_env_back(&env_vars, new_variable(ex_strdup("OLDPWD"), NULL));
+	add_env_back(&env_vars, new_variable(ex_strdup("_"), ex_strdup("PATH")));
 	return (env_vars);
 }
 
@@ -50,7 +50,8 @@ t_env	*full_envs(char	**env)
 		i++;
 	}
 	if (!get_env_key(env_vars, "OLDPWD"))
-		add_env_back(&env_vars, new_variable(ft_strdup("OLDPWD"), NULL));
+		add_env_back(&env_vars, new_variable(ex_strdup("OLDPWD"), NULL));
+	update_var(env_vars, "_", ex_strdup("PATH"));
 	return (env_vars);
 }
 

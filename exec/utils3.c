@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:30:36 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 12:02:03 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 15:30:38 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ambigous_case(t_command *command, t_path *path, int i)
 	}
 	return (0);
 }
-static void env_dataclear(t_env **head)
+void env_dataclear(t_env **head)
 {
     t_env *tmp;
     t_env *ptr;
@@ -73,7 +73,7 @@ static void env_dataclear(t_env **head)
 		free(ptr->value);
         free(ptr);
     }
-    head = NULL;
+    *head = NULL;
 }
 void error_exit(t_env **head)
 {
@@ -85,10 +85,11 @@ void error_exit(t_env **head)
 void ex_malloc_error(void)
 {
 	write(2, "Allocation Error\n", 17);
+	my_malloc(0, 0);
 	exit(10);
 }
 
-char	*special_join(char *s1, char *s2)
+char	*special_join(char *s1, char *s2) // a join without free
 {
 	char	*res;
 	int		length;

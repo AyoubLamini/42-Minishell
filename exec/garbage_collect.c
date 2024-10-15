@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collect.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 22:04:14 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 10:52:00 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:05:45 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,6 @@ void dataclear(t_data **head)
     *head = NULL;
 }
 
-// void	dataclear(t_data **envs)
-// {
-// 	t_data	*current;
-// 	t_data	*tmp;
-
-// 	current = *envs;
-// 	while (current)
-// 	{
-// 		tmp = current->next;
-// 		free(current->data);
-// 		free(current);
-// 		current = tmp;
-// 	}
-//     *envs = NULL;
-// }
-
 void *my_malloc(size_t size, int mode)
 {
     static t_data *head;
@@ -60,13 +44,11 @@ void *my_malloc(size_t size, int mode)
         data = malloc(size);
         if(!data)
         {
-            printf("Data allocation failed\n");
             return (dataclear(&head), NULL);
         }
         node = malloc(sizeof(t_data));
         if(!node)
         {
-            printf(" Node allocation failed\n");
             return (dataclear(&head), free(data), NULL);
         }
         (1) && (node->data = data, node->next = head, head = node);

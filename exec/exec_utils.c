@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:05:44 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 10:20:42 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 15:03:10 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	set_last_arg(t_command *command, t_env **env_vars)
 	if (!current->cmd[i] && i == 1
 		&& ex_strcmp(current->cmd[i - 1], "echo") == 0)
 	{
-		update_var(*env_vars, "_", ft_strdup("\0"));
+		update_var(*env_vars, "_", ex_strdup("\0"));
 	}
 	else
-		update_var(*env_vars, "_", ft_strdup(current->cmd[i - 1]));
+		update_var(*env_vars, "_", ex_strdup(current->cmd[i - 1]));
 }

@@ -1,6 +1,2 @@
-
-env -i ./minishell (only clear shouldn't work)
-
-// file descriptor leak in ctrl + d heredoc
-
+// ls -;;a
 // handle cases of allocation failure | check if exited with 10

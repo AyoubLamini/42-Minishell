@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:21:54 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/14 01:47:25 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:31:43 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	check_command(t_command *command, t_env **env_vars, t_path *path)
 	else if (ex_strcmp("export", command->cmd[0]) == 0)
 		exit_status(export(command, env_vars), path);
 	else if (ex_strcmp("env", command->cmd[0]) == 0)
-		exit_status(env(*env_vars), path);
+		exit_status(env(command, *env_vars), path);
 	else if (ex_strcmp("unset", command->cmd[0]) == 0)
 		exit_status(unset(command, env_vars), path);
 	else if (ex_strcmp("exit", command->cmd[0]) == 0)

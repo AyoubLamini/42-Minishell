@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:51:44 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 14:45:31 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:21:05 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_env_variable(t_env *env, char *env_key)
 	while (tmp)
 	{
 		if (my_strcmp(tmp->key, env_key) == 0)
-			return (ft_strdup(tmp->value));
+			return (my_strdup(tmp->value));
 		tmp = tmp->next;
 	}
 	return (NULL);

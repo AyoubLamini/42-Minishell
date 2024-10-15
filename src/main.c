@@ -59,6 +59,7 @@ void set_up(struct termios *attrs, t_path *path)
 }
 int	main(int argc, char **argv, char **envp) // added envp argument
 {
+		atexit(leaks);
 	//atexit(leaks);
 	struct termios	attrs[3];
 	// if (!isatty(0))
@@ -89,7 +90,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	set_up(attrs, path); 
 	while ((input = readline("minishell $> ")) != NULL)
 	{
-		atexit(leaks);
 		path->is_forked = 0;
 		add_history(input);
 		if (is_only_spaces(input))
@@ -117,8 +117,8 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
 	}
 	exit_s = path->exit_status;
-	// free_envs(env_vars);
-	// free(path->main_path);	
-	// free(path);
+	free_envs(env_vars);
+	free(path->main_path);	
+	free(path);
 	exit(exit_s);
 }

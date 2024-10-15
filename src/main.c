@@ -36,11 +36,11 @@ static void tty_attributes(struct termios *attrs, int action)
 }
 
 
-static t_path *init_data(t_path *path)
+static t_path *init_data(t_path *path, t_env *env)
 {
 	path = (t_path *)malloc(sizeof(t_path));
 	if (!path)
-		ex_malloc_error();
+		malloc_error(path, env);
 	path->exit_status = 0;
 	path->is_forked = 0;
 	path->fd_in = 0;
@@ -48,11 +48,11 @@ static t_path *init_data(t_path *path)
 	path->heredoc = NULL;
 	path->main_path = malloc(sizeof(char) * PATH_MAX);
 	if (!path->main_path)
-		ex_malloc_error();
+		malloc_error(path, env);
 	path->main_path = getcwd(path->main_path, PATH_MAX);
 	path->pwd = malloc(sizeof(char) * PATH_MAX);
 	if (!path->pwd)
-		ex_malloc_error();
+		malloc_error(path, env);
 	path->pwd = getcwd(path->pwd, PATH_MAX);
 	return (path);
 }
@@ -95,7 +95,7 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	path = NULL;
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
-	path = init_data(path); // I added this line
+	path = init_data(path, env_vars); // I added this line
 	set_up(attrs, path); 
 	while ((input = readline("minishell $> ")) != NULL)
 	{

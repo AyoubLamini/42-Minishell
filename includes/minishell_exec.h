@@ -29,7 +29,7 @@ int     ft_is_numeric(char *s);
 int     occur_alpha(char *str, int c);
 void    reset_fd(t_path *path);
 int     is_builtin(char *cmd);
-void    ex_malloc_error(void);
+void    malloc_error(t_path *path, t_env *env);
 char	*my_get_key(char *str);
 char	*my_get_value(char *str);
 char	*my_get_sep(char *str);
@@ -42,6 +42,7 @@ char	*get_env_value(t_env *env, char *env_key);
 char	*get_env_key(t_env *env, char *env_key);
 char    **envp_array(t_env *vars);
 void    error_exit(t_env **head);
+void    envp_error(t_env *env);
 void    env_dataclear(t_env **head);
 
 

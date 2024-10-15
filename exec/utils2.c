@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:32:24 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 14:30:13 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 16:03:46 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_heredoc	*lst_heredoc_new(char *delimiter, char *file)
 
 	new = (t_heredoc *)my_malloc(sizeof(t_heredoc), 1);
 	if (!new)
-		ex_malloc_error();
+		return (NULL);
 	new->delimiter = delimiter;
 	new->file = file;
 	new->buffer = NULL;

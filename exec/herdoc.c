@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:13:23 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 12:32:22 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 17:16:00 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ static char	*ft_rename(void)
 	return (file);
 }
 
-t_heredoc	*init_herdoc(char *delimiter, t_path *path)
+t_heredoc	*init_herdoc(char *delimiter, t_path *path, t_env *env)
 {
 	t_heredoc	*heredoc;
 
 	setup_signals(path, HERDOC_SIG);
 	delimiter = get_right_delimeter(delimiter);
 	heredoc = lst_heredoc_new(my_strdup(delimiter), ft_rename());
+	if (!heredoc)
+		malloc_error(path, env);
 	heredoc->will_expand = check_will_expanded(delimiter);
 	lst_heredoc_add_back(&path->heredoc, heredoc);
 	path->fd_in = dup(STDIN_FILENO);
@@ -67,7 +69,7 @@ static int	heredoc(t_command *cmd, t_path *path, char *delimiter, t_env **envs)
 	t_heredoc	*heredoc;
 	int			fd;
 
-	heredoc = init_herdoc(delimiter, path);
+	heredoc = init_herdoc(delimiter, path, *envs);
 	if (read_loop(path, envs, heredoc))
 		return (1);
 	fd = open(heredoc->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);

@@ -1,2 +1,3 @@
-// ls -;;a
+// ls -;a
 // handle cases of allocation failure | check if exited with 10
+// new line after CTRL + d FROM herdoc

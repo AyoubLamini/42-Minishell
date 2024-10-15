@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:30:36 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 15:30:38 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 17:14:49 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,24 @@ void env_dataclear(t_env **head)
     }
     *head = NULL;
 }
-void error_exit(t_env **head)
+
+void envp_error(t_env *env)
 {
-	env_dataclear(head);
 	write(2, "Allocation Error\n", 17);
+	free_envs(env);
 	exit(1);
 }
 
-void ex_malloc_error(void)
+
+void malloc_error(t_path *path, t_env *env)
 {
 	write(2, "Allocation Error\n", 17);
 	my_malloc(0, 0);
-	exit(10);
+	free_envs(env);
+	free(path->main_path);
+	free(path->pwd);
+	free(path);
+	exit(1);
 }
 
 char	*special_join(char *s1, char *s2) // a join without free

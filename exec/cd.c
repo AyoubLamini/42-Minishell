@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 11:03:00 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 11:35:32 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 16:03:23 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	update_wd(int output, char *old_wd, t_path *path_struct, t_env *env)
 
 	cwd = (char *)malloc(sizeof(char) * PATH_MAX);
 	if (!cwd)
-		ex_malloc_error();
+		malloc_error(path_struct, env);
 	if (output == 0 && errno == ENOENT)
 	{
 		printf("cd: error retrieving current directory:");
@@ -50,7 +50,7 @@ int	exec_cd(t_env *env, char *var, int check, t_path *path_struct)
 	path = NULL;
 	old_wd = (char *)malloc(sizeof(char) * PATH_MAX);
 	if (!old_wd)
-		ex_malloc_error();
+		malloc_error(path_struct, env);
 	getcwd(old_wd, PATH_MAX);
 	if (!check)
 		path = get_env_value(env, var);

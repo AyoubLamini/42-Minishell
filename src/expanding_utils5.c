@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 04:25:42 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 15:15:38 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/15 17:15:44 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,17 @@ t_env	*full_envs(char	**env)
 	{
 		node = new_variable(get_str(env[i], "key"), get_str(env[i], "value"));
 		if (!node)
-			error_exit(&env_vars);
+			envp_error(env_vars);
 		add_env_back(&env_vars, node);
 		i++;
 	}
 	if (!get_env_key(env_vars, "OLDPWD"))
-		add_env_back(&env_vars, new_variable(ex_strdup("OLDPWD"), NULL));
+	{
+		node = new_variable(ex_strdup("OLDPWD"), NULL);
+		if (!node)
+			envp_error(env_vars);
+		add_env_back(&env_vars, node);
+	}
 	update_var(env_vars, "_", ex_strdup("PATH"));
 	return (env_vars);
 }

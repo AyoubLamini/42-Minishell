@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:21:02 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/06 22:19:54 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:43:54 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
+
 	if (!s)
 		return (0);
 	i = 0;

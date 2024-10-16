@@ -6,13 +6,13 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 22:23:10 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/09 22:23:24 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:43:24 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_isspace(char c)
+int	ft_isspace(char c)
 {
 	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);

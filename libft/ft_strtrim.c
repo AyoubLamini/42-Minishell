@@ -6,14 +6,13 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:01:44 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 11:11:40 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:51:46 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
-
 
 static size_t	ft_mysize(const char *start, const char *end)
 {
@@ -27,6 +26,15 @@ static size_t	ft_mysize(const char *start, const char *end)
 	return (size);
 }
 
+static char	*allocate(char *s1, const char *end)
+{
+	char	*r;
+
+	r = (char *)my_malloc(ft_mysize(s1, end) + 1, 1);
+	if (r == NULL)
+		return (my_malloc(0, 0), exit(10), NULL);
+	return (r);
+}
 
 char	*ft_strtrim(char *s1, char const *set)
 {
@@ -46,9 +54,7 @@ char	*ft_strtrim(char *s1, char const *set)
 	while (end >= s1 && ft_isspace(*end))
 		end--;
 	end += 1;
-	r = (char *)my_malloc(ft_mysize(s1, end) + 1, 1);
-	if (r == NULL)
-		return (my_malloc(0, 0), exit(10), NULL);
+	r = allocate(s1, end);
 	while (j < ft_mysize(s1, end))
 	{
 		r[i] = s1[j];

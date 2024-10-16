@@ -6,13 +6,14 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 15:40:11 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 11:11:47 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:44:57 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
+
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	size_t			i;

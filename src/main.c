@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:51:25 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 21:08:30 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 21:46:50 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ int	main(int argc, char **argv, char **envp)
 	env_vars = NULL;
 	cmds = NULL;
 	path = NULL;
+	set_up(attrs);
 	env_vars = full_envs(envp);
 	path = init_data(path, env_vars);
-	set_up(attrs);
 	while_loop(cmds, path, &env_vars, attrs);
 	free_and_exit(path, env_vars);
 }

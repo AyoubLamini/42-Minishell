@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:47:13 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 10:51:29 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 21:40:50 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static void	echo_it(t_command *command, int i, int new_line)
 {
 	while (command->cmd[i])
 	{
-		printf("%s", command->cmd[i]);
+		ft_putstr_fd(command->cmd[i], 1);
 		if (command->cmd[i + 1])
-			printf(" ");
+			write(1, " ", 1);
 		i++;
 	}
 	if (new_line == 1)
-		printf("\n");
+		write(1, "\n", 1);
 }
 
 int	echo(t_command *command)

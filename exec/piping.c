@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 08:41:32 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 13:45:26 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:31:14 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,24 @@ static int	create_pipe(int *fd)
 		exit(1);
 	}
 	return (0);
+}
+
+static void	fork_failure(t_path *path, t_env *env)
+{
+	write(2, "Fork error!\n", 13);
+	if (path->fd_in >= 0)
+		close(path->fd_in);
+	if (path->fd_out >= 0)
+		close(path->fd_out);
+	my_malloc(0, 0);
+	free_envs(env);
+	if(path->main_path)
+		free(path->main_path);
+	if (path->pwd)
+		free(path->pwd);
+	if (path)
+		free(path);
+	exit(1);
 }
 
 static int	child_process(t_command *cmd, t_env **env, int *input_fd,
@@ -69,6 +87,8 @@ void	piping(t_command *cmd, t_env **env, int *input_fd, t_path *path)
 	if (cmd->next)
 		create_pipe(cmd->pipe);
 	pid = fork();
+	if (pid < 0)
+		fork_failure(path, *env);
 	path->is_forked = 1;
 	if (pid < 0)
 		return (perror("fork"));

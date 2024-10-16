@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:30:36 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 13:16:33 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 16:01:47 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,12 @@ void malloc_error(t_path *path, t_env *env)
         close(path->fd_out);
 	my_malloc(0, 0);
 	free_envs(env);
-	free(path->main_path);
-	free(path->pwd);
-	free(path);
+	if(path->main_path)
+    	free(path->main_path);
+    if (path->pwd)
+        free(path->pwd);
+	if (path)
+		free(path);
 	exit(1);
 }
 

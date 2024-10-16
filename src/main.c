@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:51:25 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 15:02:14 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 16:36:05 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static t_path	*init_data(t_path *path, t_env *env)
 	path = (t_path *)malloc(sizeof(t_path));
 	if (!path)
 		malloc_error(path, env);
+	path->main_path = NULL;
+	path->pwd = NULL;
 	path->exit_status = 0;
 	path->is_forked = 0;
 	path->fd_in = 0;
@@ -28,11 +30,14 @@ static t_path	*init_data(t_path *path, t_env *env)
 	path->main_path = malloc(sizeof(char) * PATH_MAX);
 	if (!path->main_path)
 		malloc_error(path, env);
-	path->main_path = getcwd(path->main_path, PATH_MAX);
-	path->pwd = malloc(sizeof(char) * PATH_MAX);
+	if (!getcwd(path->main_path, PATH_MAX))
+	{
+		free(path->main_path);
+		path->main_path = ft_strdup("/");	
+	}
+	path->pwd = ft_strdup(path->main_path);
 	if (!path->pwd)
 		malloc_error(path, env);
-	path->pwd = getcwd(path->pwd, PATH_MAX);
 	return (path);
 }
 

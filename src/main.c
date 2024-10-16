@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:51:25 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 17:31:07 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 19:06:32 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ int	main(int argc, char **argv, char **envp)
 	t_env			*env_vars;
 	t_path			*path;
 
+	if (argc != 1)
+	{
+		printf("Usage: ./minishell\n");
+		return (1);
+	}
 	((void)argc, (void)argv);
 	env_vars = NULL;
 	cmds = NULL;

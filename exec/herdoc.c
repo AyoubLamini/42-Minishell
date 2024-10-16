@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:13:23 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 15:02:07 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 19:04:41 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ static char	*ft_rename(void)
 t_heredoc	*init_herdoc(char *delimiter, t_path *path, t_env *env)
 {
 	t_heredoc	*heredoc;
+	char		*old_delimiter;
 
+	old_delimiter = delimiter;
 	setup_signals(HERDOC_SIG);
 	delimiter = get_right_delimeter(delimiter);
 	heredoc = lst_heredoc_new(my_strdup(delimiter), ft_rename());
+	heredoc->will_expand = check_will_expanded(old_delimiter);
 	if (!heredoc)
 		malloc_error(path, env);
-	heredoc->will_expand = check_will_expanded(delimiter);
 	lst_heredoc_add_back(&path->heredoc, heredoc);
 	path->fd_in = dup(STDIN_FILENO);
 	return (heredoc);

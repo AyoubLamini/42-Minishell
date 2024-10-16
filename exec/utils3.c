@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:30:36 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 12:43:30 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 13:16:33 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void envp_error(t_env *env)
 }
 void fd_error(t_path *path, t_env *env)
 {
-	write(2, "File descriptor Error\n", 17);
+	write(2, "File descriptor Error\n", 22);
 	if (path->fd_in >= 0)
         close(path->fd_in);
 	if (path->fd_out >= 0)

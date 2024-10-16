@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:05:44 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 15:03:10 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 16:58:55 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,3 +37,53 @@ void	set_last_arg(t_command *command, t_env **env_vars)
 	else
 		update_var(*env_vars, "_", ex_strdup(current->cmd[i - 1]));
 }
+
+void	reset_fd(t_path *path)
+{
+	if (path->fd_in != 0)
+	{
+		dup2(path->fd_in, STDIN_FILENO);
+		close(path->fd_in);
+	}
+	if (path->fd_out != 1)
+	{
+		dup2(path->fd_out, STDOUT_FILENO);
+		close(path->fd_out);
+	}
+	
+}
+
+int	is_builtin(char *cmd)
+{
+	if (!cmd)
+		return (0);
+	if (ex_strcmp("cd", cmd) == 0
+		|| ex_strcmp("pwd", cmd) == 0
+		|| ex_strcmp("echo", cmd) == 0
+		|| ex_strcmp("echo", cmd) == 0
+		|| ex_strcmp("export", cmd) == 0
+		|| ex_strcmp("env", cmd) == 0
+		|| ex_strcmp("unset", cmd) == 0
+		|| ex_strcmp("exit", cmd) == 0)
+		return (1);
+	return (0);
+}
+
+int	ambigous_case(t_command *command, t_path *path, int i)
+{
+	int	pos;
+
+	pos = -1;
+	if (command->is_ambiguous != -1)
+		pos = command->is_ambiguous - ft_strslen(command->cmd);
+	if (pos == i + 1)
+	{
+		print_error(command->ambiguous_file, NULL, "ambiguous redirect");
+		if (path->is_forked)
+			exit(1);
+		else
+			return (1);
+	}
+	return (0);
+}
+

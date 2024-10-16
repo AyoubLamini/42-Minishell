@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:48:58 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 11:01:57 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 17:00:24 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,24 @@ int	list_size(t_env *lst)
 		p = p->next;
 	}
 	return (i);
+}
+
+char	*envp_strdup(const char *s1, t_env *env)
+{
+	char	*ptr;
+	int		size;
+	int		i;
+
+	size = ex_strlen(s1);
+	ptr = malloc((sizeof(char) * (size + 1)));
+	if (!ptr)
+		return (envp_error(env), NULL);
+	i = 0;
+	while (i < size)
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }

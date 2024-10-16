@@ -6,11 +6,43 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:38:56 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 09:42:24 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 17:13:58 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell_exec.h"
+
+size_t	ex_strlen(const char *s)
+{
+	size_t	i;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char	*ex_strdup(const char *s1)
+{
+	char	*ptr;
+	int		size;
+	int		i;
+
+	size = ex_strlen(s1);
+	ptr = malloc((sizeof(char) * (size + 1)));
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}
 
 int	ex_strcmp(char *s1, char *s2)
 {
@@ -22,22 +54,6 @@ int	ex_strcmp(char *s1, char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return (s1[i] - s2[i]);
-}
-
-void	print_error(char *cmd, char *path, char *error)
-{
-	ft_putstr_fd("minishell: ", 2);
-	if (cmd)
-		ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": ", 2);
-	if (path)
-	{
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": ", 2);
-	}
-	if (error)
-		ft_putstr_fd(error, 2);
-	ft_putstr_fd("\n", 2);
 }
 
 int	ft_is_numeric(char *s)

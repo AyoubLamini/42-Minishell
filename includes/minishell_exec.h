@@ -30,6 +30,7 @@ int     occur_alpha(char *str, int c);
 void    reset_fd(t_path *path);
 int     is_builtin(char *cmd);
 void    malloc_error(t_path *path, t_env *env);
+void    fd_error(t_path *path, t_env *env);
 char	*my_get_key(char *str);
 char	*my_get_value(char *str);
 char	*my_get_sep(char *str);

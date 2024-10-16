@@ -96,7 +96,6 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 
 	set_up(attrs, path); 
 	env_vars = full_envs(envp);
-	// print_envs(env_vars);
 	path = init_data(path, env_vars); // I added this line
 	while ((input = readline("minishell $> ")) != NULL)
 	{

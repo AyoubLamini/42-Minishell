@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_herdoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 09:59:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 12:15:09 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 11:27:35 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,11 @@ char	*get_right_delimeter(char *s)
 			{
 			
 			}
+			else
+				delimeter = ft_strjoin(delimeter, del[i]);
 		}
 		else
-		{
 			delimeter = ft_strjoin(delimeter, del[i]);
-		}
 		i++;
 	}
 	if (delimeter)

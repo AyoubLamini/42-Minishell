@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:32:19 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 15:16:30 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 15:17:09 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 void	tty_attributes(struct termios *attrs, int action)
 {
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO)
-		|| !isatty(STDERR_FILENO))
-	{
-		printf("Not a tty\n"),
-		exit(1);
-	}
+	// if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO)
+	// 	|| !isatty(STDERR_FILENO))
+	// {
+	// 	printf("Not a tty\n"),
+	// 	exit(1);
+	// }
 	if (action == ATTR_GET)
 	{
 		tcgetattr(STDIN_FILENO, &attrs[0]);

@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 13:49:31 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:57:09 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,12 @@ typedef struct s_vars
 	char	*new;
 	char	*key;
 	char	*value;
+	char	*delimeter;
 	char	**res;
 	char	**cmd;
 	char	**temp;
 	char	**args;
+	char	**del;
 }	t_vars;
 
 typedef struct s_heredoc
@@ -168,6 +170,10 @@ char		*get_right_delimeter(char *s);
 int			check_will_expanded(char *delimter);
 int			is_any_heredoc(char **red);
 // utils
+void		exit_status_case(t_vars *vars, t_path *path, int is_pipe);
+void		last_command_case(t_vars *vars, t_env *envs);
+void		double_quotes_helper(t_env *envs,
+				t_vars *vars, t_path *path, char *str);
 t_vars		ft_initialize_vars(void);
 char		**ft_allocate(int size);
 int			skip_spaces(char *str, int index, int *j);

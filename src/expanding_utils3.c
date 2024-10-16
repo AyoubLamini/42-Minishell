@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:51:44 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 12:36:26 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:24:53 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,12 @@ t_vars	ft_initialize_vars(void)
 	vars.new = NULL;
 	vars.key = NULL;
 	vars.value = NULL;
+	vars.delimeter = NULL;
 	vars.res = NULL;
 	vars.cmd = NULL;
 	vars.temp = NULL;
 	vars.args = NULL;
+	vars.del = NULL;
 	return (vars);
 }
 

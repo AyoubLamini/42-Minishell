@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:13:23 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 13:06:25 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:45:45 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_heredoc	*init_herdoc(char *delimiter, t_path *path, t_env *env)
 {
 	t_heredoc	*heredoc;
 
-	setup_signals(path, HERDOC_SIG);
+	setup_signals(HERDOC_SIG);
 	delimiter = get_right_delimeter(delimiter);
 	heredoc = lst_heredoc_new(my_strdup(delimiter), ft_rename());
 	if (!heredoc)
@@ -80,7 +80,7 @@ static int	heredoc(t_command *cmd, t_path *path, char *delimiter, t_env **envs)
 	write(fd, heredoc->buffer, ex_strlen(heredoc->buffer));
 	cmd->last_file = my_strdup(heredoc->file);
 	close(fd);
-	setup_signals(path, SET_SIG);
+	setup_signals(SET_SIG);
 	return (0);
 }
 
@@ -97,7 +97,7 @@ int	handle_herdoc(t_command *command, t_path *path, t_env **envs)
 		{
 			if (heredoc(command, path, command->redirection[i + 1], envs))
 			{
-				setup_signals(path, SET_SIG);
+				setup_signals(SET_SIG);
 				reset_fd(path);
 				close(path->fd_in);
 				return (1);

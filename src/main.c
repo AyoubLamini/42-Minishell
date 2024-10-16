@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:51:25 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 13:04:56 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 13:46:38 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 	path = NULL;
 	env_vars = full_envs(envp);
 	path = init_data(path, env_vars);
-	set_up(attrs, path);
+	set_up(attrs);
 	while_loop(cmds, path, env_vars, attrs);
 	free_and_exit(path, env_vars);
 }

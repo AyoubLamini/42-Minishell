@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:25:03 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 11:11:24 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:47:49 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
 
-int	split_count_words(const char *s, char charset)
+int	split_count_words(const char *s)
 {
 	int	i;
 	int	nbr;
@@ -67,7 +67,7 @@ char	**ft_split(char *s, char c)
 	if (!s)
 		return (NULL);
 	index = 0;
-	result = ft_allocate(split_count_words(s, c));
+	result = ft_allocate(split_count_words(s));
 	while (*s)
 	{
 		while (*s && ft_isspace(*s))

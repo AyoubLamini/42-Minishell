@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:36:56 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 08:40:44 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:43:47 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	exit_status_case(t_vars *vars, t_path *path, int is_pipe)
 	vars->i++;
 }
 
-void	last_command_case(t_vars *vars, t_env *envs, t_path *path, int is_pipe)
+void	last_command_case(t_vars *vars, t_env *envs)
 {
-	if (is_pipe > 0)
+	if (vars->is_pipe > 0)
 		vars->new = ft_strjoin(vars->new, "\0");
 	else
 	{
@@ -59,7 +59,7 @@ void	double_quotes_helper(t_env *envs, t_vars *vars, t_path *path, char *str)
 		vars->i++;
 	else if (str[vars->i] == '_' && !ft_isalnum(str[vars->i + 1]))
 	{
-		last_command_case(vars, envs, path, vars->is_pipe);
+		last_command_case(vars, envs);
 		vars->i++;
 	}
 	else

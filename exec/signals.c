@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:42:53 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 11:47:21 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 13:43:59 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	herdoc_sig_handler(int sig)
 	g_last_signal = SIGINT;
 }
 
-void	setup_signals(t_path *path, int action)
+void	setup_signals(int action)
 {
 	if (action == SET_SIG)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:51:25 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 19:06:32 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 21:08:30 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ static t_path	*init_data(t_path *path, t_env *env)
 }
 
 void	get_cmds_execute_clear(t_vars vars, t_command *cmds,
-	t_env *env_vars, t_path *path)
+	t_env **env_vars, t_path *path)
 {
 	vars.tmp = add_spaces(vars.tmp, 0, 0);
 	vars.tmp = ft_strtrim(vars.tmp, " ");
 	vars.args = split_args(vars.tmp);
-	cmds = split_cmds(vars.args, env_vars, path);
-	execute(cmds, &env_vars, path);
+	cmds = split_cmds(vars.args, *env_vars, path);
+	execute(cmds, env_vars, path);
 	clear_herdocs(path);
 	my_malloc(0, 0);
 }
 
 void	while_loop(t_command *cmds, t_path *path,
-	t_env *env_vars, struct termios *attrs)
+	t_env **env_vars, struct termios *attrs)
 {
 	t_vars	vars;
 
@@ -102,6 +102,6 @@ int	main(int argc, char **argv, char **envp)
 	env_vars = full_envs(envp);
 	path = init_data(path, env_vars);
 	set_up(attrs);
-	while_loop(cmds, path, env_vars, attrs);
+	while_loop(cmds, path, &env_vars, attrs);
 	free_and_exit(path, env_vars);
 }

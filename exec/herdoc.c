@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:13:23 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 13:45:45 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 15:02:07 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,11 @@ static int	heredoc(t_command *cmd, t_path *path, char *delimiter, t_env **envs)
 	{
 		fd_error(path, *envs);
 	}
-	write(fd, heredoc->buffer, ex_strlen(heredoc->buffer));
+	if (write(fd, heredoc->buffer, ex_strlen(heredoc->buffer)) == -1)
+	{
+		fd_error(path, *envs);
+		close(fd);
+	}
 	cmd->last_file = my_strdup(heredoc->file);
 	close(fd);
 	setup_signals(SET_SIG);

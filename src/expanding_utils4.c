@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:52:45 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 16:19:42 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:01:45 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ void	delete_env(t_env **env, char *env_key)
 				prev->next = temp->next;
 			else
 				*env = temp->next;
-			free(del->key);
-			free(del->value);
-			free(del);
+			(free(del->key), free(del->value), free(del));
 			return ;
 		}
 		prev = temp;

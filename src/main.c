@@ -1,37 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/16 11:51:25 by ybouyzem          #+#    #+#             */
+/*   Updated: 2024/10/16 13:04:56 by alamini          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
 
-int g_last_signal = 0;
+int	g_last_signal = 0;
 
-void leaks() // TEMporary comment
-{
-	system("leaks minishell");
-}
-static void tty_attributes(struct termios *attrs, int action)
-{
-	if (action == ATTR_GET)
-	{
-		tcgetattr(STDIN_FILENO, &attrs[0]);
-		tcgetattr(STDOUT_FILENO, &attrs[1]);
-		tcgetattr(STDERR_FILENO, &attrs[2]);
-	}
-	else if (action == ATTR_SET)
-	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &attrs[0]);
-		tcsetattr(STDOUT_FILENO, TCSANOW, &attrs[1]);
-		tcsetattr(STDERR_FILENO, TCSANOW, &attrs[2]);
-	}
-	else if (action == ATTR_CHG)
-	{
-		attrs[0].c_lflag &= ~ECHOCTL;
-		attrs[1].c_lflag &= ~ECHOCTL;
-		attrs[2].c_lflag &= ~ECHOCTL;
-		tty_attributes(attrs, ATTR_SET);
-	}
-}
-
-
-static t_path *init_data(t_path *path, t_env *env)
+static t_path	*init_data(t_path *path, t_env *env)
 {
 	path = (t_path *)malloc(sizeof(t_path));
 	if (!path)
@@ -52,79 +36,62 @@ static t_path *init_data(t_path *path, t_env *env)
 	return (path);
 }
 
-void free_and_exit(t_path *path, t_env *env_vars)
+void	get_cmds_execute_clear(t_vars vars, t_command *cmds,
+	t_env *env_vars, t_path *path)
 {
-	int exit_state;
-
-	exit_state = path->exit_status;
-	free_envs(env_vars);
-	free(path->pwd);
-	free(path->main_path);	
-	free(path);
-	exit(exit_state);
+	vars.tmp = add_spaces(vars.tmp, 0, 0);
+	vars.tmp = ft_strtrim(vars.tmp, " ");
+	vars.args = split_args(vars.tmp);
+	cmds = split_cmds(vars.args, env_vars, path);
+	execute(cmds, &env_vars, path);
+	clear_herdocs(path);
+	my_malloc(0, 0);
 }
-void set_up(struct termios *attrs, t_path *path)
-{
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
-	{
-		printf("Not a tty\n");
-		exit(1);
-	}
-	setup_signals(path, SET_SIG); 
-	tty_attributes(attrs, ATTR_GET); // Save terminal attributes
-	tty_attributes(attrs, ATTR_CHG); // Change terminal attributes
-}
-int	main(int argc, char **argv, char **envp) // added envp argument
-{
-		// atexit(leaks);
-	//atexit(leaks);
-	struct termios	attrs[3];
-	(void)argc; 
-	(void)argv;
-	char	*input;
-	input = NULL;
-	char	prompt[100];
-	t_command *cmds;
-	t_env	*env_vars;
-	t_path 	*path;
-	char 	*tmp;
-	char	**args;
-	env_vars = NULL;
-	cmds = NULL;	
-	args = NULL;
-	path = NULL;
 
-	set_up(attrs, path); 
-	env_vars = full_envs(envp);
-	path = init_data(path, env_vars); // I added this line
-	while ((input = readline("minishell $> ")) != NULL)
+void	while_loop(t_command *cmds, t_path *path,
+	t_env *env_vars, struct termios *attrs)
+{
+	t_vars	vars;
+
+	vars = ft_initialize_vars();
+	while (1)
 	{
+		vars.input = readline("minishell $> ");
+		if (!vars.input)
+			break ;
 		path->is_forked = 0;
-		add_history(input);
-		if (is_only_spaces(input))
+		add_history(vars.input);
+		if (is_only_spaces(vars.input))
 		{
-			free(input);
-			continue;
+			free(vars.input);
+			continue ;
 		}
-		tmp = ft_strtrim(input, " ");
-		free(input);
-		if (check_syntax(tmp) < 0)
+		vars.tmp = ft_strtrim(vars.input, " ");
+		free(vars.input);
+		if (check_syntax(vars.tmp) < 0)
 		{
-			syntax_error_messages(check_syntax(tmp));
-			exit_status(258, path);
-			
-			continue;
+			(syn_err_messages(check_syntax(vars.tmp)), exit_status(258, path));
+			continue ;
 		}
-		tmp = add_spaces(tmp, 0, 0);
-		tmp = ft_strtrim(tmp, " ");
-		args = split_args(tmp);
-		cmds = split_cmds(args, env_vars, path);
-		//print_list(cmds);
-		execute(cmds, &env_vars, path); // I added this line
-		clear_herdocs(path);
-		my_malloc(0, 0);
-		path->heredoc = NULL;
-		tty_attributes(attrs, ATTR_SET); // Reset terminal attributes
+		get_cmds_execute_clear(vars, cmds, env_vars, path);
+		tty_attributes(attrs, ATTR_SET);
 	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	struct termios	attrs[3];
+	t_command		*cmds;
+	t_env			*env_vars;
+	t_path			*path;
+
+	((void)argc, (void)argv);
+	env_vars = NULL;
+	cmds = NULL;
+	path = NULL;
+	env_vars = full_envs(envp);
+	path = init_data(path, env_vars);
+	set_up(attrs, path);
+	while_loop(cmds, path, env_vars, attrs);
 	free_and_exit(path, env_vars);
 }

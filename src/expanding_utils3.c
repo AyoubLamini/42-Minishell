@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:51:44 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 11:21:05 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:36:26 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,24 @@ t_vars	ft_initialize_vars(void)
 	t_vars	vars;
 
 	vars.i = 0;
-	vars.index = 0;
 	vars.j = 0;
+	vars.nbr = 0;
+	vars.index = 0;
 	vars.start = 0;
 	vars.len = 0;
-	vars.nbr = 0;
 	vars.check = 0;
 	vars.is_pipe = 0;
 	vars.single_quote = 0;
 	vars.double_quote = 0;
+	vars.input = NULL;
 	vars.tmp = NULL;
-	vars.tmp1 = NULL;
 	vars.new = NULL;
 	vars.key = NULL;
 	vars.value = NULL;
 	vars.res = NULL;
 	vars.cmd = NULL;
 	vars.temp = NULL;
+	vars.args = NULL;
 	return (vars);
 }
 

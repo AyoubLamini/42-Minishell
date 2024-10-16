@@ -3,30 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 12:46:59 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 16:19:23 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 12:26:06 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// void	free_strs(char **strs)
-// {
-// 	int	i;
+void	free_and_exit(t_path *path, t_env *env_vars)
+{
+	int	exit_state;
 
-// 	i = 0;
-// 	if (!strs)
-// 		return ;
-// 	while (strs[i])
-// 	{
-// 		free_str(strs[i]);
-// 		i++;
-// 	}
-// 	free(strs);
-// 	strs = NULL;
-// }
+	exit_state = path->exit_status;
+	free_envs(env_vars);
+	free(path->pwd);
+	free(path->main_path);
+	free(path);
+	exit(exit_state);
+}
 
 void	free_envs(t_env *envs)
 {
@@ -43,31 +39,3 @@ void	free_envs(t_env *envs)
 		current = tmp;
 	}
 }
-
-// void	free_cmds(t_command *cmds)
-// {
-// 	t_command	*current;
-// 	t_command	*tmp;
-
-// 	if (!cmds)
-// 		return ;
-// 	current = cmds;
-// 	while (current)
-// 	{
-// 		tmp = current->next;
-// 		free_strs(current->cmd);
-// 		free_strs(current->redirection);
-// 		free(current);
-// 		current->cmd = NULL;
-// 		current->redirection = NULL;
-// 		current = tmp;
-// 	}
-// 	cmds = NULL;
-// }
-
-// void	free_str(char *str)
-// {
-// 	if (str)
-// 		free(str);
-// 	str = NULL;
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:32:24 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 16:03:46 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 11:50:16 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ void	clear_herdocs(t_path *path)
 		unlink(current->file);
 		current = current->next;
 	}
+	path->heredoc = NULL;
 }

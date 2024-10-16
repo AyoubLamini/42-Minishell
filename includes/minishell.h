@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 16:46:09 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 12:54:00 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,25 @@ typedef struct s_command {
 } t_command;
 
 typedef struct s_vars {
-	int i;
-	int j;
-	int start;
-	int index;
-	int len;
-	int nbr;
-	int check;
-	int is_pipe;
-	int single_quote;
-	int double_quote;
-	char *tmp;
-	char *tmp1;
+	int		i;
+	int		j;
+	int 	nbr;
+	int		start;
+	int		index;
+	int		len;
+	int		check;
+	int		is_pipe;
+	int		single_quote;
+	int		double_quote;
+	char	*input;
+	char	*tmp;
 	char	*new;
 	char	*key;
 	char	*value;
 	char	**res;
 	char	**cmd;
 	char	**temp;
+	char	**args;
 } t_vars;
 
 typedef struct s_heredoc {
@@ -106,8 +107,7 @@ enum
 
 int g_last_signal;
 
-void	free_str(char *str);
-void	syntax_error_messages(int code);
+void	syn_err_messages(int code);
 int		is_redirection(char *str, int index);
 int		check_syntax(char *input);
 int		check_quotes(char	*input);
@@ -117,7 +117,6 @@ char	*add_spaces(char *input, int single_quote, int double_quote);
 char	**split_args(char *s);
 void	ft_check_quotes(int *single_quote, int *double_quote, char c);
 t_command	*split_cmds(char **args, t_env *env_vars, t_path *path);
-void *ft_myfree(char **result, int index);
 int	ft_strslen(char **map);
 int	ft_strcmp(char *s1, char *s2);
 char	*concat_strs(char* s1, char* s2);
@@ -129,11 +128,6 @@ t_command	*lstlast(t_command *lst);
 t_command	*lstnew(char **cmd, char **red);
 void	print_list(t_command *lst);
 
-
-//free memory
-void	free_cmds(t_command *cmds);
-void	free_strs(char **strs);
-void	free_envs(t_env *envs);
 
 //expanding
 char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe);
@@ -190,8 +184,13 @@ void	add_string(t_vars *vars, char *str);
 void	count_dollars(t_vars *vars, char *str);
 char	**single_quotes(t_env *envs, t_vars vars, int *index);
 t_command	*allocate_node();
+void	free_and_exit(t_path *path, t_env *env_vars);
 int	ft_is_red(char *str);
 
+
+//tty
+void	set_up(struct termios *attrs, t_path *path);
+void	tty_attributes(struct termios *attrs, int action);
 
 // garbage collector
 void *my_malloc(size_t size, int mode);

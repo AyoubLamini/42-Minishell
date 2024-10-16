@@ -6,14 +6,14 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 06:36:26 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/13 01:49:37 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:51:50 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
 
-void	syntax_error_messages(int code)
+void	syn_err_messages(int code)
 {
 	if (code == -1)
 		write(2, "Minishell: syntax error \n", 26);

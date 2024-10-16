@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 12:54:00 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:58:42 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,11 @@ t_command	*lstlast(t_command *lst);
 t_command	*lstnew(char **cmd, char **red);
 void	print_list(t_command *lst);
 
+//free
+void	free_envs(t_env *envs);
+void	free_and_exit(t_path *path, t_env *env_vars);
+
+
 
 //expanding
 char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe);
@@ -184,7 +189,6 @@ void	add_string(t_vars *vars, char *str);
 void	count_dollars(t_vars *vars, char *str);
 char	**single_quotes(t_env *envs, t_vars vars, int *index);
 t_command	*allocate_node();
-void	free_and_exit(t_path *path, t_env *env_vars);
 int	ft_is_red(char *str);
 
 

@@ -44,6 +44,7 @@ char    **envp_array(t_env *vars);
 void    error_exit(t_env **head);
 void    envp_error(t_env *env);
 void    env_dataclear(t_env **head);
+char	*envp_strdup(const char *s1, t_env *env); // frees and exits if malloc error
 
 
 // other utils

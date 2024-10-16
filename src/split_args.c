@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:02:21 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 11:12:22 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:45:15 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,6 @@ static int	count_words(const char *s)
 	}
 	return (nbr);
 }
-
-// void	*ft_myfree(char **result, int index)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < index)
-// 	{
-// 		free(result[i]);
-// 		i++;
-// 	}
-// 	free(result);
-// 	return (NULL);
-// }
 
 char	**ft_allocate(int size)
 {
@@ -79,35 +65,6 @@ char	*ft_strndup(char **r, char *s, int start, int end)
 	return (tmp);
 }
 
-// char	**split_args(char *s)
-// {
-// 	t_vars	vars;
-
-// 	if (!s)
-// 		return (NULL);
-// 	vars = ft_initialize_vars();
-// 	vars.res = ft_allocate(count_words(s) + 1);
-// 	while (s[vars.i])
-// 	{
-// 		ft_check_quotes(&vars.single_quote, &vars.double_quote, s[vars.i]);
-// 		if (ft_isspace(s[vars.i]) && !vars.single_quote && !vars.double_quote)
-// 		{
-// 			if (vars.start < vars.i)
-// 				vars.res[vars.index++]
-// 					= ft_strndup(vars.res, s, vars.start, vars.i);
-// 			while (s[vars.i] && ft_isspace(s[vars.i]))
-// 				vars.i++;
-// 			vars.start = vars.i;
-// 		}
-// 		else
-// 			vars.i++;
-// 	}
-// 	if (vars.start < vars.i)
-// 		vars.res[vars.index++] = ft_strndup(vars.res, s, vars.start, vars.i);
-// 	vars.res[vars.index] = NULL;
-// 	return (vars.res);
-// }
-
 char	**split_args(char *s)
 {
 	t_vars	vars;
@@ -115,15 +72,15 @@ char	**split_args(char *s)
 	if (!s)
 		return (NULL);
 	vars = ft_initialize_vars();
-	char **res = ft_allocate(count_words(s) + 1);
+	vars.res = ft_allocate(count_words(s) + 1);
 	while (s[vars.i])
 	{
 		ft_check_quotes(&vars.single_quote, &vars.double_quote, s[vars.i]);
 		if (ft_isspace(s[vars.i]) && !vars.single_quote && !vars.double_quote)
 		{
 			if (vars.start < vars.i)
-				res[vars.index++]
-					= ft_strndup(res, s, vars.start, vars.i);
+				vars.res[vars.index++]
+					= ft_strndup(vars.res, s, vars.start, vars.i);
 			while (s[vars.i] && ft_isspace(s[vars.i]))
 				vars.i++;
 			vars.start = vars.i;
@@ -132,7 +89,7 @@ char	**split_args(char *s)
 			vars.i++;
 	}
 	if (vars.start < vars.i)
-		res[vars.index++] = ft_strndup(res, s, vars.start, vars.i);
-	res[vars.index] = NULL;
-	return (res);
+		vars.res[vars.index++] = ft_strndup(vars.res, s, vars.start, vars.i);
+	vars.res[vars.index] = NULL;
+	return (vars.res);
 }

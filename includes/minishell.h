@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:27:24 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 16:57:09 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:30:44 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,12 @@ typedef struct s_path
 	char				*main_path;
 	struct s_heredoc	*heredoc;
 }	t_path;
+
+typedef struct s_data
+{
+	void			*data;
+	struct s_data	*next;
+}	t_data;
 
 enum
 {

@@ -6,26 +6,26 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:50:04 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 17:00:42 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 17:27:52 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell_exec.h"
 
-void envp_error(t_env *env)
+void	envp_error(t_env *env)
 {
 	write(2, "Allocation Error\n", 17);
 	free_envs(env);
 	exit(1);
 }
 
-void fd_error(t_path *path, t_env *env)
+void	fd_error(t_path *path, t_env *env)
 {
 	write(2, "File descriptor Error\n", 22);
 	if (path->fd_in >= 0)
-        close(path->fd_in);
+		close(path->fd_in);
 	if (path->fd_out >= 0)
-        close(path->fd_out);
+		close(path->fd_out);
 	my_malloc(0, 0);
 	free_envs(env);
 	free(path->main_path);
@@ -34,23 +34,24 @@ void fd_error(t_path *path, t_env *env)
 	exit(1);
 }
 
-void malloc_error(t_path *path, t_env *env)
+void	malloc_error(t_path *path, t_env *env)
 {
 	write(2, "Allocation Error\n", 17);
 	if (path->fd_in >= 0)
-        close(path->fd_in);
+		close(path->fd_in);
 	if (path->fd_out >= 0)
-        close(path->fd_out);
+		close(path->fd_out);
 	my_malloc(0, 0);
 	free_envs(env);
-	if(path->main_path)
-    	free(path->main_path);
-    if (path->pwd)
-        free(path->pwd);
+	if (path->main_path)
+		free(path->main_path);
+	if (path->pwd)
+		free(path->pwd);
 	if (path)
 		free(path);
 	exit(1);
 }
+
 void	print_error(char *cmd, char *path, char *error)
 {
 	ft_putstr_fd("minishell: ", 2);

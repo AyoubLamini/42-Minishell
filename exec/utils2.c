@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:30:36 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 17:14:07 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 17:22:27 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*my_get_key(char *str)
 	key[i] = '\0';
 	return (key);
 }
+
 char	*my_get_value(char *str)
 {
 	char	*value;
@@ -135,7 +136,3 @@ char	*my_itoa(int n)
 	}
 	return (str);
 }
-
-
-
-

@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:34:00 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 13:30:38 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 17:28:23 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 int	env(t_command *command, t_env *env_vars)
 {
-	
 	if (command->cmd[1])
 	{
 		print_error("env", NULL, "env should be without arguments!");
 		return (1);
-	}	
+	}
 	while (env_vars)
 	{
 		if (get_env_value(env_vars, env_vars->key))

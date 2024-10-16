@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:51:25 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 16:36:05 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 17:31:07 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_path	*init_data(t_path *path, t_env *env)
 	if (!getcwd(path->main_path, PATH_MAX))
 	{
 		free(path->main_path);
-		path->main_path = ft_strdup("/");	
+		path->main_path = ft_strdup("/");
 	}
 	path->pwd = ft_strdup(path->main_path);
 	if (!path->pwd)

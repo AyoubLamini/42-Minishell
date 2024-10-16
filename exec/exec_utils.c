@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 05:05:44 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 16:58:55 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 17:26:52 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	reset_fd(t_path *path)
 		dup2(path->fd_out, STDOUT_FILENO);
 		close(path->fd_out);
 	}
-	
 }
 
 int	is_builtin(char *cmd)
@@ -86,4 +85,3 @@ int	ambigous_case(t_command *command, t_path *path, int i)
 	}
 	return (0);
 }
-

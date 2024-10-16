@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 11:03:00 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/15 16:03:23 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 11:01:51 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ int	exec_cd(t_env *env, char *var, int check, t_path *path_struct)
 	else
 		path = var;
 	if (!path)
-		return (print_error("cd", var, "not set"), 1);
+		return (print_error("cd", var, "not set"), free(old_wd), 1);
 	output = chdir(path);
 	if (output == -1)
-		return (print_error("cd", path, strerror(errno)), 1);
+		return (print_error("cd", path, strerror(errno)), free(old_wd), 1);
 	else
 		update_wd(output, old_wd, path_struct, env);
 	return (0);

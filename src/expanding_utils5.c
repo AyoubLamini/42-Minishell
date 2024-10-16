@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 04:25:42 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 17:15:44 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 11:57:57 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,20 @@ static t_env	*empty_envs(void)
 	char	*pwd;
 
 	env_vars = NULL;
+	pwd = NULL;
 	path = ex_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	if (!path)
+		envp_error(env_vars);
 	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
-	getcwd(pwd, PATH_MAX);
-	add_env_back(&env_vars, new_variable(ex_strdup("PATH"), path));
-	add_env_back(&env_vars, new_variable(ex_strdup("PWD"), pwd));
-	add_env_back(&env_vars, new_variable(ex_strdup("SHLVL"), ex_strdup("1")));
-	add_env_back(&env_vars, new_variable(ex_strdup("OLDPWD"), NULL));
-	add_env_back(&env_vars, new_variable(ex_strdup("_"), ex_strdup("PATH")));
+	if (!pwd || !getcwd(pwd, PATH_MAX))
+		envp_error(env_vars);
+	add_env_back(&env_vars, new_variable(envp_strdup("PATH", env_vars), path));
+	add_env_back(&env_vars, new_variable(envp_strdup("PWD", env_vars), pwd));
+	add_env_back(&env_vars, new_variable(
+		envp_strdup("SHLVL", env_vars), envp_strdup("1", env_vars)));
+	add_env_back(&env_vars, new_variable(envp_strdup("OLDPWD", env_vars), NULL));
+	add_env_back(&env_vars, new_variable(
+		envp_strdup("_", env_vars), envp_strdup("PATH", env_vars)));
 	return (env_vars);
 }
 

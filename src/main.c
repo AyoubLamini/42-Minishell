@@ -9,11 +9,6 @@ void leaks() // TEMporary comment
 }
 static void tty_attributes(struct termios *attrs, int action)
 {
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
-	{
-		printf("Not a tty\n"),
-		exit(1);
-	}
 	if (action == ATTR_GET)
 	{
 		tcgetattr(STDIN_FILENO, &attrs[0]);
@@ -70,6 +65,11 @@ void free_and_exit(t_path *path, t_env *env_vars)
 }
 void set_up(struct termios *attrs, t_path *path)
 {
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
+	{
+		printf("Not a tty\n");
+		exit(1);
+	}
 	setup_signals(path, SET_SIG); 
 	tty_attributes(attrs, ATTR_GET); // Save terminal attributes
 	tty_attributes(attrs, ATTR_CHG); // Change terminal attributes
@@ -93,10 +93,11 @@ int	main(int argc, char **argv, char **envp) // added envp argument
 	cmds = NULL;	
 	args = NULL;
 	path = NULL;
+
+	set_up(attrs, path); 
 	env_vars = full_envs(envp);
 	// print_envs(env_vars);
 	path = init_data(path, env_vars); // I added this line
-	set_up(attrs, path); 
 	while ((input = readline("minishell $> ")) != NULL)
 	{
 		path->is_forked = 0;

@@ -6,14 +6,14 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/15 08:49:46 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:41:03 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/minishell_exec.h"
 
-void	expanding_cmd_helper(t_env *envs, t_vars *vars, t_path *path)
+void	expanding_cmd_helper(t_env *envs, t_vars *vars)
 {
 	if (vars->cmd[vars->i][0] == '"' || (vars->cmd[vars->i][0] != '"'
 		&& !is_only_spaces(vars->tmp)))
@@ -60,7 +60,7 @@ char	**expanding_cmd(t_env *envs, char *old_cmd, t_path *path, int is_pipe)
 			vars.tmp = double_quotes_p(envs, vars.cmd[vars.i], path, is_pipe);
 			if ((vars.tmp[0] == '\0' && vars.cmd[vars.i][0] == '"')
 				|| vars.tmp[0] != '\0')
-				expanding_cmd_helper(envs, &vars, path);
+				expanding_cmd_helper(envs, &vars);
 		}
 		vars.i++;
 	}

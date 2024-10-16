@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 07:33:57 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/14 15:52:05 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:47:35 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_will_splited_helper_ambg1(t_env *envs, t_vars vars, char **cmd, int i)
 				vars.key = ft_substr(cmd[i],
 						vars.start - 1, vars.j - vars.start + 1);
 				vars.value = double_quotes_p(envs, vars.key, NULL, 0);
-				if (split_count_words(vars.value, ' ') > 1)
+				if (split_count_words(vars.value) > 1)
 					vars.check = 1;
 			}
 			else

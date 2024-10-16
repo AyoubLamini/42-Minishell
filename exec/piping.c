@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 08:41:32 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/13 09:21:26 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/16 13:45:26 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	create_pipe(int *fd)
 static int	child_process(t_command *cmd, t_env **env, int *input_fd,
 	t_path *path)
 {
-	setup_signals(path, UNSET_SIG);
+	setup_signals(UNSET_SIG);
 	if (*input_fd != -1)
 	{
 		if (dup2(*input_fd, STDIN_FILENO) < 0)

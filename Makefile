@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alamini <alamini@student.42.fr>            +#+  +:+       +#+         #
+#    By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 22:26:51 by ybouyzem          #+#    #+#              #
-#    Updated: 2024/10/16 20:35:00 by alamini          ###   ########.fr        #
+#    Updated: 2024/10/17 11:44:43 by ybouyzem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,8 @@ FILE = src/main.c src/check_syntax.c src/parssing_utils.c src/split_args.c src/s
 CFLAGS = -I $(READLINEDIR)/include
 LDFLAGS = -L $(READLINEDIR)/lib -lreadline
 HEADERS = includes/minishell.h includes/minishell_exec.h libft/libft.h
-FLAG = cc -g #-fsanitize=address
-GFLAG = $(FLAG) -Wall -Wextra -Werror $(CFLAGS) 
+CC = cc
+GFLAG = $(CC) -Wall -Wextra -Werror $(CFLAGS) 
 OBJECTFILES = $(FILE:.c=.o)
 PROGRAM = minishell
 
@@ -41,7 +41,7 @@ PROGRAM = minishell
 	$(GFLAG) -o $@ -c $<
  
 $(PROGRAM): $(OBJECTFILES) $(HEADERS)
-	$(FLAG) $(LDFLAGS) $(OBJECTFILES) -o $(PROGRAM)
+	$(CC) $(LDFLAGS) $(OBJECTFILES) -o $(PROGRAM)
 
 all: $(PROGRAM)
 

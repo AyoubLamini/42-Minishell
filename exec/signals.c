@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 09:42:53 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 21:58:10 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/17 11:45:10 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	sigint_handler(int sig)
 void	herdoc_sig_handler(int sig)
 {
 	(void)sig;
-	if (waitpid(-1, &sig, WNOHANG) == 0)
-		return ;
 	close(0);
 	g_last_signal = SIGINT;
 }

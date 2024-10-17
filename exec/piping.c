@@ -6,7 +6,7 @@
 /*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 08:41:32 by alamini           #+#    #+#             */
-/*   Updated: 2024/10/16 17:23:11 by alamini          ###   ########.fr       */
+/*   Updated: 2024/10/17 11:42:20 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	create_pipe(int *fd)
 
 static void	fork_failure(t_path *path, t_env *env)
 {
-	write(2, "Fork error!\n", 13);
+	write(2, "Fork error: Not enough resources\n", 36);
 	if (path->fd_in >= 0)
 		close(path->fd_in);
 	if (path->fd_out >= 0)

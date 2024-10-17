@@ -6,7 +6,7 @@
 /*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:55:50 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 13:41:03 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:23:07 by ybouyzem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,11 @@ void	expanding_red_hlp2(t_command *node, t_env *envs, t_vars *vars, t_vars v)
 	}
 	else
 	{
-		node->is_ambiguous = v.start;
-		node->ambiguous_file = v.res[v.start];
+		if (vars->i == 0 && vars->cmd[vars->i + 1] == NULL)
+		{
+			node->is_ambiguous = v.start;
+			node->ambiguous_file = v.res[v.start];
+		}
 	}
 }
 

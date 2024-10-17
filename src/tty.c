@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tty.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouyzem <ybouyzem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alamini <alamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:32:19 by ybouyzem          #+#    #+#             */
-/*   Updated: 2024/10/16 16:58:23 by ybouyzem         ###   ########.fr       */
+/*   Updated: 2024/10/16 21:46:14 by alamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 
 void	tty_attributes(struct termios *attrs, int action)
 {
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO)
-		|| !isatty(STDERR_FILENO))
-	{
-		printf("Not a tty\n"),
-		exit(1);
-	}
 	if (action == ATTR_GET)
 	{
 		tcgetattr(STDIN_FILENO, &attrs[0]);
@@ -44,6 +38,12 @@ void	tty_attributes(struct termios *attrs, int action)
 
 void	set_up(struct termios *attrs)
 {
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO)
+		|| !isatty(STDERR_FILENO))
+	{
+		printf("Not a tty\n"),
+		exit(1);
+	}
 	setup_signals(SET_SIG);
 	tty_attributes(attrs, ATTR_GET);
 	tty_attributes(attrs, ATTR_CHG);
